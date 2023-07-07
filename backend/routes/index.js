@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 // require index.js from api router
-const apiRouter = require('./api');
-router.use('/api', apiRouter);
+const apiRouter = require('./api')
+router.use('/api', apiRouter)
 
 
 router.get("/api/csrf/restore", (req, res) => {
