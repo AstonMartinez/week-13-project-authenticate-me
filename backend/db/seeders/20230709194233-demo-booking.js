@@ -12,47 +12,105 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     options.tableName = 'Bookings'
 
-    const spot = await Spot.findOne({
+    const user1 = await User.findOne({
+      where: {
+        firstName: 'Aston'
+      }
+     })
+
+     const user2 = await User.findOne({
+      where: {
+        firstName: 'Paul'
+      }
+     })
+
+     const user3 = await User.findOne({
+      where: {
+        firstName: 'Aiden'
+      }
+     })
+
+     const user4 = await User.findOne({
+      where: {
+        firstName: 'Audrey'
+      }
+     })
+
+     const user5 = await User.findOne({
+      where: {
+        firstName: 'Allison'
+      }
+     })
+
+    const spot1 = await Spot.findOne({
       where: {
         address: "123 Disney Lane"
       }
     })
 
-    const user = await User.findOne({
+    const spot2 = await Spot.findOne({
       where: {
-        firstName: 'Demo'
+        address: "1010 Fake Street"
+      }
+    })
+
+    const spot3 = await Spot.findOne({
+      where: {
+        address: "4000 Gamer Lane"
+      }
+    })
+
+    const spot4 = await Spot.findOne({
+      where: {
+        address: "5050 Artists Lane"
+      }
+    })
+
+    const spot5 = await Spot.findOne({
+      where: {
+        address: "6060 Beauty Way"
       }
     })
 
     await queryInterface.bulkInsert(options, [
       {
-        spotId: spot.id,
-        userId: user.id,
+        spotId: spot1.id,
+        userId: user2.id,
         startDate: "2023-07-30",
         endDate: '2023-08-06'
+      },
+      {
+        spotId: spot2.id,
+        userId: user3.id,
+        startDate: "2023-08-01",
+        endDate: '2023-08-04'
+      },
+      {
+        spotId: spot3.id,
+        userId: user4.id,
+        startDate: "2023-08-02",
+        endDate: '2023-08-06'
+      },
+      {
+        spotId: spot4.id,
+        userId: user5.id,
+        startDate: "2023-07-25",
+        endDate: '2023-08-01'
+      },
+      {
+        spotId: spot5.id,
+        userId: user1.id,
+        startDate: "2023-07-16",
+        endDate: '2023-07-20'
       }
     ], { validate: true })
   },
 
   async down (queryInterface, Sequelize) {
     options.tableName = 'Bookings';
-    const spot = await Spot.findOne({
-      where: {
-        address: "123 Disney Lane"
-      }
-    })
-
-    const user = await User.findOne({
-      where: {
-        firstName: 'Demo'
-      }
-    })
-    const booking = await Booking.findOne({
-      where: {
-        userId: user.id,
-        spotId: spot.id
-      }
-    })
-    return queryInterface.bulkDelete(options, booking, {});
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete(options, {
+      startDate: { [Op.in]: ['2023-07-30', '2023-08-01', '2023-08-02', '2023-07-25', '2023-07-16'] }
+    }, {});
   }
 };
