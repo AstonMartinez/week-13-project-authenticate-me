@@ -41,12 +41,13 @@ router.post('/:id/images', async (req, res) => {
 
         if(spot && spot.ownerId === req.user.id) {
             const newImage = await SpotImage.create({
-                spotId: req.user.id,
+                spotId: spot.id,
                 url: url,
                 preview: preview
             })
 
             res.json( {id: newImage.id, url: newImage.url, preview: newImage.preview} )
+            res.json(newImage)
         }
 
     } else {
@@ -226,9 +227,9 @@ router.get('/:id', async (req, res) => {
         }
     })
 
-    if(spotImages) {
-        spot.dataValues.SpotImages = [spotImages]
-    }
+    // if(spotImages) {
+        spot.dataValues.SpotImages = spotImages
+    // }
     // else {
     //     spot.dataValues.SpotImages = null
     // }
@@ -259,12 +260,25 @@ router.get('/', async (req, res) => {
         // const avgRating = reviews[0].dataValues.stars / reviews.length
         spot.dataValues.avgRating = avgRating
 
-        const image = await SpotImage.findAll({
+        const image = await SpotImage.findOne({
             where: {
-                spotId: spot.id
+                spotId: spot.id,
+                preview: true
             }
         })
+
         if(image) {
+            // let imgArr = []
+            // if(image.length > 1) {
+            //     for(let i = 0; i < image.length; i++) {
+            //         imgArr.push(image[i].dataValues.url)
+            //     }
+            //     spot.dataValues.previewImage =
+            // } else {
+
+            // }
+            // const allSpotImages = await SpotImage.findAll()
+            // console.log(allSpotImages)
         const imageUrl = image.dataValues.url
         spot.dataValues.previewImage = imageUrl
         } else {
