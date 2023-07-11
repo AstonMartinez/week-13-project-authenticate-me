@@ -55,7 +55,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL
     },
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: {
+        len: [4,50]
+      }
     },
     description: {
       type: DataTypes.STRING
