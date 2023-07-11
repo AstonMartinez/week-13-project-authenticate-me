@@ -72,6 +72,15 @@ module.exports = (sequelize, DataTypes) => {
       attributes: {
         exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
       }
+    },
+    scopes: {
+      getSpotOwner(id) {
+        return {
+          attributes: {
+            exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt', 'username']
+          }
+        }
+      }
     }
   });
   return User;
