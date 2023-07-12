@@ -5,7 +5,13 @@ const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.j
 const { handleValidationErrors } = require('../../utils/validation.js');
 const router = express.Router();
 
-const { Spot, SpotImage, Review, User } = require('../../db/models')
+const { Spot, SpotImage, Review, User, ReviewImage } = require('../../db/models')
+
+const validateReview = [
+    check('review').exists({ checkFalsy: true }).notEmpty().withMessage('Review text is required'),
+    check('stars').exists({ checkFalsy: true }).notEmpty().isInt().isIn([1, 2, 3, 4, 5]).withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+]
 
 const validateBody = [
     check('address').exists({ checkFalsy: true }).notEmpty().withMessage('Street address is required'),
@@ -53,6 +59,105 @@ router.post('/:id/images', async (req, res) => {
     } else {
         res.status(401)
         res.json({ message: "Authentication required" })
+    }
+})
+
+// <---------------------------- GET REVIEWS BY SPOT ID ---------------------------->
+router.get('/:id/reviews', async (req, res) => {
+    const spot = await Review.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+
+    if(!spot) {
+        res.status(404)
+        return res.json({ message: "Spot couldn't be found" })
+    }
+
+    const spotReviews = await Review.findAll({
+        where: {
+            spotId: req.params.id
+        }
+    })
+
+    for(let review of spotReviews) {
+        const user = await User.scope({ method: ['getSpotOwner', review.userId] }).findOne({
+            where: {
+                id: review.userId
+            }
+        })
+
+        review.dataValues.User = user
+
+        const reviewImgs = await ReviewImage.findAll({
+            where: {
+                reviewId: review.id
+            }
+        })
+
+        if(reviewImgs) {
+            review.dataValues.ReviewImages = reviewImgs
+        } else {
+            review.dataValues.ReviewImages = null
+        }
+    }
+
+    return res.json({ Reviews: spotReviews})
+
+
+})
+
+// <---------------------------- CREATE REVIEW BY SPOT ID ---------------------------->
+router.post('/:id/reviews', validateReview, async (req, res) => {
+    const { review, stars } = req.body
+    if(req.user) {
+        const spot = await Spot.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(!spot) {
+            res.status(404)
+            return res.json({ message: "Spot couldn't be found" })
+        }
+
+        const checkForPrevReview = await Review.findOne({
+            where: {
+                userId: req.user.id,
+                spotId: req.params.id
+            }
+        })
+
+        if(checkForPrevReview) {
+            res.status(500)
+            return res.json({ message: "User already has a review for this spot" })
+        } else {
+            const newReview = await Review.create({
+                userId: req.user.id,
+                spotId: req.params.id,
+                review: review,
+                stars: stars
+            })
+            res.status(201)
+            return res.json(newReview)
+        }
+
+        // if(!checkForPrevReview) {
+        //     const newReview = await Review.create({
+        //         userId: req.user.id,
+        //         spotId: req.params.id,
+        //         review: review,
+        //         stars: stars
+        //     })
+        //     res.status(201)
+        //     return res.json(newReview)
+        // }
+
+    } else {
+        res.status(401)
+        return res.json({ message: "Authentication required" })
     }
 })
 
@@ -247,6 +352,20 @@ router.get('/:id', async (req, res) => {
 
 // <---------------------------- GET ALL SPOTS ---------------------------->
 router.get('/', async (req, res) => {
+    // const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
+    // let queryObj = {
+    //     where: {},
+    //     include: [],
+    //     order: []
+    // };
+
+    // const pageNum = req.query.page === undefined ? 1 : parseInt(req.query.page);
+    // const sizeNum = req.query.size === undefined ? 20 : parseInt(req.query.size);
+    // if (pageNum >= 1 && sizeNum >= 1) {
+    //     queryObj.limit = sizeNum;
+    //     queryObj.offset = sizeNum * (pageNum - 1);
+    // }
+
     const allSpots = await Spot.findAll()
 
     for (let spot of allSpots) {
