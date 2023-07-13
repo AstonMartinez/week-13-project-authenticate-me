@@ -208,7 +208,7 @@ router.post('/:id/bookings', async (req, res) => {
             }
             if(errObj.errors.startDate || errObj.errors.endDate) {
                 res.status(403)
-                res.json(errObj)
+                return res.json(errObj)
             }
         }
         // checking for invalid end date
@@ -251,12 +251,12 @@ router.post('/:id/images', async (req, res) => {
 
         if(!spot) {
             res.status(404)
-            res.json({ message: "Spot couldn't be found" })
+            return res.json({ message: "Spot couldn't be found" })
         }
 
         if(spot && spot.ownerId !== req.user.id) {
             res.status(403)
-            res.json({ message: "Forbidden" })
+            return res.json({ message: "Forbidden" })
         }
 
         if(spot && spot.ownerId === req.user.id) {
@@ -267,12 +267,12 @@ router.post('/:id/images', async (req, res) => {
             })
 
             res.json( {id: newImage.id, url: newImage.url, preview: newImage.preview} )
-            res.json(newImage)
+            return res.json(newImage)
         }
 
     } else {
         res.status(401)
-        res.json({ message: "Authentication required" })
+        return res.json({ message: "Authentication required" })
     }
 })
 
