@@ -24,11 +24,11 @@ module.exports = {
       },
       startDate: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       endDate: {
         allownull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       createdAt: {
         allowNull: false,

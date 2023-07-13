@@ -5,13 +5,13 @@ const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.j
 const { handleValidationErrors } = require('../../utils/validation.js');
 const router = express.Router();
 
-const { Spot, SpotImage, Review, User, ReviewImage } = require('../../db/models')
+const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require('../../db/models')
 
 const validateReview = [
     check('review').exists({ checkFalsy: true }).notEmpty().withMessage('Review text is required'),
     check('stars').exists({ checkFalsy: true }).notEmpty().isInt().isIn([1, 2, 3, 4, 5]).withMessage('Stars must be an integer from 1 to 5'),
     handleValidationErrors
-]
+];
 
 const validateBody = [
     check('address').exists({ checkFalsy: true }).notEmpty().withMessage('Street address is required'),
@@ -24,7 +24,221 @@ const validateBody = [
     check('description').exists({ checkFalsy: true }).notEmpty().withMessage('Description is required'),
     check('price').exists({ checkFalsy: true }).notEmpty().withMessage('Price per day is required'),
     handleValidationErrors
-]
+];
+
+router.get('/:id/bookings', async (req, res) => {
+    if(req.user) {
+        const spot = await Spot.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(!spot) {
+            res.status(404)
+            return res.json({ message: "Spot couldn't be found" })
+        }
+
+        // console.log(spot.dataValues.ownerId === req.user.id)
+        // console.log(spot.ownerId, req.user.id)
+        if(spot.ownerId === req.user.id) {
+            const spotBookings = await Booking.findAll({
+                where: {
+                    spotId: spot.id
+                }
+            })
+
+            for(let booking of spotBookings) {
+                const user = await User.scope({ method: ['getSpotOwner', booking.userId] }).findOne({
+                    where: {
+                        id: booking.userId
+                    }
+                })
+                booking.dataValues.User = user
+            }
+            res.json({ Bookings: spotBookings })
+
+
+        }
+
+        if(spot.ownerId !== req.user.id) {
+            const spotBookings = await Booking.scope({ method: ['notOwner', spot.id] }).findAll({
+                where: {
+                    spotId: req.params.id
+                }
+            })
+
+            res.json({ Bookings: spotBookings })
+        }
+    } else {
+        res.status(401)
+        return res.json({ message: "Authentication required" })
+    }
+})
+
+
+// <---------------------------- CREATE BOOKING BY SPOT ID ---------------------------->
+router.post('/:id/bookings', async (req, res) => {
+    const { startDate, endDate } = req.body
+    if(req.user) {
+        const spot = await Spot.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(!spot) {
+            res.status(404)
+            res.json({ message: "Spot couldn't be found" })
+        }
+
+        if(spot && spot.ownerId === req.user.id) {
+            res.status(403)
+            res.json({ message: "Forbidden" })
+        }
+
+        // check booking dates of spot
+        const spotBookings = await Booking.findAll({
+            where: {
+                spotId: spot.id
+            }
+        })
+
+        let errObj = {
+            message: "Sorry, this spot is already booked for the specified dates",
+            errors: {}
+        }
+
+        // const newStart = startDate;
+        // const newEnd = endDate;
+        const c1 = startDate.split("-");
+        const c2 = endDate.split("-");
+
+        const newBookStartYear = parseInt(c1[0])
+        const newBookStartMonth = parseInt(c1[1]-1)
+        const newBookStartDay = parseInt(c1[2])
+
+        const newBookEndYear = parseInt(c2[0])
+        const newBookEndMonth = parseInt(c2[1]-1)
+        const newBookEndDay = parseInt(c2[2])
+
+        const newBookStartDateObj = new Date(newBookStartYear, newBookStartMonth, newBookStartDay)
+        const newBookEndDateObj = new Date(newBookEndYear, newBookEndMonth, newBookEndDay)
+
+
+
+        if(spotBookings) {
+            for(let booking of spotBookings) {
+                const bookingStartDate = booking.startDate;
+                const bookingEndDate = booking.endDate;
+
+
+                // console.log(bookingStartDate)
+                // console.log(bookingEndDate)
+
+                // splitting date into array
+                const d1 = bookingStartDate.split("-");
+                const d2 = bookingEndDate.split("-");
+
+                const currBookStartYear = parseInt(d1[0])
+                const currBookStartMonth = parseInt(d1[1]-1)
+                const currBookStartDay = parseInt(d1[2])
+
+                const currBookEndYear = parseInt(d2[0])
+                const currBookEndMonth = parseInt(d2[1]-1)
+                const currBookEndDay = parseInt(d2[2])
+
+                // const newBookStartYear = parseInt(c1[0])
+                // const newBookStartMonth = parseInt(c1[1]-1)
+                // const newBookStartDay = parseInt(c1[2])
+
+                // const newBookEndYear = parseInt(c2[0])
+                // const newBookEndMonth = parseInt(c2[1]-1)
+                // const newBookEndDay = parseInt(c2[2])
+
+                // console.log(parseInt(d1[3]))
+                // console.log(d1[3])
+
+                // console.log(currBookStartYear, currBookStartMonth, currBookStartDay)
+                // console.log(newBookStartYear, newBookStartMonth, newBookStartDay)
+                const currBookStartDateObj = new Date(currBookStartYear, currBookStartMonth, currBookStartDay)
+                const currBookEndDateObj = new Date(currBookEndYear, currBookEndMonth, currBookEndDay)
+                // console.log(currBookStartDateObj.toDateString() === newBookStartDateObj.toDateString())
+                // console.log(currBookStartDateObj.toDateString() <= newBookStartDateObj.toDateString() && currBookEndObj.toDateString() <= newBookEndDateObj.toDateString())
+                // console.log(newBookStartDateObj >= currBookStartDateObj && newBookEndDateObj <= currBookEndDateObj)
+                console.log('current booking start: ', currBookStartDateObj)
+                console.log('current booking end: ', currBookEndDateObj)
+                console.log('new booking start: ', newBookStartDateObj)
+                console.log('new booking end: ', newBookEndDateObj)
+                console.log(newBookStartDateObj <= currBookStartDateObj && newBookStartDateObj >= currBookEndDateObj)
+                console.log(newBookEndDateObj <= currBookStartDateObj && newBookEndDateObj >= currBookEndDateObj)
+
+
+
+                // const currBookingStart = new Date()
+
+                // creating new date objects
+                // const from = new Date(d1[1]-1, parseInt(d1[2]), d1[0]);  // -1 because months are from 0 to 11
+                // const to   = new Date(d2[1]-1, parseInt(d2[2]), d2[0]);
+                // const check1 = new Date(c1[1]-1, parseInt(c1[2]), c1[0]);
+                // const check2 = new Date(c2[1]-1, parseInt(c2[2]), c2[0]);
+
+                // console.log(from.toDateString())
+                // console.log(check1.toDateString())
+                // console.log(to.toDateString())
+                // console.log(check2.toDateString())
+
+                // console.log(from.toDateString() === check1.toDateString())
+                // console.log(to.toDateString() === check2.toDateString())
+
+                // console.log(check1.toDateString() > from.toDateString() && check1.toDateString() < to.toDateString())
+
+
+
+                if(newBookStartDateObj.getTime() >= currBookStartDateObj.getTime() && newBookStartDateObj.getTime() <= currBookEndDateObj.getTime()) {
+                    console.log('working')
+                    errObj.errors.startDate = "Start date conflicts with an existing booking"
+                }
+
+                if(newBookEndDateObj.getTime() >= currBookStartDateObj.getTime() && newBookEndDateObj.getTime() <= currBookEndDateObj.getTime()) {
+                    console.log('working')
+                    errObj.errors.endDate = "End date conflicts with an existing booking"
+                }
+
+            }
+            if(errObj.errors.startDate || errObj.errors.endDate) {
+                res.status(403)
+                res.json(errObj)
+            }
+        }
+        // checking for invalid end date
+        if(newBookStartDateObj >= newBookEndDateObj) {
+            res.status(400)
+            return res.json({
+                message: "Bad Request",
+                errors: {
+                    endDate: "endDate cannot be on or before startDate"
+                }
+            })
+        }
+
+        const newBooking = await Booking.create({
+            spotId: spot.id,
+            userId: req.user.id,
+            startDate: startDate,
+            endDate: endDate
+        })
+
+        return res.json(newBooking)
+
+    } else {
+        res.status(401)
+        res.json({ message: "Authentication required" })
+    }
+});
+
+
+
 // <---------------------------- ADD IMAGE TO A SPOT ---------------------------->
 router.post('/:id/images', async (req, res) => {
     const { url, preview } = req.body
@@ -353,20 +567,24 @@ router.get('/:id', async (req, res) => {
 // <---------------------------- GET ALL SPOTS ---------------------------->
 router.get('/', async (req, res) => {
     // const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
-    // let queryObj = {
-    //     where: {},
-    //     include: [],
-    //     order: []
-    // };
+    const { page, size } = req.query
+    let queryObj = {
+        where: {},
+        include: [],
+        order: []
+    };
 
-    // const pageNum = req.query.page === undefined ? 1 : parseInt(req.query.page);
-    // const sizeNum = req.query.size === undefined ? 20 : parseInt(req.query.size);
-    // if (pageNum >= 1 && sizeNum >= 1) {
-    //     queryObj.limit = sizeNum;
-    //     queryObj.offset = sizeNum * (pageNum - 1);
-    // }
+    // if(!page) page = 1
+    // if(!size) size = 2
 
-    const allSpots = await Spot.findAll()
+    const pageNum = req.query.page === undefined ? 1 : parseInt(req.query.page);
+    const sizeNum = req.query.size === undefined ? 20 : parseInt(req.query.size);
+    if (pageNum >= 1 && sizeNum >= 1) {
+        queryObj.limit = sizeNum;
+        queryObj.offset = sizeNum * (pageNum - 1);
+    }
+
+    const allSpots = await Spot.findAll(queryObj)
 
     for (let spot of allSpots) {
         const reviews = await spot.getReviews()
@@ -404,8 +622,9 @@ router.get('/', async (req, res) => {
             spot.dataValues.previewImage = null
         }
     }
+    // const returnObj = { Spots: allSpots, page:  }
 
-    res.json({ Spots: allSpots })
+    res.json({ Spots: allSpots, page: pageNum, size: sizeNum })
 })
 
 
