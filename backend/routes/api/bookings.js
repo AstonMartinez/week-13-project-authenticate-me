@@ -213,24 +213,44 @@ router.delete('/:id', async (req, res) => {
         }
 
         if(booking && (booking.userId === req.user.id || spot.ownerId === req.user.id)) {
-            const startDate = booking.startDate
-            const endDate = booking.endDate
+            // const startDate = booking.startDate
+            // const endDate = booking.endDate
 
+            const currStart = booking.startDate.split("-")
+            const currEnd = booking.endDate.split("-")
             const validCurrDate = getCurrDate()
-            const startArr = startDate.split('-')
-            const endArr = endDate.split('-')
 
-            console.log(startArr, endArr, validCurrDate)
+            const currentStartYear = parseInt(currStart[0])
+            const currentStartMonth = parseInt(currStart[1]-1)
+            const currentStartDay = parseInt(currStart[2])
 
-            const from = new Date(startArr[2], parseInt(startArr[1])-1, startArr[0]);  // -1 because months are from 0 to 11
-            const to   = new Date(endArr[2], parseInt(endArr[1])-1, endArr[0]);
-            const check = new Date(validCurrDate[1], parseInt(validCurrDate[0])-1, validCurrDate[2]);
+            const currentEndYear = parseInt(currEnd[0])
+            const currentEndMonth = parseInt(currEnd[1]-1)
+            const currentEndDay = parseInt(currEnd[2])
+
+            const currStartDate = new Date(currentStartYear, currentStartMonth, currentStartDay)
+            const currEndDate = new Date(currentEndYear, currentEndMonth, currentEndDay)
+            const check = new Date(validCurrDate[2], validCurrDate[0]-1, validCurrDate[1]);
+
+            // const validCurrDate = getCurrDate()
+            // const startArr = startDate.split('-')
+            // const endArr = endDate.split('-')
+
+            // console.log(startArr, endArr, validCurrDate)
+
+            // const from = new Date(startArr[2], parseInt(startArr[1])-1, startArr[0]);  // -1 because months are from 0 to 11
+            // const to   = new Date(endArr[2], parseInt(endArr[1])-1, endArr[0]);
+            // const check = new Date(validCurrDate[1], parseInt(validCurrDate[0])-1, validCurrDate[2]);
             // console.log(parseInt(startArr[2]), parseInt(startArr[1]), parseInt(startArr[0]))
             // console.log(parseInt(endArr[2]), parseInt(endArr[1]), parseInt(endArr[0]))
             // console.log(parseInt(validCurrDate[1]), parseInt(validCurrDate[0]), parseInt(validCurrDate[2]))
 
-            console.log(check > from && check < to)
-            if((check >= from && check <= to) || (check > to)) {
+            // console.log(check > from && check < to)
+            // if((check >= from && check <= to) || (check > to)) {
+            //     res.status(403)
+            //     return res.json({ message: "Bookings that have been started can't be deleted" })
+            // }
+            if(currStartDate.getTime() <= check.getTime()) {
                 res.status(403)
                 return res.json({ message: "Bookings that have been started can't be deleted" })
             }
