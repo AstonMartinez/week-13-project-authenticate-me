@@ -7,6 +7,18 @@ const router = express.Router();
 
 const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require('../../db/models')
 
+// const validateSearch = [
+//     check('page').exists,
+//     check('size'),
+//     check('maxLat'),
+//     check('minLat'),
+//     check('minLng'),
+//     check('maxLng'),
+//     check('minPrice'),
+//     check('maxPrice'),
+//     handleValidationErrors
+// ]
+
 const validateReview = [
     check('review').exists({ checkFalsy: true }).notEmpty().withMessage('Review text is required'),
     check('stars').exists({ checkFalsy: true }).notEmpty().isInt().isIn([1, 2, 3, 4, 5]).withMessage('Stars must be an integer from 1 to 5'),
@@ -490,8 +502,8 @@ router.get('/current', async (req, res) => {
                 sum += reviews[i].dataValues.stars
             }
             const avgRating = sum /reviews.length
-            console.log(spot)
-            spot.dataValues.avgRating = avgRating
+            // console.log(spot)
+            spot.dataValues.avgRating = avgRating.toFixed(2)
 
             const image = await SpotImage.findOne({
                 where: {
@@ -536,7 +548,7 @@ router.get('/:id', async (req, res) => {
     for(let i = 0; i < spotReviews.length; i++) {
         sum += spotReviews[i].dataValues.stars
     }
-    spot.dataValues.avgRating = sum / spotReviews.length
+    spot.dataValues.avgRating = (sum / spotReviews.length).toFixed(2)
 
     // const spotImages = await spot.getSpotImages()
     const spotImages = await SpotImage.findAll(
@@ -566,65 +578,128 @@ router.get('/:id', async (req, res) => {
 
 // <---------------------------- GET ALL SPOTS ---------------------------->
 router.get('/', async (req, res) => {
-    // const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
-    const { page, size } = req.query
+    const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
+    // const { page, size } = req.query
     let queryObj = {
         where: {},
         include: [],
         order: []
     };
 
-    // if(!page) page = 1
-    // if(!size) size = 2
-
-    const pageNum = req.query.page === undefined ? 1 : parseInt(req.query.page);
-    const sizeNum = req.query.size === undefined ? 20 : parseInt(req.query.size);
-    if (pageNum >= 1 && sizeNum >= 1) {
-        queryObj.limit = sizeNum;
-        queryObj.offset = sizeNum * (pageNum - 1);
+    const errObj = {
+        message: "Bad Request",
+        errors: {}
     }
 
-    const allSpots = await Spot.findAll(queryObj)
+    if(page && page < 1) {
+        errObj.errors.page = "Page must be greater than or equal to 1"
+    }
 
-    for (let spot of allSpots) {
-        const reviews = await spot.getReviews()
-        let sum = 0;
-        for(let i = 0; i < reviews.length; i++) {
-            sum += reviews[i].dataValues.stars
+    if(size && size < 1) {
+        errObj.errors.size = "Size must be greater than or equal to 1"
+    }
+
+    if(maxLat && maxLat > 90) {
+        errObj.errors.maxLat = "Maximum latitude is invalid"
+    }
+
+    if(minLat && minLat < -90) {
+        errObj.errors.minLat = "Minimum latitude is invalid"
+    }
+
+    if(maxLng && maxLng > 180) {
+        errObj.errors.maxLng = "Maximum longitude is invalid"
+    }
+
+    if(minLng && minLng < -1000) {
+        errObj.errors.minLng = "Minimum longitude is invalid"
+    }
+
+    if(minPrice && minPrice < 0) {
+        errObj.errors.minPrice = "Minimum price must be greater than or equal to 0"
+    }
+
+    if(maxPrice && maxPrice < 0) {
+        errObj.errors.maxPrice = "Maximum price must be greater than or equal to 0"
+    }
+
+    if(errObj.errors.minLat || errObj.errors.maxLat || errObj.errors.minLng || errObj.errors.maxLng || errObj.errors.minPrice || errObj.errors.maxPrice) {
+        res.status(400)
+        return res.json(errObj)
+    } else {
+        if(maxLat) {
+            queryObj.where.lat = {[Op.lte]: maxLat}
         }
-        // console.log(spot.dataValues)
-        const avgRating = sum /reviews.length
-        // const avgRating = reviews[0].dataValues.stars / reviews.length
-        spot.dataValues.avgRating = avgRating
 
-        const image = await SpotImage.findOne({
-            where: {
-                spotId: spot.id,
-                preview: true
+        if(minLat) {
+            queryObj.where.lat = {[Op.gte]: minLat}
+        }
+
+        if(maxLng) {
+            queryObj.where.lng = {[Op.lte]: maxLng}
+        }
+
+        if(minLng) {
+            queryObj.where.lng = {[Op.gte]: minLng}
+        }
+
+        if(maxPrice) {
+            queryObj.where.price = {[Op.lte]: maxPrice}
+        }
+
+        if(minPrice) {
+            queryObj.where.price = {[Op.gte]: minPrice}
+        }
+
+        const pageNum = req.query.page === undefined ? 1 : parseInt(req.query.page);
+        const sizeNum = req.query.size === undefined ? 20 : parseInt(req.query.size);
+        if (pageNum >= 1 && sizeNum >= 1) {
+            queryObj.limit = sizeNum;
+            queryObj.offset = sizeNum * (pageNum - 1);
+        }
+
+        const allSpots = await Spot.findAll(queryObj)
+
+        for (let spot of allSpots) {
+            const reviews = await spot.getReviews()
+            let sum = 0;
+            for(let i = 0; i < reviews.length; i++) {
+                sum += reviews[i].dataValues.stars
             }
-        })
+            // console.log(spot.dataValues)
+            const avgRating = sum /reviews.length
+            // const avgRating = reviews[0].dataValues.stars / reviews.length
+            spot.dataValues.avgRating = avgRating.toFixed(2)
 
-        if(image) {
-            // let imgArr = []
-            // if(image.length > 1) {
-            //     for(let i = 0; i < image.length; i++) {
-            //         imgArr.push(image[i].dataValues.url)
-            //     }
-            //     spot.dataValues.previewImage =
-            // } else {
+            const image = await SpotImage.findOne({
+                where: {
+                    spotId: spot.id,
+                    preview: true
+                }
+            })
 
-            // }
-            // const allSpotImages = await SpotImage.findAll()
-            // console.log(allSpotImages)
-        const imageUrl = image.dataValues.url
-        spot.dataValues.previewImage = imageUrl
-        } else {
-            spot.dataValues.previewImage = null
+            if(image) {
+                // let imgArr = []
+                // if(image.length > 1) {
+                //     for(let i = 0; i < image.length; i++) {
+                //         imgArr.push(image[i].dataValues.url)
+                //     }
+                //     spot.dataValues.previewImage =
+                // } else {
+
+                // }
+                // const allSpotImages = await SpotImage.findAll()
+                // console.log(allSpotImages)
+            const imageUrl = image.dataValues.url
+            spot.dataValues.previewImage = imageUrl
+            } else {
+                spot.dataValues.previewImage = null
+            }
         }
-    }
-    // const returnObj = { Spots: allSpots, page:  }
+        // const returnObj = { Spots: allSpots, page:  }
 
-    res.json({ Spots: allSpots, page: pageNum, size: sizeNum })
+        res.json({ Spots: allSpots, page: pageNum, size: sizeNum })
+    }
 })
 
 
