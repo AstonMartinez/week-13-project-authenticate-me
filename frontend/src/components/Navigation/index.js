@@ -6,6 +6,9 @@ import * as sessionActions from '../../store/session'
 import './Navigation.css'
 import Hamburger from './Hamburger'
 import { useState, useEffect, useRef } from 'react'
+import OpenModalButton from '../OpenModalButton'
+import LoginFormModal from '../LoginFormModal'
+import SignupFormModal from '../SignupFormModal'
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user)
@@ -20,18 +23,18 @@ function Navigation({ isLoaded }) {
     }
 
     const openMenu = () => {
-        // if(showMenu === 'active') {
-        //     setShowMenu('inactive')
-        // } else {
-            setShowMenu('active')
-        // }
+        setShowMenu('active')
     }
 
     useEffect(() => {
         if(showMenu === 'inactive') return;
         const closeMenu = (e) => {
-            if(!ulRef.current.contains(e.target))
-            setShowMenu('inactive')
+            if(showMenu === 'active') {
+                if(!ulRef.current.contains(e.target))
+                setShowMenu('inactive')
+            } else {
+                return
+            }
         }
 
         document.addEventListener('click', closeMenu)
@@ -66,10 +69,16 @@ function Navigation({ isLoaded }) {
         sessionLinks = (
             <>
                 <div className='login-navlink-div'>
-                    <NavLink to='/login'>Log In</NavLink>
+                    <OpenModalButton
+                        buttonText="Log In"
+                        modalComponent={<LoginFormModal />}
+                    />
                 </div>
                 <div className='signup-navlink-div'>
-                    <NavLink to='/signup'>Sign Up</NavLink>
+                    <OpenModalButton
+                        buttonText="Sign Up"
+                        modalComponent={<SignupFormModal />}
+                    />
                 </div>
             </>
         )
