@@ -12,6 +12,7 @@ function LoginFormModal() {
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState({})
     const { closeModal } = useModal()
+    const [disableSubmit, setDisableSubmit] = useState(false)
 
     // if (sessionUser) return <Redirect to='/' />
 
@@ -22,8 +23,9 @@ function LoginFormModal() {
         .then(closeModal)
         .catch(async (res) => {
             const data = await res.json()
-            if(data && data.errors) {
-                setErrors(data.errors)
+            if(data && data.message) {
+                setErrors(data)
+                setDisableSubmit(true)
             }
         })
     }
@@ -53,9 +55,9 @@ function LoginFormModal() {
                             placeholder='Password'
                         />
                     </div>
-                    {errors.credential && <p id='errors-display'>{errors.credential}</p>}
+                    {errors.message && <p id='errors-display'>{errors.message}</p>}
                     <div id='button-div'>
-                        <button id='login-submit-button' type='submit' onClick={handleSubmit}>Log In</button>
+                        <button id='login-submit-button' type='submit' disabled={disableSubmit} onClick={handleSubmit}>Log In</button>
                     </div>
                 </form>
             </div>
