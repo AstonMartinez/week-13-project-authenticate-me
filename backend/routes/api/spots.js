@@ -51,8 +51,7 @@ router.get('/:id/bookings', async (req, res) => {
             return res.json({ message: "Spot couldn't be found" })
         }
 
-        // console.log(spot.dataValues.ownerId === req.user.id)
-        // console.log(spot.ownerId, req.user.id)
+
         if(spot.ownerId === req.user.id) {
             const spotBookings = await Booking.findAll({
                 where: {
@@ -145,8 +144,7 @@ router.post('/:id/bookings', async (req, res) => {
                 const bookingEndDate = booking.endDate;
 
 
-                // console.log(bookingStartDate)
-                // console.log(bookingEndDate)
+
 
                 // splitting date into array
                 const d1 = bookingStartDate.split("-");
@@ -168,22 +166,11 @@ router.post('/:id/bookings', async (req, res) => {
                 // const newBookEndMonth = parseInt(c2[1]-1)
                 // const newBookEndDay = parseInt(c2[2])
 
-                // console.log(parseInt(d1[3]))
-                // console.log(d1[3])
 
-                // console.log(currBookStartYear, currBookStartMonth, currBookStartDay)
-                // console.log(newBookStartYear, newBookStartMonth, newBookStartDay)
                 const currBookStartDateObj = new Date(currBookStartYear, currBookStartMonth, currBookStartDay)
                 const currBookEndDateObj = new Date(currBookEndYear, currBookEndMonth, currBookEndDay)
-                // console.log(currBookStartDateObj.toDateString() === newBookStartDateObj.toDateString())
-                // console.log(currBookStartDateObj.toDateString() <= newBookStartDateObj.toDateString() && currBookEndObj.toDateString() <= newBookEndDateObj.toDateString())
-                // console.log(newBookStartDateObj >= currBookStartDateObj && newBookEndDateObj <= currBookEndDateObj)
-                console.log('current booking start: ', currBookStartDateObj)
-                console.log('current booking end: ', currBookEndDateObj)
-                console.log('new booking start: ', newBookStartDateObj)
-                console.log('new booking end: ', newBookEndDateObj)
-                console.log(newBookStartDateObj <= currBookStartDateObj && newBookStartDateObj >= currBookEndDateObj)
-                console.log(newBookEndDateObj <= currBookStartDateObj && newBookEndDateObj >= currBookEndDateObj)
+
+
 
 
 
@@ -195,25 +182,17 @@ router.post('/:id/bookings', async (req, res) => {
                 // const check1 = new Date(c1[1]-1, parseInt(c1[2]), c1[0]);
                 // const check2 = new Date(c2[1]-1, parseInt(c2[2]), c2[0]);
 
-                // console.log(from.toDateString())
-                // console.log(check1.toDateString())
-                // console.log(to.toDateString())
-                // console.log(check2.toDateString())
 
-                // console.log(from.toDateString() === check1.toDateString())
-                // console.log(to.toDateString() === check2.toDateString())
-
-                // console.log(check1.toDateString() > from.toDateString() && check1.toDateString() < to.toDateString())
 
 
 
                 if(newBookStartDateObj.getTime() >= currBookStartDateObj.getTime() && newBookStartDateObj.getTime() <= currBookEndDateObj.getTime()) {
-                    console.log('working')
+
                     errObj.errors.startDate = "Start date conflicts with an existing booking"
                 }
 
                 if(newBookEndDateObj.getTime() >= currBookStartDateObj.getTime() && newBookEndDateObj.getTime() <= currBookEndDateObj.getTime()) {
-                    console.log('working')
+
                     errObj.errors.endDate = "End date conflicts with an existing booking"
                 }
 
@@ -502,7 +481,7 @@ router.get('/current', async (req, res) => {
                 sum += reviews[i].dataValues.stars
             }
             const avgRating = sum /reviews.length
-            // console.log(spot)
+
             spot.dataValues.avgRating = avgRating.toFixed(2)
 
             const image = await SpotImage.findOne({
@@ -666,7 +645,7 @@ router.get('/', async (req, res) => {
             for(let i = 0; i < reviews.length; i++) {
                 sum += reviews[i].dataValues.stars
             }
-            // console.log(spot.dataValues)
+
             const avgRating = sum /reviews.length
             // const avgRating = reviews[0].dataValues.stars / reviews.length
             spot.dataValues.avgRating = avgRating.toFixed(2)
@@ -689,7 +668,7 @@ router.get('/', async (req, res) => {
 
                 // }
                 // const allSpotImages = await SpotImage.findAll()
-                // console.log(allSpotImages)
+
             const imageUrl = image.dataValues.url
             spot.dataValues.previewImage = imageUrl
             } else {

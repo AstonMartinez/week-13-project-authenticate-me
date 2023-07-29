@@ -16,8 +16,7 @@ router.delete('/:id', async (req, res) => {
             }
         })
 
-        // console.log(reviewImg)
-        // console.log(reviewId)
+
 
         if(!reviewImg) {
             res.status(404)

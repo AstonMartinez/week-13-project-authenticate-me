@@ -16,15 +16,14 @@ const validateReview = [
 // <---------------------------- GET REVIEWS OF CURRENT USER ---------------------------->
 router.get('/current', async (req, res) => {
     if(req.user) {
-        // console.log('working')
-        // console.log(req.user.id)
+
 
         const userReviews = await Review.findAll({
             where: {
                 userId: req.user.id
             }
         })
-        console.log(userReviews)
+
         const userInfo = await User.scope({ method: ['getSpotOwner', req.user.id ] }).findOne({
             where: {
                 id: req.user.id
@@ -32,7 +31,7 @@ router.get('/current', async (req, res) => {
         })
 
         for(let review of userReviews) {
-            // console.log(review)
+
             review.dataValues.User = userInfo
 
             const spot = await Spot.scope({ method: ['getCurrentUserReviews', review.dataValues.spotId] }).findOne({
@@ -43,8 +42,7 @@ router.get('/current', async (req, res) => {
 
             review.dataValues.Spot = spot
 
-            // console.log(spot.dataValues.id)
-            // const spotId = spot.dataValues.id
+
 
             const previewImg = await SpotImage.findOne({
                 where: {
@@ -89,7 +87,7 @@ router.post('/:id/images', async (req, res) => {
             }
         })
 
-        // console.log(review)
+
 
         if(!review) {
             res.status(404)
@@ -109,7 +107,7 @@ router.post('/:id/images', async (req, res) => {
             }
         })
 
-        // console.log(reviewImgs)
+
         if(reviewImgs.length === 10) {
             res.status(403)
             return res.json({ message: "Maximum number of images for this resource was reached" })

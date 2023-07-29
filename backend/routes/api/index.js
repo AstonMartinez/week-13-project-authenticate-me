@@ -46,7 +46,6 @@ const { User } = require('../../db/models');
 
 // phase 1 test router
 router.post('/test', (req, res) => {
-    console.log('route hit')
     res.json({ requestBody: req.body })
 });
 

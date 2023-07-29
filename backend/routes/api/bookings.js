@@ -60,7 +60,7 @@ router.put('/:id', async (req, res) => {
             return res.json({ message: "Booking couldn't be found" })
         }
 
-        console.log(booking.userId, req.user.id)
+
 
         if(booking && booking.userId !== req.user.id) {
             res.status(403)
@@ -93,7 +93,7 @@ router.put('/:id', async (req, res) => {
         const currStart = booking.startDate.split("-")
         const currEnd = booking.endDate.split("-")
         const validCurrDate = getCurrDate()
-        console.log(validCurrDate, currStart)
+
 
         const newBookStartYear = parseInt(c1[0])
         const newBookStartMonth = parseInt(c1[1]-1)
@@ -236,16 +236,12 @@ router.delete('/:id', async (req, res) => {
             // const startArr = startDate.split('-')
             // const endArr = endDate.split('-')
 
-            // console.log(startArr, endArr, validCurrDate)
+
 
             // const from = new Date(startArr[2], parseInt(startArr[1])-1, startArr[0]);  // -1 because months are from 0 to 11
             // const to   = new Date(endArr[2], parseInt(endArr[1])-1, endArr[0]);
             // const check = new Date(validCurrDate[1], parseInt(validCurrDate[0])-1, validCurrDate[2]);
-            // console.log(parseInt(startArr[2]), parseInt(startArr[1]), parseInt(startArr[0]))
-            // console.log(parseInt(endArr[2]), parseInt(endArr[1]), parseInt(endArr[0]))
-            // console.log(parseInt(validCurrDate[1]), parseInt(validCurrDate[0]), parseInt(validCurrDate[2]))
 
-            // console.log(check > from && check < to)
             // if((check >= from && check <= to) || (check > to)) {
             //     res.status(403)
             //     return res.json({ message: "Bookings that have been started can't be deleted" })
