@@ -1,0 +1,131 @@
+body {
+    width: 100%;
+    /* position: fixed; */
+}
+
+.hamburger {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: column nowrap;
+    z-index: 10;
+}
+
+.burger {
+    width: 2rem;
+    height: 0.25rem;
+    border-radius: 10px;
+    background-color: black;
+    transform-origin: 1px;
+    transition: all 0.3s linear;
+}
+
+
+.hamburger-nav-active {
+    /* display: inline; */
+    background-color: white;
+    padding-left: 10px;
+    padding-right: 5px;
+    padding-top: 5px;
+    /* width: fit-content; */
+    border: 1px solid black;
+    height: 100px;
+    /* display: flex;
+    flex-direction: column; */
+    display: flex;
+    /* justify-content: space-around; */
+    /* align-content: center; */
+    /* align-items: center; */
+    flex-direction: column;
+    /* justify-items: space-between; */
+    /* align-content: center; */
+    /* justify-items: flex-start; */
+    /* height: 100vh; */
+    /* width: 50vw; */
+    margin-top: 50px;
+    margin-right: 20px;
+    position: absolute;
+    /* text-align: center; */
+    /* list-style-type: none; */
+}
+
+ul > div, ul > button {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+/* ul > div {
+    display: inline-flex;
+    width: 100%;
+    justify-self: center;
+    position: fixed;
+    right: 0;
+    justify-content: center;
+    text-align: center;
+    text-justify: center;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid black;
+} */
+
+#user-username, #user-name, #user-email, #logout-li {
+    /* display: flex; */
+    /* display: inline-block; */
+    text-align: center;
+    width: 110px;
+    /* left: 0; */
+    /* margin: 0 auto; */
+    align-self: center;
+    /* margin-right: 10px; */
+
+    /* flex-basis: 110; */
+    /* flex-direction: row; */
+    /* flex-grow: 3; */
+    /* border: 1px solid black; */
+    /* padding-left: 0px; */
+    /* margin-left: 0px; */
+}
+
+.hamburger-nav-inactive {
+    display: none;
+}
+
+.nav-container {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 80px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 18px;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#parent-nav-div {
+    /* border: 1px solid black; */
+    height: 60px;
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    top: 0;
+    right: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.home-navlink-div, .login-navlink-div, .signup-navlink-div {
+    margin: auto 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* .disabled {
+    display: none;
+} */
