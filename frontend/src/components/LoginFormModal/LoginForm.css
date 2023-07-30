@@ -70,3 +70,10 @@ body {
     color: red;
     font-size: 12px;
 }
+#demo-user-button {
+    text-decoration: underline;
+    color: #00525e;
+    background: white;
+    border: none;
+    margin-top: 15px;
+}

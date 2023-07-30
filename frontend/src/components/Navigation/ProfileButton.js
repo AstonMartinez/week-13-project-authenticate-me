@@ -42,14 +42,17 @@ function ProfileButton({ user }) {
             </button>
             <ul className={ulClassName} ref={ulRef}>
                 {user ? (
-                    <>
+                    <div className='dropdown-menu-list'>
+                        <li className='user-profile-info' id='user-name-info'>Hello, {user.firstName}</li>
                         <li className='user-profile-info' id='user-username-info'>{user.username}</li>
-                        <li className='user-profile-info' id='user-name-info'>{user.firstName} {user.lastName}</li>
                         <li className='user-profile-info' id='user-email-info'>{user.email}</li>
                         <li>
+                            <div id='logout-div'>
+
                             <button className='logout-profile-button' onClick={logout}>Log Out</button>
+                            </div>
                         </li>
-                    </>
+                    </div>
                 ) : (
                     <>
                         <li>

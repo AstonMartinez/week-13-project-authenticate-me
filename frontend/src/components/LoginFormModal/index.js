@@ -30,6 +30,12 @@ function LoginFormModal() {
         })
     }
 
+    const handleDemoLogin = (e) => {
+        e.preventDefault()
+        setCredential('authDemoUser')
+        setPassword('password')
+    }
+
     return (
         <>
             <div id='login-form-div'>
@@ -60,6 +66,7 @@ function LoginFormModal() {
                         <button id='login-submit-button' type='submit' disabled={disableSubmit} onClick={handleSubmit}>Log In</button>
                     </div>
                 </form>
+                <button id='demo-user-button' onClick={handleDemoLogin}>Demo User</button>
             </div>
         </>
     )

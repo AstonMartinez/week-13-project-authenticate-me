@@ -114,7 +114,7 @@ function SignupFormModal() {
                     {errors.confirmPassword && <p id='confirmPassword-errors-display'>{errors.confirmPassword}</p>}
                 </div>
                 <div id='signup-button-div'>
-                    <button id='signup-submit-button' type='submit'>Sign Up</button>
+                    <button id='signup-submit-button' type='submit' onClick={handleSubmit}>Sign Up</button>
                 </div>
             </form>
         </div>
