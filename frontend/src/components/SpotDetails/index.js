@@ -9,11 +9,11 @@ function SpotDetails() {
     const { spotId } = useParams()
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
-    const [haveReviews, setHaveReviews] = useState(false)
+    // const [haveReviews, setHaveReviews] = useState(false)
 
     const spot = useSelector(state => state.spots.singleSpot)
-    const reviews = useSelector(state => state.reviews)
-    console.log('reviews ', reviews)
+    // const reviews = useSelector(state => state.reviews)
+    // console.log('reviews ', reviews)
     // const spotReviews =
     // console.log(reviews)
     // console.log('spot info: ', spot)
@@ -27,9 +27,9 @@ function SpotDetails() {
         // return () => setHaveSpot(false)
     }, [dispatch])
 
-    useEffect(() => {
-        dispatch(reviewActions.getReviewsBySpotId(spotId)).then(setHaveReviews(true))
-    }, [dispatch, spotId])
+    // useEffect(() => {
+    //     dispatch(reviewActions.getReviewsBySpotId(spotId)).then(setHaveReviews(true))
+    // }, [dispatch, spotId])
 
 
 
