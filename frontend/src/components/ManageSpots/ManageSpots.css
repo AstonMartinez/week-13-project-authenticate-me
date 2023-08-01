@@ -1,0 +1,69 @@
+#manage-spots-parent-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    width: 1000px;
+    height: 800px;
+}
+
+
+#manage-spots-title-text {
+    justify-self: flex-start;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#manage-spots-show-parent-div {
+    /* border: 1px solid hotpink; */
+    width: 1000px;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+    /* margin-top: 80px; */
+    /* position: sticky; */
+}
+
+/* #spot-card-show-div {
+    height: 100%;
+    margin-left: 0px;
+    padding-left: 0px;
+    position: absolute;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+} */
+
+#manage-spot-buttons {
+    /* border: 1px solid red; */
+    width: 210px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#manage-spots-update-button, #manage-spots-delete-button {
+    margin-right: 10px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #666666;
+    color: white;
+}
+
+#manage-spots-create-new-button {
+    background-color: #666666;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#spacer-div {
+    /* border: 1px solid black; */
+    height: 100%;
+    /* margin-top: 80px; */
+}
+
+#individual-card-manage-spots {
+    /* border: 1px solid blue; */
+    width: 28%;
+    height: 300px;
+    /* padding-left: 0; */
+    /* margin-top: 10px; */
+    /* position: absolute; */
+}

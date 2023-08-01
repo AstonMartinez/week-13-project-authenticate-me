@@ -1,6 +1,15 @@
 import { csrfFetch } from './csrf'
 
 const CREATE_IMAGE = 'spots/createImage'
+// const UPDATE_IMAGE = 'spots/updateImage'
+const GET_SPOT_IMAGES = 'spots/getImages'
+
+const getImages = (data) => {
+    return {
+        type: GET_SPOT_IMAGES,
+        payload: data,
+    }
+}
 
 const createImage = (data) => {
     return {
@@ -8,6 +17,26 @@ const createImage = (data) => {
         payload: data,
     }
 }
+
+// const updateImage = (data) => {
+//     return {
+//         type: UPDATE_IMAGE,
+//         payload: data,
+//     }
+// }
+
+export const fetchSpotImages = (id) => async (dispatch) => {
+    const response = await fetch(`/api/spots/${id}/images`)
+    if(response.ok) {
+        const data = await response.json()
+        dispatch(getImages(data))
+    }
+    return response;
+}
+
+// export const updateSpotImage = (id, data) => async (dispatch) => {
+//     const req = await csrfFetch(`/api/spots/${id}`)
+// }
 
 export const createNewImage = (id, data) => async (dispatch) => {
     const req = await csrfFetch(`/api/spots/${id}/images`, {
@@ -30,6 +59,10 @@ const spotImagesReducer = (state = initialState, action) => {
         case CREATE_IMAGE:
             newState = Object.assign({ ...state })
             newState.SpotImage = action.payload
+            return newState;
+        case GET_SPOT_IMAGES:
+            newState = Object.assign({ ...state })
+            newState.SpotImages = action.payload
             return newState;
         default: return state;
     }

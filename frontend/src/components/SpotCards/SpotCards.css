@@ -1,17 +1,13 @@
-#spot-card-parent-div {
-    /* box-sizing: border-box; */
+/* #spot-card-parent-div {
     width: 210px;
     height: 225px;
-    /* border: 1px solid pink; */
-    margin: 15px 0px 20px 45px;
+    margin: 10px 0px 20px 40px;
     z-index: -1;
     padding: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
-    /* position: relative; */
-}
+} */
 
 .tooltip-span-hidden {
     visibility: hidden;

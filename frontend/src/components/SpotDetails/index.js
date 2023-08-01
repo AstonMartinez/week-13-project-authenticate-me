@@ -13,7 +13,11 @@ function SpotDetails() {
 
     const spot = useSelector(state => state.spots.singleSpot)
     const reviews = useSelector(state => state.reviews)
+    const sessionUser = useSelector(state => state.session.user)
     const spotReviews = reviews.reviews.Reviews
+    // console.log(spotReviews)
+
+    const ownerId = spot.ownerId
 
     // const spotReviews =
     // console.log(reviews)
@@ -45,12 +49,31 @@ function SpotDetails() {
     let imgFive;
     let ownerFirstName;
     let ownerLastName;
-    let numberReviews
+    let numberReviews;
+    let reviewButton;
     if(haveSpot) {
         if(spot.avgRating === 'NaN') {
             rating = 'New'
+            if(sessionUser.id !== ownerId) {
+                reviewButton = (
+                    <div id='review-button-parent-div'>
+                        <button id='be-first-to-post-review'>Post Your Review</button>
+                        <p>Be the first to post a review!</p>
+                    </div>
+                )
+            }
         } else {
             rating = spot.avgRating
+            if(sessionUser.id !== ownerId && !spotReviews?.find(review => review.userId === sessionUser.id)) {
+                reviewButton = (
+                    <div id='review-button-parent-div'>
+                        <button id='be-first-to-post-review'>Post Your Review</button>
+                    </div>
+                )
+
+            } else {
+                reviewButton = ''
+            }
         }
         spotImgs = spot.SpotImages
 
@@ -73,6 +96,7 @@ function SpotDetails() {
 
         ownerFirstName = spot.Owner?.firstName
         ownerLastName = spot.Owner?.lastName
+
 
         if(spot.numReviews) {
 
@@ -130,6 +154,7 @@ function SpotDetails() {
                     <div id='reviews-header-container'>
                     <i id='star-favicon' className="fa-solid fa-star fa-2xl" style={{color: "#000000"}}></i>
                     <span> {rating} {numberReviews}</span>
+                    {reviewButton}
                     </div>
                     {spotReviews && spotReviews.map((review) => (
                         <div className='spot-review'>

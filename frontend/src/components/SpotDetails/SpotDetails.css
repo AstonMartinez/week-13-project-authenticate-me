@@ -17,11 +17,13 @@ body {
     overflow-y: scroll;
     height: fit-content;
     position: absolute;
+    /* border: 1px solid black; */
+    padding-bottom: 40px;
 }
 
 #preview-image-main {
-    height: 100%;
-    width: 100%;
+    width: 425px;
+    height: 400px;
 }
 
 .other-spot-img {
@@ -45,7 +47,7 @@ body {
 #preview-img-div {
     /* border: 1px solid red; */
     width: 850px;
-    height: 100%;
+    height: 400px;
     margin-right: 10px;
 }
 
@@ -57,20 +59,24 @@ body {
 #hosted-by-and-description {
     display: flex;
     height: 200px;
+    /* width: 300px; */
+    width: 950px;
     border-bottom: 2px solid black;
 }
 
 #info-text {
     width: 60%;
+    border: 1px solid transparent;
 }
 
 #booking-and-price-div {
     border: 1px solid black;
     border-radius: 5px;
-    width: 40%;
+    width: 410px;
     height: 70%;
-    margin-right: 15px;
+    margin-right: 8px;
     margin-top: 5px;
+    margin-left: 0;
 }
 
 #cost-and-review-info {
@@ -110,6 +116,7 @@ body {
     margin-right: 20px;
     padding-right: 25px;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #reserve-button-inner {
@@ -143,6 +150,7 @@ span {
 
 .spot-review {
     margin-top: 10px;
+    margin-bottom: 30px;
     /* border: 1px solid black; */
 }
 
@@ -161,4 +169,19 @@ span {
 
 .review-inner-text {
     font-family: 'Montserrat', sans-serif;
+}
+
+#be-first-to-post-review {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background-color: #666666;
+}
+
+#review-button-parent-div {
+    margin-top: 20px;
+}
+
+#all-reviews-div {
+    /* border: 1px solid blue; */
+    margin-bottom: 20px;
 }

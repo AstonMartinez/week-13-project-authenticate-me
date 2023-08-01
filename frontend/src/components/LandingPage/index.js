@@ -12,7 +12,7 @@ function LandingPage() {
     // console.log(typeof allSpots)
     const spots = Object.values(allSpots)
     const final = spots[0]
-    console.log(final)
+    // console.log(final)
     // console.log('heres the spots: ', final)
     // const spotsArr = allSpots.spots
     // console.log(spotsArr)
