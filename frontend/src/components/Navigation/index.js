@@ -12,7 +12,7 @@ function Navigation({ isLoaded }) {
         <div id='parent-nav-div'>
             <div id='logo-div'>
                 <NavLink exact to='/'><img id='logo-img' src="https://i.ibb.co/35K9CmV/logo.png" alt="logo" border="0"/></NavLink>
-                <h1 id='logo-text'>LairBnb</h1>
+                <h1 id='logo-text'>lairbnb</h1>
             </div>
             {/* <div className='home-navlink-div'>
                 <NavLink exact to='/'>Home</NavLink>

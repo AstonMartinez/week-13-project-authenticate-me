@@ -41,7 +41,13 @@ module.exports = {
       }
      })
 
-    const spot1 = await Spot.findOne({
+     const user6 = await User.findOne({
+      where: {
+        firstName: 'Authy'
+      }
+     })
+
+     const spot1 = await Spot.findOne({
       where: {
         address: "123 Disney Lane"
       }
@@ -55,19 +61,37 @@ module.exports = {
 
     const spot3 = await Spot.findOne({
       where: {
-        address: "4000 Gamer Lane"
+        address: "2020 Volkihar Street"
       }
     })
 
     const spot4 = await Spot.findOne({
       where: {
-        address: "5050 Artists Lane"
+        address: "5600 Castle Terrace"
       }
     })
 
     const spot5 = await Spot.findOne({
       where: {
+        address: "5050 Artists Lane"
+      }
+    })
+
+    const spot6 = await Spot.findOne({
+      where: {
+        address: "5050 Lakeside Road"
+      }
+    })
+
+    const spot7 = await Spot.findOne({
+      where: {
         address: "6060 Beauty Way"
+      }
+    })
+
+    const spot8 = await Spot.findOne({
+      where: {
+        address: "666 Volt Way"
       }
     })
 
@@ -79,29 +103,83 @@ module.exports = {
         stars: 5
       },
       {
+        spotId: spot1.id,
+        userId: user3.id,
+        review: "Super cozy and relaxing. Perfect vacation spot.",
+        stars: 4
+      },
+      {
         spotId: spot2.id,
         userId: user4.id,
-        review: "Too much league, not enough cats",
+        review: "Beautiful place, amazing accomodations.",
+        stars: 5
+      },
+      {
+        spotId: spot2.id,
+        userId: user1.id,
+        review: "Love the modern minimalist design. Beds are a bit uncomfortable, though.",
+        stars: 4
+      },
+      {
+        spotId: spot3.id,
+        userId: user6.id,
+        review: "I LOVE the creepy atmosphere and beautiful designs.",
         stars: 5
       },
       {
         spotId: spot3.id,
-        userId: user1.id,
-        review: "The owner is awkward but we had a good time",
-        stars: 5
+        userId: user4.id,
+        review: "It's super spacious and lovely, but kinda creepy. Pretty sure a ghost stole my amulet.",
+        stars: 3
       },
       {
         spotId: spot4.id,
         userId: user3.id,
-        review: "The art gallery in the house is impressive",
+        review: "Perfect spot to get away from the world. Like, really far away.",
+        stars: 5
+      },
+      {
+        spotId: spot4.id,
+        userId: user2.id,
+        review: "Lovely, but easy to get lost in. Maybe post some signs in the hallways or something? I couldnt find my bedroom for over a day.",
+        stars: 3
+      },
+      {
+        spotId: spot5.id,
+        userId: user2.id,
+        review: "Beautiful art gallery and lovely home.",
         stars: 5
       },
       {
         spotId: spot5.id,
         userId: user2.id,
-        review: "Great makeovers from the owner, very relaxing",
+        review: "Perfecly clean and pretty, but so clean and sterile that it's hard to feel at-home.",
+        stars: 4
+      },
+      {
+        spotId: spot6.id,
+        userId: user5.id,
+        review: "Very lovely. Perfect place to dispose of your...worries.",
         stars: 5
-      }
+      },
+      {
+        spotId: spot6.id,
+        userId: user4.id,
+        review: "Cabin is definitely haunted. Pretty sure there are bodies in the lake.",
+        stars: 2
+      },
+      {
+        spotId: spot7.id,
+        userId: user2.id,
+        review: "Perfect spa getaway. Would totally rate it higher if I could.",
+        stars: 5
+      },
+      {
+        spotId: spot7.id,
+        userId: user3.id,
+        review: "Beautiful place. Plan to come back in the future. My only complaint is the lack of food. Just because Im at a spa doesn't mean Im on a diet.",
+        stars: 4
+      },
     ], { validate: true })
   },
 
@@ -114,7 +192,21 @@ module.exports = {
         'Too much league, not enough cats',
         'The owner is awkward but we had a good time',
         'The art gallery in the house is impressive',
-        'Great makeovers from the owner, very relaxing'
+        'Great makeovers from the owner, very relaxing',
+        "Super cozy and relaxing. Perfect vacation spot.",
+        "Beautiful place, amazing accomodations.",
+        "Love the modern minimalist design. Beds are a bit uncomfortable, though.",
+        "I LOVE the creepy atmosphere and beautiful designs.",
+        "It's super spacious and lovely, but kinda creepy. Pretty sure a ghost stole my amulet.",
+        "Perfect spot to get away from the world. Like, really far away.",
+        "Beautiful art gallery and lovely home.",
+        "Perfecly clean and pretty, but so clean and sterile that it's hard to feel at-home.",
+        "Lovely, but easy to get lost in. Maybe post some signs in the hallways or something? I couldnt find my bedroom for over a day.",
+        "Very lovely. Perfect place to dispose of your...worries.",
+        "Cabin is definitely haunted. Pretty sure there are bodies in the lake.",
+        "Perfect spa getaway. Would totally rate it higher if I could.",
+        "Beautiful place. Plan to come back in the future. My only complaint is the lack of food. Just because Im at a spa doesn't mean Im on a diet."
+
       ] }
     }, {});
   }

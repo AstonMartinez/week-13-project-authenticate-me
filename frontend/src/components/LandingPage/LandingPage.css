@@ -1,0 +1,30 @@
+body {
+    width: 100%;
+    display: flex;
+}
+
+#landing-page-parent-div {
+    margin-top: 54px;
+    /* border: 1px solid red; */
+    position: fixed;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 50px;
+    z-index: -1;
+}
+
+#spot-card-show-div {
+    /* border: 1px solid green; */
+    display: flex;
+    flex-flow: row wrap;
+    position: fixed;
+    /* bottom: 0; */
+    top: 80px;
+    /* justify-content: space-between; */
+}

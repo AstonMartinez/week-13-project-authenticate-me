@@ -56,7 +56,7 @@ module.exports = {
 
     const spot3 = await Spot.findOne({
       where: {
-        address: "4000 Gamer Lane"
+        address: "666 Volt Way"
       }
     })
 

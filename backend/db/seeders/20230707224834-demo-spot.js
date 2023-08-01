@@ -41,6 +41,12 @@ module.exports = {
     }
    })
 
+   const user6 = await User.findOne({
+    where: {
+      firstName: 'Authy'
+    }
+   })
+
    await queryInterface.bulkInsert(options, [
     {
       ownerId: user1.id,
@@ -50,9 +56,9 @@ module.exports = {
       country: "United States of America",
       lat: 37.7645358,
       lng: -122.4730327,
-      name: "App Academy",
-      description: "Place where web developers are created",
-      price: 123
+      name: "Castle Dour",
+      description: "A seaside castle with beautiful sunsets and gloomy, rainy days.",
+      price: 500
     },
     {
       ownerId: user2.id,
@@ -62,21 +68,33 @@ module.exports = {
       country: "United States of America",
       lat: 45.7645358,
       lng: -321.4730327,
-      name: "Pauls Clubhouse",
-      description: "Nothing but league of legends and cats",
-      price: 123
+      name: "Minimalist Clubhouse",
+      description: "A calming paradise that's just the right size.",
+      price: 150
+    },
+    {
+      ownerId: user2.id,
+      address: "2020 Volkihar Street",
+      city: "Coomhola",
+      state: "County Cork",
+      country: "Ireland",
+      lat: 45.7645358,
+      lng: -321.4730327,
+      name: "Castle Volkihar",
+      description: "May or may not be inhabited by vampires.",
+      price: 600
     },
     {
       ownerId: user3.id,
-      address: "4000 Gamer Lane",
-      city: "Dallas",
-      state: "Texas",
-      country: "United States of America",
+      address: "5600 Castle Terrace",
+      city: "Vik",
+      state: "Sogn og Fjordane",
+      country: "Norway",
       lat: 50.7645358,
       lng: -400.4730327,
-      name: "Aidens Gamer Lounge",
-      description: "I like turtles and video games",
-      price: 123
+      name: "Scenic Refurbished Castle",
+      description: "The perfect place for both eccentric villainy and harmless seclusion.",
+      price: 800
     },
     {
       ownerId: user4.id,
@@ -86,9 +104,21 @@ module.exports = {
       country: "United States of America",
       lat: 23.7645358,
       lng: -700.4730327,
-      name: "Audreys Art Gallery",
-      description: "Art and bugs",
-      price: 123
+      name: "Dallas Art Palace",
+      description: "A spacious home with a built-in art gallery.",
+      price: 300
+    },
+    {
+      ownerId: user4.id,
+      address: "5050 Lakeside Road",
+      city: "Dallas",
+      state: "Texas",
+      country: "United States of America",
+      lat: 23.7645358,
+      lng: -700.4730327,
+      name: "Lakeside Cabin",
+      description: "A luxurious cabin miles from any disturbances. Has access to a dock with multiple kayaks for guests to use.",
+      price: 300
     },
     {
       ownerId: user5.id,
@@ -98,9 +128,21 @@ module.exports = {
       country: "United States of America",
       lat: 45.7645358,
       lng: -300.4730327,
-      name: "Allisons Spa Palace",
-      description: "Free makeovers included",
+      name: "Countryside Spa Getaway",
+      description: "A beautiful getaway in the middle of nowhere. Includes a spa area, outdoor courtyard, and a four-wheeler for outdoor exploration.",
       price: 123
+    },
+    {
+      ownerId: user6.id,
+      address: "666 Volt Way",
+      city: "Camhoola",
+      state: "County Cork",
+      country: "Ireland",
+      lat: 45.7645358,
+      lng: -300.4730327,
+      name: "Draculas Hideout",
+      description: "A castle with questionable history. Dont worry, we replaced all the with tile that wont stain.",
+      price: 666
     }
    ], { validate: true });
   },
@@ -115,7 +157,7 @@ module.exports = {
     options.tableName = 'Spots';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['App Academy', 'Pauls Clubhouse', 'Aidens Gamer Lounge', 'Audreys Art Gallery', 'Allisons Spa Palace'] }
+      name: { [Op.in]: ['Castle Dour', 'Minimalist Clubhouse', 'Castle Volkihar', 'Scenic Refurbished Castle', 'Dallas Art Palace', 'Lakeside Cabin', 'Countryside Spa Getaway', 'Draculas Hideout', 'Aidens Gamer Lounge', 'Pauls Clubhouse', 'Allisons Spa Palace', 'Audreys Art Gallery', 'App Academy'] }
     }, {});
   }
 };

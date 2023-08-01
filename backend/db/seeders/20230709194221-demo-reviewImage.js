@@ -19,25 +19,25 @@ module.exports = {
 
     const review2 = await Review.findOne({
       where: {
-        review: 'Too much league, not enough cats'
+        review: "Beautiful art gallery and lovely home."
       }
     })
 
     const review3 = await Review.findOne({
       where: {
-        review: 'The owner is awkward but we had a good time'
+        review: "Perfecly clean and pretty, but so clean and sterile that it's hard to feel at-home."
       }
     })
 
     const review4 = await Review.findOne({
       where: {
-        review: 'The art gallery in the house is impressive'
+        review: "Lovely, but easy to get lost in. Maybe post some signs in the hallways or something? I couldnt find my bedroom for over a day."
       }
     })
 
     const review5 = await Review.findOne({
       where: {
-        review: 'Great makeovers from the owner, very relaxing'
+        review: "Very lovely. Perfect place to dispose of your...worries."
       }
     })
 

@@ -7,14 +7,17 @@ body {
     flex-flow: row nowrap;
     /* border: 1px solid black; */
     width: 50%;
+    margin-top: 8px;
+    margin-left: 4px;
 }
 
 #logo-text {
     font-family: 'Inter', sans-serif;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
-    margin-left: 6px;
-    margin-top: 15px;
+    margin-left: 8px;
+    margin-top: 12px;
+    color: #FF5A5F;
 }
 
 .hamburger {
@@ -84,7 +87,7 @@ ul > div, ul > button {
 
 #parent-nav-div {
     border-bottom: 2px solid #cfcfcf;
-    height: 60px;
+    height: 70px;
     position: fixed;
     display: flex;
     flex-flow: row;
@@ -93,6 +96,7 @@ ul > div, ul > button {
     left: 0;
     box-sizing: border-box;
     width: 100%;
+    background-color: white;
 }
 
 .home-navlink-div, .login-navlink-div, .signup-navlink-div {
