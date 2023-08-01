@@ -13,8 +13,9 @@ function SpotDetails() {
 
     const spot = useSelector(state => state.spots.singleSpot)
     const reviews = useSelector(state => state.reviews)
-    console.log(reviews)
-    // console.log('reviews ', reviews)
+    const spotReviews = reviews.reviews.Reviews
+    console.log(spotReviews)
+    console.log('reviews ', reviews)
     // const spotReviews =
     // console.log(reviews)
     // console.log('spot info: ', spot)
@@ -28,9 +29,9 @@ function SpotDetails() {
         // return () => setHaveSpot(false)
     }, [dispatch])
 
-    // useEffect(() => {
-    //     dispatch(reviewActions.getReviewsBySpotId(spotId)).then(setHaveReviews(true))
-    // }, [dispatch, spotId])
+    useEffect(() => {
+        dispatch(reviewActions.getReviewsBySpotId(spotId)).then(setHaveReviews(true))
+    }, [dispatch, spotId])
 
 
 
@@ -131,7 +132,7 @@ function SpotDetails() {
                     <i id='star-favicon' className="fa-solid fa-star fa-2xl" style={{color: "#000000"}}></i>
                     <span> {rating} {numberReviews}</span>
                     </div>
-                    {haveReviews && reviews.map((review) => (
+                    {haveReviews && spotReviews.map((review) => (
                         <div className='spot-review'>
                             <h3 className='review-user-name'>{review.User.firstName}</h3>
                             <h3 className='review-month-year'>{review.createdAt = new Date().toDateString().split(' ')[1]} {review.createdAt = new Date().toDateString().split(' ')[3]}</h3>
