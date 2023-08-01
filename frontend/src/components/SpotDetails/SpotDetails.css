@@ -25,8 +25,8 @@ body {
 }
 
 .other-spot-img {
-    height: 48%;
-    width: 48%;
+    height: 195px;
+    width: 250px;
     margin: 2px;
 }
 
@@ -36,12 +36,14 @@ body {
 }
 
 #spot-images-div {
+    /* border: 1px solid green; */
     display: flex;
-    width: 100%;
+    width: 948px;
     height: 400px;
 }
 
 #preview-img-div {
+    /* border: 1px solid red; */
     width: 850px;
     height: 100%;
     margin-right: 10px;
@@ -68,6 +70,7 @@ body {
     width: 40%;
     height: 70%;
     margin-right: 15px;
+    margin-top: 5px;
 }
 
 #cost-and-review-info {

@@ -9,10 +9,11 @@ function SpotDetails() {
     const { spotId } = useParams()
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
-    // const [haveReviews, setHaveReviews] = useState(false)
+    const [haveReviews, setHaveReviews] = useState(false)
 
     const spot = useSelector(state => state.spots.singleSpot)
-    // const reviews = useSelector(state => state.reviews)
+    const reviews = useSelector(state => state.reviews)
+    console.log(reviews)
     // console.log('reviews ', reviews)
     // const spotReviews =
     // console.log(reviews)
@@ -90,7 +91,7 @@ function SpotDetails() {
     return(
         <>
         {spot && (
-                        <div id='spot-details-parent-div'>
+            <div id='spot-details-parent-div'>
                 <div id='title-div'>
                     <h1>{spot?.name}</h1>
                     <p>{spot?.city}, {spot?.state}, {spot?.country}</p>
@@ -125,19 +126,18 @@ function SpotDetails() {
                         </div>
                     </div>
                 </div>
-                {/* {spotReviews !== undefined && ( */}
                 <div id='all-reviews-div'>
                     <div id='reviews-header-container'>
                     <i id='star-favicon' className="fa-solid fa-star fa-2xl" style={{color: "#000000"}}></i>
                     <span> {rating} {numberReviews}</span>
                     </div>
-                    {/* {haveReviews && reviews.map((review) => (
+                    {haveReviews && reviews.map((review) => (
                         <div className='spot-review'>
                             <h3 className='review-user-name'>{review.User.firstName}</h3>
                             <h3 className='review-month-year'>{review.createdAt = new Date().toDateString().split(' ')[1]} {review.createdAt = new Date().toDateString().split(' ')[3]}</h3>
                             <p className='review-inner-text'>{review.review}</p>
                         </div>
-                    ))} */}
+                    ))}
                 </div>
 
 
