@@ -42,6 +42,7 @@ function ProfileButton({ user }) {
             </button>
             <ul className={ulClassName} ref={ulRef}>
                 {user ? (
+                    <>
                     <div className='dropdown-menu-list'>
                         <li className='user-profile-info' id='user-name-info'>Hello, {user.firstName}</li>
                         <li className='user-profile-info' id='user-username-info'>{user.username}</li>
@@ -53,6 +54,7 @@ function ProfileButton({ user }) {
                             </div>
                         </li>
                     </div>
+                    </>
                 ) : (
                     <>
                         <li>

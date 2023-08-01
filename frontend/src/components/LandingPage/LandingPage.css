@@ -12,11 +12,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
     left: 0;
     right: 0;
     bottom: 0;
     top: 50px;
-    z-index: -1;
+    /* z-index: -1; */
 }
 
 #spot-card-show-div {
@@ -24,6 +25,7 @@ body {
     display: flex;
     flex-flow: row wrap;
     position: fixed;
+    /* font-size: 10px; */
     /* bottom: 0; */
     top: 80px;
     /* justify-content: space-between; */

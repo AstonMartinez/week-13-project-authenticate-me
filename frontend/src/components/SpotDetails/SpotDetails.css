@@ -106,7 +106,7 @@ body {
 }
 
 #all-reviews-header-container > i {
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     margin-right: 20px;
     padding-right: 25px;
     margin-top: 20px;

@@ -32,7 +32,7 @@ function LoginFormModal() {
 
     const handleDemoLogin = (e) => {
         e.preventDefault()
-        return dispatch(sessionActions.login({ credential: 'authDemoUser', password: 'password' }))
+        return dispatch(sessionActions.login({ credential: 'authDemoUser1', password: 'password' }))
         .then(closeModal)
     }
 

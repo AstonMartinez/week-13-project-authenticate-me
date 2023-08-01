@@ -20,7 +20,10 @@ function SpotCard({ spot }) {
         // onClick={() => <Redirect to={`/api/spots/${spot.id}`} />}
         >
             <span className={`tooltip-span-${tooltipVisibility}`}>{spot.name}</span>
+            <div id='prev-img-tab'>
                 {spot.previewImage && <img src={spot.previewImage} alt={spot.name} />}
+
+            </div>
             <div id='spot-info-div'>
                 <div id='spot-info-text'>
                 <p id='city-state-text'>{spot.city}, {spot.state}</p>
