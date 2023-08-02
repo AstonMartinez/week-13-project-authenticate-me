@@ -1,9 +1,12 @@
 import './SpotCards.css'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import * as spotActions from '../../store/spots'
+import { useDispatch } from 'react-redux'
 
 function SpotCard({ spot, user }) {
     const [tooltipVisibility, setTooltipVisibility] = useState('hidden')
+    const dispatch = useDispatch()
     let rating;
     if(spot.avgRating === 'NaN') {
         rating = 'New'
@@ -13,13 +16,18 @@ function SpotCard({ spot, user }) {
 
     let manageButtons;
 
+    const handleDelete  = (e) => {
+        e.preventDefault()
+        return dispatch(spotActions.deleteUserSpot(spot.id))
+    }
+
     if(user) {
         manageButtons = (
             <div id='manage-spot-buttons'>
             <NavLink exact to={`/spots/${spot.id}/edit`}>
                 <button id='manage-spots-update-button'>Update</button>
             </NavLink>
-            <button id='manage-spots-delete-button'>Delete</button>
+            <button id='manage-spots-delete-button' onClick={handleDelete}>Delete</button>
             </div>
         )
     } else {

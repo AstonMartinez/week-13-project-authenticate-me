@@ -4,6 +4,8 @@ import * as reviewActions from '../../store/reviews'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './SpotDetails.css'
+import OpenModalButton from '../OpenModalButton'
+import ReviewModal from '../ReviewModal/index.js'
 
 function SpotDetails() {
     const { spotId } = useParams()
@@ -11,13 +13,30 @@ function SpotDetails() {
     const [haveSpot, setHaveSpot] = useState(false)
     const [haveReviews, setHaveReviews] = useState(false)
 
+    let spotReviews
+
     const spot = useSelector(state => state.spots.singleSpot)
     const reviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user)
-    const spotReviews = reviews.reviews.Reviews
-    // console.log(spotReviews)
+    spotReviews = reviews.reviews.Reviews
+    // console.log('unsorted: ', spotReviews)
+    // const sortedReviews = spotReviews.toSorted()
+
+    const reviewCompare = (a, b) => {
+        if(a.updatedAt > b.updatedAt) {
+            return -1
+        }
+        if(a.updatedAt < b.updatedAt) {
+            return 1
+        }
+        return 0
+    }
+
+    const sortedReviews = spotReviews.toSorted(reviewCompare)
+    // console.log('sorted?: ', sortedReviews)
 
     const ownerId = spot.ownerId
+    // console.log(typeof spotId)
 
     // const spotReviews =
     // console.log(reviews)
@@ -54,20 +73,30 @@ function SpotDetails() {
     if(haveSpot) {
         if(spot.avgRating === 'NaN') {
             rating = 'New'
+            spotReviews = ''
             if(sessionUser.id !== ownerId) {
                 reviewButton = (
                     <div id='review-button-parent-div'>
-                        <button id='be-first-to-post-review'>Post Your Review</button>
+                        <OpenModalButton
+                        id='review-modal-button'
+                        className='.modal-buttons'
+                        buttonText='Post Your Review'
+                        modalComponent={<ReviewModal spotId={spotId} />}
+                         />
                         <p>Be the first to post a review!</p>
                     </div>
                 )
             }
         } else {
             rating = spot.avgRating
-            if(sessionUser.id !== ownerId && !spotReviews?.find(review => review.userId === sessionUser.id)) {
+            if((sessionUser && sessionUser.id !== ownerId) && !spotReviews?.find(review => review.userId === sessionUser.id)) {
                 reviewButton = (
                     <div id='review-button-parent-div'>
-                        <button id='be-first-to-post-review'>Post Your Review</button>
+                        <OpenModalButton
+                        id='review-modal-button'
+                        className='.modal-buttons'
+                        buttonText='Post Your Review'
+                        modalComponent={<ReviewModal spotId={spotId} />} />
                     </div>
                 )
 
@@ -156,7 +185,7 @@ function SpotDetails() {
                     <span> {rating} {numberReviews}</span>
                     {reviewButton}
                     </div>
-                    {spotReviews && spotReviews.map((review) => (
+                    {sortedReviews && sortedReviews.map((review) => (
                         <div className='spot-review'>
                             <h3 className='review-user-name'>{review.User.firstName}</h3>
                             <h3 className='review-month-year'>{review.createdAt = new Date().toDateString().split(' ')[1]} {review.createdAt = new Date().toDateString().split(' ')[3]}</h3>

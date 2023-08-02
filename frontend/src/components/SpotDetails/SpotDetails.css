@@ -185,3 +185,11 @@ span {
     /* border: 1px solid blue; */
     margin-bottom: 20px;
 }
+
+.modal-buttons {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background-color: #666666;
+    width: 130px;
+    height: 30px;
+}

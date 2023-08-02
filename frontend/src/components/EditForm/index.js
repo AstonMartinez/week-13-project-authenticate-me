@@ -56,11 +56,11 @@ function EditForm() {
     const [description, setDescription] = useState(currSpot?.description || '')
     const [spotName, setSpotName] = useState(currSpot?.name || '')
     const [price, setPrice] = useState(currSpot?.price || '')
-    const [previewImage, setPreviewImage] = useState(currSpot?.previewImage || '')
-    const [imgTwo, setImgTwo] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
-    const [imgThree, setImgThree] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
-    const [imgFour, setImgFour] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
-    const [imgFive, setImgFive] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
+    // const [previewImage, setPreviewImage] = useState(currSpot?.previewImage || '')
+    // const [imgTwo, setImgTwo] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
+    // const [imgThree, setImgThree] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
+    // const [imgFour, setImgFour] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
+    // const [imgFive, setImgFive] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
     const [errors, setErrors] = useState({})
     const [disableSubmit, setDisableSubmit] = useState(false)
 
@@ -271,7 +271,7 @@ function EditForm() {
                     />
                     {errors.price && <p>{errors.price}</p>}
                 </div>
-                <div id='form-section-five'>
+                {/* <div id='form-section-five'>
                     <h2 className='form-section-header-text'>Liven up your spot with photos</h2>
                     <p className='form-section-desc-text'>Submit a link to at least one photo to publish your spot.</p>
                     <div id='section-five-photo-inputs'>
@@ -328,8 +328,8 @@ function EditForm() {
                             />
                         </div>
                     </div>
-                </div>
-                <button disabled={disableSubmit} id='new-spot-form-submit-button' type='submit'>Create Spot</button>
+                </div> */}
+                <button disabled={disableSubmit} id='new-spot-form-submit-button' type='submit'>Update Spot</button>
                 {errors.user && <p>{errors.user}</p>}
             </form>
         </div>
