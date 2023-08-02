@@ -7,10 +7,10 @@ const GET_USER_SPOTS = 'spots/getUserSpots'
 const UPDATE_SPOT = 'spots/updateSingleSpot'
 const DELETE_SPOT = 'spots/deleteSpot'
 
-const deleteSpot = (data) => {
+const deleteSpot = (spot) => {
     return {
         type: DELETE_SPOT,
-        payload: data,
+        payload: spot,
     }
 }
 
@@ -50,7 +50,7 @@ const getUserSpots = (data) => {
     }
 }
 
-export const deleteUserSpot = (id) => async (dispatch) => {
+export const deleteUserSpot = (id, spot) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'DELETE',
         headers: {
@@ -58,7 +58,7 @@ export const deleteUserSpot = (id) => async (dispatch) => {
         }
     })
     if(response.ok) {
-        dispatch(deleteSpot(id))
+        dispatch(deleteSpot(spot))
     }
 
     return response;
@@ -146,8 +146,7 @@ const spotsReducer = (state = initialState, action) => {
             return newState;
         case DELETE_SPOT:
             newState = Object.assign({ ...state })
-            const spot = newState.allSpots.find(spot => spot.id === action.payload)
-            delete newState.allSpots[spot]
+            delete newState.allSpots[action.payload]
             return newState;
         default: return state
     }

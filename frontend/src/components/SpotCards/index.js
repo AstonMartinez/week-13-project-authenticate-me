@@ -1,13 +1,18 @@
 import './SpotCards.css'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
-import * as spotActions from '../../store/spots'
-import { useDispatch } from 'react-redux'
+// import * as spotActions from '../../store/spots'
+// import { useDispatch } from 'react-redux'
+import OpenModalButton from '../OpenModalButton'
+import DeleteConfirmModal from '../DeleteConfirmModal'
 
 function SpotCard({ spot, user }) {
+    // const ref = useRef(null)
     const [tooltipVisibility, setTooltipVisibility] = useState('hidden')
-    const dispatch = useDispatch()
+    // const [deletedVis, setDeletedVis] = useState('')
+    // const dispatch = useDispatch()
     let rating;
+    // console.log(spot)
     if(spot.avgRating === 'NaN') {
         rating = 'New'
     } else {
@@ -16,10 +21,10 @@ function SpotCard({ spot, user }) {
 
     let manageButtons;
 
-    const handleDelete  = (e) => {
-        e.preventDefault()
-        return dispatch(spotActions.deleteUserSpot(spot.id))
-    }
+    // const handleDelete  = (e) => {
+    //     e.preventDefault()
+    //     return dispatch(spotActions.deleteUserSpot(spot.id, spot)).then(() => setDeletedVis('hidden'))
+    // }
 
     if(user) {
         manageButtons = (
@@ -27,7 +32,11 @@ function SpotCard({ spot, user }) {
             <NavLink exact to={`/spots/${spot.id}/edit`}>
                 <button id='manage-spots-update-button'>Update</button>
             </NavLink>
-            <button id='manage-spots-delete-button' onClick={handleDelete}>Delete</button>
+            <OpenModalButton
+            id='delete-modal-button'
+            buttonText='Delete'
+            modalComponent={<DeleteConfirmModal spot={spot} />}
+            />
             </div>
         )
     } else {
@@ -36,8 +45,10 @@ function SpotCard({ spot, user }) {
 
 
     return (
+        <div id='spot-card-manage-div-for-delete-modal'>
         <NavLink to={`/spots/${spot.id}`}>
-        <div id='spot-card-parent-div'
+        <div className='spot-card-parent-div'
+        id={`spot-card-number-${spot.id}`}
         onMouseEnter={() => setTooltipVisibility('visible')}
         onMouseLeave={() => setTooltipVisibility('hidden')}
         // onClick={() => <Redirect to={`/api/spots/${spot.id}`} />}
@@ -56,9 +67,11 @@ function SpotCard({ spot, user }) {
                 <i id='star-favicon' className="fa-solid fa-star" style={{color: "#000000"}}></i>{rating}
                 </div>
             </div>
-            {manageButtons}
+
         </div>
         </NavLink>
+        {manageButtons}
+        </div>
     )
 }
 

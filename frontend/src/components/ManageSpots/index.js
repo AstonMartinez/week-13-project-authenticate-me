@@ -10,12 +10,13 @@ function ManageSpots() {
     const sessionUser = useSelector(state => state.session.user)
     const spots = Object.values(allSpots)
     const final = spots[0]
+    // const parentElem = useRef()
 
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(spotActions.fetchUserSpots())
-    }, [dispatch])
+    }, [dispatch, final])
 
  return (
     <div id='manage-spots-parent-container'>

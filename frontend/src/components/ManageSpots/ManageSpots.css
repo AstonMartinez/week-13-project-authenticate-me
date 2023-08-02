@@ -23,28 +23,23 @@
     /* position: sticky; */
 }
 
-/* #spot-card-show-div {
-    height: 100%;
-    margin-left: 0px;
-    padding-left: 0px;
-    position: absolute;
-    display: flex;
-    flex-flow: row wrap;
-    align-content: flex-start;
-} */
 
 #manage-spot-buttons {
     /* border: 1px solid red; */
     width: 210px;
     display: flex;
     justify-content: flex-start;
+    margin-left: 40px;
 }
 
 #manage-spots-update-button, #manage-spots-delete-button {
-    margin-right: 10px;
     font-family: 'Montserrat', sans-serif;
-    background-color: #666666;
     color: white;
+    background-color: #666666;
+    width: 105px;
+    height: 30px;
+    margin-right: 5px;
+    margin-top: 5px;
 }
 
 #manage-spots-create-new-button {

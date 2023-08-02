@@ -9,6 +9,10 @@
     align-items: flex-start;
 } */
 
+.spot-card-hidden {
+    visibility: hidden;
+}
+
 .tooltip-span-hidden {
     visibility: hidden;
 }

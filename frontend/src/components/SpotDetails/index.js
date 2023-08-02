@@ -32,7 +32,12 @@ function SpotDetails() {
         return 0
     }
 
-    const sortedReviews = spotReviews.toSorted(reviewCompare)
+    let sortedReviews;
+
+    if(spotReviews?.length) {
+        sortedReviews = spotReviews.toSorted(reviewCompare)
+    }
+
     // console.log('sorted?: ', sortedReviews)
 
     const ownerId = spot.ownerId
@@ -74,6 +79,7 @@ function SpotDetails() {
         if(spot.avgRating === 'NaN') {
             rating = 'New'
             spotReviews = ''
+            sortedReviews = ''
             if(sessionUser.id !== ownerId) {
                 reviewButton = (
                     <div id='review-button-parent-div'>

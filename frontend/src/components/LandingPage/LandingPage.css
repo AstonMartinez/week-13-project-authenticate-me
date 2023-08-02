@@ -3,7 +3,8 @@ body {
     display: flex;
 }
 
-#spot-card-parent-div {
+.spot-card-parent-div {
+    /* border: 1px solid blue; */
     width: 210px;
     height: 225px;
     margin: 10px 0px 20px 40px;
