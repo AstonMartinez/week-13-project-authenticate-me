@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as spotActions from '../../store/spots'
 import * as spotImgActions from '../../store/spotimages'
-import { Redirect, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 function CreateSpotForm() {
     const [country, setCountry] = useState('')
@@ -26,6 +26,10 @@ function CreateSpotForm() {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const history = useHistory()
+
+    // if(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && latitude.length > 0 && longitude.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0 && previewImage.length > 0) {
+
+    // }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -242,7 +246,7 @@ function CreateSpotForm() {
                     <div id='section-five-photo-inputs'>
                         <div>
                             <input
-                            type='text'
+                            type='url'
                             placeholder='Preview Image URL'
                             name='prev-img'
                             value={previewImage}
@@ -253,7 +257,7 @@ function CreateSpotForm() {
                         </div>
                         <div>
                             <input
-                            type='text'
+                            type='url'
                             placeholder='Image URL'
                             name='img-two'
                             value={imgTwo}
@@ -263,7 +267,7 @@ function CreateSpotForm() {
                         </div>
                         <div>
                             <input
-                            type='text'
+                            type='url'
                             placeholder='Image URL'
                             name='img-three'
                             value={imgThree}
@@ -273,7 +277,7 @@ function CreateSpotForm() {
                         </div>
                         <div>
                             <input
-                            type='text'
+                            type='url'
                             placeholder='Image URL'
                             name='img-four'
                             value={imgFour}
@@ -283,7 +287,7 @@ function CreateSpotForm() {
                         </div>
                         <div>
                             <input
-                            type='text'
+                            type='url'
                             placeholder='Image URL'
                             name='img-five'
                             value={imgFive}
@@ -294,7 +298,7 @@ function CreateSpotForm() {
                         </div>
                     </div>
                 </div>
-                <button disabled={disableSubmit} id='new-spot-form-submit-button' type='submit'>Create Spot</button>
+                <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && latitude.length > 0 && longitude.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0 && previewImage.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Create Spot</button>
                 {errors.user && <p>{errors.user}</p>}
             </form>
         </div>

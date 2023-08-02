@@ -1,5 +1,5 @@
 import './DeleteConfirmModal.css'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import * as spotActions from '../../store/spots'
 import { useDispatch } from 'react-redux'
 import { useModal } from '../../context/Modal.js'
@@ -7,14 +7,14 @@ import { useModal } from '../../context/Modal.js'
 function DeleteConfirmModal({ spot }) {
     const dispatch = useDispatch()
     // const [deletedVis, setDeletedVis] = useState('')
-    const [haveElem, setHaveElem] = useState(false)
+    // const [haveElem, setHaveElem] = useState(false)
     const { closeModal } = useModal()
 
-    useEffect(() => {
-        const spotCard = document.querySelector(".spot-card-manage-div-for-delete-modal")
-        setHaveElem(true)
-        console.log(spotCard)
-    }, [])
+    // useEffect(() => {
+    //     const spotCard = document.querySelector(".spot-card-manage-div-for-delete-modal")
+    //     setHaveElem(true)
+    //     console.log(spotCard)
+    // }, [])
 
     const handleDelete  = (e) => {
         e.preventDefault()

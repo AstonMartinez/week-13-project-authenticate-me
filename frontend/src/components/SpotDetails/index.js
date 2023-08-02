@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import './SpotDetails.css'
 import OpenModalButton from '../OpenModalButton'
 import ReviewModal from '../ReviewModal/index.js'
+import DeleteReviewModal from '../DeleteReviewModal/index.js'
 
 function SpotDetails() {
     const { spotId } = useParams()
@@ -19,8 +20,6 @@ function SpotDetails() {
     const reviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user)
     spotReviews = reviews.reviews.Reviews
-    // console.log('unsorted: ', spotReviews)
-    // const sortedReviews = spotReviews.toSorted()
 
     const reviewCompare = (a, b) => {
         if(a.updatedAt > b.updatedAt) {
@@ -52,17 +51,12 @@ function SpotDetails() {
 
     useEffect(() => {
         dispatch(spotActions.fetchSingleSpot(spotId)).then(setHaveSpot(true))
-        // dispatch(reviewActions.getReviewsBySpotId(spotId)).then(setHaveReviews(true))
-        // return () => setHaveSpot(false)
     }, [dispatch])
 
     useEffect(() => {
         dispatch(reviewActions.getReviewsBySpotId(spotId)).then(setHaveReviews(true))
-    }, [dispatch, spotId])
+    }, [dispatch, spotId, spotReviews])
 
-
-
-    // // console.log(spot)
 
     let rating;
     let spotImgs;
@@ -196,6 +190,14 @@ function SpotDetails() {
                             <h3 className='review-user-name'>{review.User.firstName}</h3>
                             <h3 className='review-month-year'>{review.createdAt = new Date().toDateString().split(' ')[1]} {review.createdAt = new Date().toDateString().split(' ')[3]}</h3>
                             <p className='review-inner-text'>{review.review}</p>
+                            {(sessionUser && review.userId === sessionUser.id) ? (
+                                <div id='delete-review-button-div'>
+                                    <OpenModalButton
+                                        buttonText='Delete'
+                                        modalComponent={<DeleteReviewModal review={review} />}
+                                    />
+                                </div>
+                            ) : ''}
                         </div>
                     ))}
                 </div>
