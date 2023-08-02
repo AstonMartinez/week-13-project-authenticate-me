@@ -13,7 +13,12 @@ function SignupFormModal() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errors, setErrors] = useState({})
+    // const [disableSubmit, setDisableSubmit] = useState(true)
     const { closeModal } = useModal()
+
+    // if(email.length > 0 && username.length >= 4 && firstName.length > 0 && lastName.length > 0 && password.length >= 6) {
+
+    // }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -114,7 +119,7 @@ function SignupFormModal() {
                     {errors.confirmPassword && <p id='confirmPassword-errors-display'>{errors.confirmPassword}</p>}
                 </div>
                 <div id='signup-button-div'>
-                    <button id='signup-submit-button' type='submit' onClick={handleSubmit}>Sign Up</button>
+                    <button id='signup-submit-button' type='submit' onClick={handleSubmit} disabled={(email.length > 0 && username.length >= 4 && firstName.length > 0 && lastName.length > 0 && password.length >= 6) ? false : true}>Sign Up</button>
                 </div>
             </form>
         </div>

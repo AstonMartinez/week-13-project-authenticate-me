@@ -63,7 +63,7 @@ function LoginFormModal() {
                     </div>
                     {errors.message && <p id='errors-display'>{errors.message}</p>}
                     <div id='button-div'>
-                        <button id='login-submit-button' type='submit' disabled={disableSubmit} onClick={handleSubmit}>Log In</button>
+                        <button id='login-submit-button' type='submit' disabled={(credential.length >= 4 && password.length >= 6) ? false : true} onClick={handleSubmit}>Log In</button>
                     </div>
                 </form>
                 <button id='demo-user-button' onClick={handleDemoLogin}>Demo User</button>
