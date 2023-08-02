@@ -10,14 +10,12 @@ function ReviewModal({ spotId }) {
     const [review, setReview] = useState('')
     const [stars, setStars] = useState('')
     const [errors, setErrors] = useState({})
-    const [disableSubmit, setDisableSubmit] = useState(true)
     const [fillOne, setFillOne] = useState('regular')
     const [fillTwo, setFillTwo] = useState('regular')
     const [fillThree, setFillThree] = useState('regular')
     const [fillFour, setFillFour] = useState('regular')
     const [fillFive, setFillFive] = useState('regular')
     const { closeModal } = useModal()
-    // console.log('spot id: ', spotId)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -30,14 +28,10 @@ function ReviewModal({ spotId }) {
             const data = await res.json()
             if(data && data.errors) {
                 setErrors(data)
-                setDisableSubmit(true)
             }
         })
     }
 
-    // if(review.length >= 10 && stars !== '') {
-    //     setDisableSubmit(false)
-    // }
 
     return(
         <div id='review-modal-parent-div'>

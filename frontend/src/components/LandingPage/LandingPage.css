@@ -4,7 +4,6 @@ body {
 }
 
 .spot-card-parent-div {
-    /* border: 1px solid blue; */
     width: 210px;
     height: 225px;
     margin: 10px 0px 20px 40px;
@@ -13,13 +12,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /* overflow-y: scroll; */
 }
 
 #landing-page-parent-div {
     margin-top: 54px;
-    /* border: 1px solid red; */
-    /* overflow-y: scroll; */
     position: fixed;
     width: 100%;
     box-sizing: border-box;
@@ -31,17 +27,11 @@ body {
     right: 0;
     bottom: 0;
     top: 50px;
-    /* z-index: -1; */
 }
 
 #spot-card-show-div {
-    /* border: 1px solid green; */
     display: flex;
     flex-flow: row wrap;
-    /* position: fixed; */
-    /* font-size: 10px; */
-    /* bottom: 0; */
     top: 80px;
     overflow-y: scroll;
-    /* justify-content: space-between; */
 }

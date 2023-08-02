@@ -18,14 +18,12 @@
 
 #confirm-delete-p-text {
     font-family: 'Montserrat', sans-serif;
-    /* text-align: center; */
 }
 
 #delete-spot-yes-button-div, #delete-spot-no-button-div {
     margin-right: 15px;
     margin-left: 15px;
     margin-bottom: 10px;
-    /* border: 1px solid red; */
 }
 
 #delete-spot-confirm-yes-button, #delete-spot-confirm-no-button {

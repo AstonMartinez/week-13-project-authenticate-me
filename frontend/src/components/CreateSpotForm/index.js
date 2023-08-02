@@ -21,15 +21,10 @@ function CreateSpotForm() {
     const [imgFour, setImgFour] = useState('')
     const [imgFive, setImgFive] = useState('')
     const [errors, setErrors] = useState({})
-    const [disableSubmit, setDisableSubmit] = useState(false)
 
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const history = useHistory()
-
-    // if(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && latitude.length > 0 && longitude.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0 && previewImage.length > 0) {
-
-    // }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -46,10 +41,6 @@ function CreateSpotForm() {
                 name: spotName,
                 price: price,
                 ownerId: sessionUser.id
-                // imgTwo,
-                // imgThree,
-                // imgFour,
-                // imgFive
             }
 
             const spotImgs = [{ url: previewImage, preview: true }]
@@ -70,16 +61,12 @@ function CreateSpotForm() {
                 spotImgs.push({ url: imgFive, preview: false })
             }
 
-            // console.log(newSpot)
             let spotId
 
             dispatch(spotActions.createNewSpot(newSpot)).then( async res => {
                 spotId = res.id
-                console.log(spotId)
-                console.log(spotImgs)
                 spotImgs.forEach(img => dispatch(spotImgActions.createNewImage(spotId, img)))
                 return history.push(`/spots/${spotId}`)
-                // spotImgs.forEach(img => dispatch(spotImgActions(spotId, img)))
             })
             .catch(async res => {
                 const data = await res.json()
@@ -95,7 +82,6 @@ function CreateSpotForm() {
 
         } else {
             setErrors({ user: 'You must be logged in to create a new spot!'})
-            setDisableSubmit(true)
         }
 
 

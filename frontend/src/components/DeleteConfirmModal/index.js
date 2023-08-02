@@ -6,15 +6,7 @@ import { useModal } from '../../context/Modal.js'
 
 function DeleteConfirmModal({ spot }) {
     const dispatch = useDispatch()
-    // const [deletedVis, setDeletedVis] = useState('')
-    // const [haveElem, setHaveElem] = useState(false)
     const { closeModal } = useModal()
-
-    // useEffect(() => {
-    //     const spotCard = document.querySelector(".spot-card-manage-div-for-delete-modal")
-    //     setHaveElem(true)
-    //     console.log(spotCard)
-    // }, [])
 
     const handleDelete  = (e) => {
         e.preventDefault()

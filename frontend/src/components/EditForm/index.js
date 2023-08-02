@@ -2,16 +2,11 @@ import './EditForm.css'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as spotActions from '../../store/spots'
-// import * as spotImgActions from '../../store/spotimages'
 import { useHistory, useParams } from 'react-router-dom'
 
 function EditForm() {
     const { spotId } = useParams()
     const allSpots = useSelector(state => state.spots.allSpots)
-    const singleSpot = useSelector(state => state.spots.singleSpot)
-    // const currSpotImgs = useSelector(state => state.spotImgs.SpotImages)
-    // const spot = useSelector(state => state.spots.singleSpot)
-    // const [haveSpot, setHaveSpot] = useState(false)
     const dispatch = useDispatch()
 
     let spots;
@@ -24,27 +19,9 @@ function EditForm() {
         currSpot = userSpots.find(singleSpot => singleSpot.id === Number(spotId))
     }
 
-    // useEffect(() => {
-    //     dispatch(spotImgActions.fetchSpotImages(spotId))
-    // }, [dispatch])
-
-    // console.log('spot images: ', currSpotImgs)
-    // const currSpotTwo = currSpot.find(singleSpot => singleSpot.id === spotId)
-
     useEffect(() => {
         dispatch(spotActions.fetchSingleSpot(spotId))
-    }, [dispatch])
-
-    // console.log(singleSpot)
-
-    // console.log('currSpot: ', currSpot)
-    // console.log('currSpotTwo: ', currSpotTwo)
-    // console.log('user spot: ', userSpots)
-    // console.log('single user spot: ', userSpots[0])
-    // console.log('type of: ', typeof userSpots[0].id)
-    // console.log(typeof spotId)
-    // console.log('curr spot: ', userSpots.find(singleSpot => singleSpot.id === Number(spotId)))
-
+    }, [dispatch, spotId])
 
 
     const [country, setCountry] = useState(currSpot?.country || '')
@@ -56,20 +33,16 @@ function EditForm() {
     const [description, setDescription] = useState(currSpot?.description || '')
     const [spotName, setSpotName] = useState(currSpot?.name || '')
     const [price, setPrice] = useState(currSpot?.price || '')
+    //! TO DO LATER
     // const [previewImage, setPreviewImage] = useState(currSpot?.previewImage || '')
     // const [imgTwo, setImgTwo] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
     // const [imgThree, setImgThree] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
     // const [imgFour, setImgFour] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
     // const [imgFive, setImgFive] = useState(singleSpot.SpotImages ? singleSpot.SpotImages[1].url : '')
     const [errors, setErrors] = useState({})
-    const [disableSubmit, setDisableSubmit] = useState(false)
 
     const sessionUser = useSelector(state => state.session.user)
     const history = useHistory()
-
-    // if(haveSpot && spot !== {}) {
-    //     setDisableSubmit(true)
-    // }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -88,45 +61,24 @@ function EditForm() {
                 ownerId: sessionUser.id,
             }
 
-            // const spotImgs = [{ url: previewImage, preview: true }]
-
-            // if(imgTwo.length > 1) {
-            //     spotImgs.push({ url: imgTwo, preview: false })
-            // }
-
-            // if(imgThree.length > 1) {
-            //     spotImgs.push({ url: imgThree, preview: false })
-            // }
-
-            // if(imgFour.length > 1) {
-            //     spotImgs.push({ url: imgFour, preview: false })
-            // }
-
-            // if(imgFive.length > 1) {
-            //     spotImgs.push({ url: imgFive, preview: false })
-            // }
-
-            // console.log(newSpot)
-            // let spotId
 
             dispatch(spotActions.updateSpot(spotId, editedSpot)).then(() => {
                 history.push(`/spots/${spotId}`)
+            }).catch(async res => {
+                const data = await res.json()
+                if(data) {
+                    if(data.errors) {
+                        setErrors(data.errors)
+                    }
+                    if(data.message) {
+                        setErrors(data.message)
+                    }
+                }
             })
-            // .catch(async res => {
-            //     const data = await res.json()
-            //     if(data) {
-            //         if(data.errors) {
-            //             setErrors(data.errors)
-            //         }
-            //         if(data.message) {
-            //             setErrors(data.message)
-            //         }
-            //     }
-            // })
+
 
         } else {
             setErrors({ user: 'You must be logged in to update a spot!'})
-            setDisableSubmit(true)
         }
 
 
@@ -271,65 +223,7 @@ function EditForm() {
                     />
                     {errors.price && <p>{errors.price}</p>}
                 </div>
-                {/* <div id='form-section-five'>
-                    <h2 className='form-section-header-text'>Liven up your spot with photos</h2>
-                    <p className='form-section-desc-text'>Submit a link to at least one photo to publish your spot.</p>
-                    <div id='section-five-photo-inputs'>
-                        <div>
-                            <input
-                            type='text'
-                            placeholder='Preview Image URL'
-                            name='prev-img'
-                            value={previewImage}
-                            onChange={(e) => setPreviewImage(e.target.value)}
-                            className='form-preview-img-input'
-                            required
-                            />
-                        </div>
-                        <div>
-                            <input
-                            type='text'
-                            placeholder='Image URL'
-                            name='img-two'
-                            value={imgTwo}
-                            onChange={(e) => setImgTwo(e.target.value)}
-                            className='form-img-input'
-                            />
-                        </div>
-                        <div>
-                            <input
-                            type='text'
-                            placeholder='Image URL'
-                            name='img-three'
-                            value={imgThree}
-                            onChange={(e) => setImgThree(e.target.value)}
-                            className='form-img-input'
-                            />
-                        </div>
-                        <div>
-                            <input
-                            type='text'
-                            placeholder='Image URL'
-                            name='img-four'
-                            value={imgFour}
-                            onChange={(e) => setImgFour(e.target.value)}
-                            className='form-img-input'
-                            />
-                        </div>
-                        <div>
-                            <input
-                            type='text'
-                            placeholder='Image URL'
-                            name='img-five'
-                            value={imgFive}
-                            onChange={(e) => setImgFive(e.target.value)}
-                            className='form-img-input'
-                            id='final-img-input'
-                            />
-                        </div>
-                    </div>
-                </div> */}
-                <button disabled={disableSubmit} id='new-spot-form-submit-button' type='submit'>Update Spot</button>
+                <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && latitude.length > 0 && longitude.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Update Spot</button>
                 {errors.user && <p>{errors.user}</p>}
             </form>
         </div>

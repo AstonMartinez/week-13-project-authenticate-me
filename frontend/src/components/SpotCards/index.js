@@ -1,18 +1,14 @@
 import './SpotCards.css'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-// import * as spotActions from '../../store/spots'
-// import { useDispatch } from 'react-redux'
 import OpenModalButton from '../OpenModalButton'
 import DeleteConfirmModal from '../DeleteConfirmModal'
 
 function SpotCard({ spot, user }) {
-    // const ref = useRef(null)
     const [tooltipVisibility, setTooltipVisibility] = useState('hidden')
-    // const [deletedVis, setDeletedVis] = useState('')
-    // const dispatch = useDispatch()
+
     let rating;
-    // console.log(spot)
+
     if(spot.avgRating === 'NaN') {
         rating = 'New'
     } else {
@@ -20,11 +16,6 @@ function SpotCard({ spot, user }) {
     }
 
     let manageButtons;
-
-    // const handleDelete  = (e) => {
-    //     e.preventDefault()
-    //     return dispatch(spotActions.deleteUserSpot(spot.id, spot)).then(() => setDeletedVis('hidden'))
-    // }
 
     if(user) {
         manageButtons = (
@@ -51,7 +42,6 @@ function SpotCard({ spot, user }) {
         id={`spot-card-number-${spot.id}`}
         onMouseEnter={() => setTooltipVisibility('visible')}
         onMouseLeave={() => setTooltipVisibility('hidden')}
-        // onClick={() => <Redirect to={`/api/spots/${spot.id}`} />}
         >
             <span className={`tooltip-span-${tooltipVisibility}`}>{spot.name}</span>
             <div id='prev-img-tab'>

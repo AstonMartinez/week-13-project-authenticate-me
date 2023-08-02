@@ -17,7 +17,6 @@ body {
     overflow-y: scroll;
     height: fit-content;
     position: absolute;
-    /* border: 1px solid black; */
     padding-bottom: 40px;
 }
 
@@ -38,14 +37,12 @@ body {
 }
 
 #spot-images-div {
-    /* border: 1px solid green; */
     display: flex;
     width: 948px;
     height: 400px;
 }
 
 #preview-img-div {
-    /* border: 1px solid red; */
     width: 850px;
     height: 400px;
     margin-right: 10px;
@@ -59,7 +56,6 @@ body {
 #hosted-by-and-description {
     display: flex;
     height: 200px;
-    /* width: 300px; */
     width: 950px;
     border-bottom: 2px solid black;
 }
@@ -106,13 +102,11 @@ body {
 }
 
 #all-reviews-div {
-    /* border: 1px solid red; */
     margin-top: 40px;
     height: 200px;
 }
 
 #all-reviews-header-container > i {
-    /* border: 1px solid blue; */
     margin-right: 20px;
     padding-right: 25px;
     margin-top: 20px;
@@ -137,10 +131,7 @@ body {
 
 
 #reviews-header-container {
-    /* border: 1px solid black; */
     margin-top: 10px;
-    /* display: flex;
-    flex-direction: row; */
 }
 
 
@@ -151,7 +142,6 @@ span {
 .spot-review {
     margin-top: 10px;
     margin-bottom: 30px;
-    /* border: 1px solid black; */
 }
 
 .review-user-name {
@@ -182,7 +172,6 @@ span {
 }
 
 #all-reviews-div {
-    /* border: 1px solid blue; */
     margin-bottom: 20px;
 }
 

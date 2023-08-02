@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import ProfileButton from './ProfileButton'
@@ -7,9 +7,6 @@ import Hamburger from './Hamburger'
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user)
-
-    // const [visibility, setVisibility] = useState('hidden')
-    // const [disable, setDisable] = useState(true)
 
     let createSpotButton;
 
@@ -21,7 +18,7 @@ function Navigation({ isLoaded }) {
             </NavLink>
         </div>
         )
-        // setDisable(false)
+
     } else {
         createSpotButton = (<></>)
     }
@@ -32,9 +29,7 @@ function Navigation({ isLoaded }) {
                 <NavLink exact to='/'><img id='logo-img' src="https://i.ibb.co/35K9CmV/logo.png" alt="logo" border="0"/></NavLink>
                 <h1 id='logo-text'>lairbnb</h1>
             </div>
-            {/* <div className='home-navlink-div'>
-                <NavLink exact to='/'>Home</NavLink>
-            </div> */}
+
             {isLoaded && (
                 <>
                 {createSpotButton}

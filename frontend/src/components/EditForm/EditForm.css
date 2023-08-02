@@ -1,5 +1,4 @@
 #create-spot-form-parent-div {
-    /* border: 1px solid black; */
     width: 350px;
     text-align: center;
 }
@@ -31,16 +30,11 @@
     margin-bottom: 15px;
 }
 
-/* label {
-    border: 1px solid red;
-} */
-
 #city-state-labels {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-top: 5px;
-    /* margin-bottom: 2px; */
 }
 
 #form-country-input, #form-street-address-input, #city-input, #state-input, #lat-input, #lng-input {
@@ -69,7 +63,6 @@
 }
 
 #state-label {
-    /* margin-right: 120px; */
     text-align: left;
     width: 33%;
 }
@@ -81,36 +74,23 @@
     margin-top: 5px;
 }
 #country-label {
-    /* border: 1px solid red; */
     width: 225px;
     text-align: left;
 }
 
 #section-one-country, #section-one-streetAddress {
     width: 346px;
-    /* border: 1px solid purple; */
     display: flex;
     justify-content: flex-start;
     margin-top: 5px;
 }
 
 
-
-/* #lat-input {
-    border: 1px solid purple;
-}
-
-#lng-input {
-    border: 1px solid red;
-} */
-
 #lat-lng-labels {
     width: 350px;
-    /* border: 1px solid black; */
 }
 
 #lng-label {
-    /* border: 1px solid red; */
     text-align: left;
     width: 42%;
 }
@@ -145,14 +125,12 @@
 
 #spot-name-input {
     width: 344px;
-    /* height: 100px; */
     margin-bottom: 15px;
     background-color: #e8f0fe;
 }
 
 #spot-price-input {
     width: 330px;
-    /* height: 100px; */
     margin-bottom: 15px;
     background-color: #e8f0fe;
 }

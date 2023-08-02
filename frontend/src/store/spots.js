@@ -91,10 +91,8 @@ export const fetchSpots = () => async (dispatch) => {
     const response = await fetch('/api/spots')
     if(response.ok) {
         const data = await response.json()
-        // console.log('data from fetch: ', data)
         dispatch(getSpots(data))
     }
-    // console.log('response not ok')
     return response;
 }
 

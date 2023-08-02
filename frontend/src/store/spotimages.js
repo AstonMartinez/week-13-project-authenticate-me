@@ -1,7 +1,6 @@
 import { csrfFetch } from './csrf'
 
 const CREATE_IMAGE = 'spots/createImage'
-// const UPDATE_IMAGE = 'spots/updateImage'
 const GET_SPOT_IMAGES = 'spots/getImages'
 
 const getImages = (data) => {
@@ -18,13 +17,6 @@ const createImage = (data) => {
     }
 }
 
-// const updateImage = (data) => {
-//     return {
-//         type: UPDATE_IMAGE,
-//         payload: data,
-//     }
-// }
-
 export const fetchSpotImages = (id) => async (dispatch) => {
     const response = await fetch(`/api/spots/${id}/images`)
     if(response.ok) {
@@ -33,10 +25,6 @@ export const fetchSpotImages = (id) => async (dispatch) => {
     }
     return response;
 }
-
-// export const updateSpotImage = (id, data) => async (dispatch) => {
-//     const req = await csrfFetch(`/api/spots/${id}`)
-// }
 
 export const createNewImage = (id, data) => async (dispatch) => {
     const req = await csrfFetch(`/api/spots/${id}/images`, {

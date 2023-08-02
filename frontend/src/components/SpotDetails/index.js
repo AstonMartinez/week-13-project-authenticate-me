@@ -12,7 +12,6 @@ function SpotDetails() {
     const { spotId } = useParams()
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
-    const [haveReviews, setHaveReviews] = useState(false)
 
     let spotReviews
 
@@ -37,24 +36,15 @@ function SpotDetails() {
         sortedReviews = spotReviews.toSorted(reviewCompare)
     }
 
-    // console.log('sorted?: ', sortedReviews)
-
     const ownerId = spot.ownerId
-    // console.log(typeof spotId)
-
-    // const spotReviews =
-    // console.log(reviews)
-    // console.log('spot info: ', spot)
-    // const spotReviews = reviews.reviews.Reviews
-    // console.log('spot reviews: ', spotReviews)
 
 
     useEffect(() => {
         dispatch(spotActions.fetchSingleSpot(spotId)).then(setHaveSpot(true))
-    }, [dispatch])
+    }, [dispatch, spotId])
 
     useEffect(() => {
-        dispatch(reviewActions.getReviewsBySpotId(spotId)).then(setHaveReviews(true))
+        dispatch(reviewActions.getReviewsBySpotId(spotId))
     }, [dispatch, spotId, spotReviews])
 
 

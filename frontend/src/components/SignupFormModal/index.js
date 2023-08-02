@@ -13,12 +13,8 @@ function SignupFormModal() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errors, setErrors] = useState({})
-    // const [disableSubmit, setDisableSubmit] = useState(true)
+
     const { closeModal } = useModal()
-
-    // if(email.length > 0 && username.length >= 4 && firstName.length > 0 && lastName.length > 0 && password.length >= 6) {
-
-    // }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -36,7 +32,6 @@ function SignupFormModal() {
             .then(closeModal)
             .catch(async (res) => {
                 const data = await res.json()
-                // console.log(data)
                 if (data && data.errors) {
                     setErrors(data.errors)
                 }

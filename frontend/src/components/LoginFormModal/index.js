@@ -1,20 +1,15 @@
 import React, { useState } from 'react'
 import * as sessionActions from '../../store/session'
 import { useDispatch } from 'react-redux'
-// import { Redirect } from 'react-router-dom'
 import { useModal } from '../../context/Modal.js'
 import './LoginForm.css'
 
 function LoginFormModal() {
     const dispatch = useDispatch()
-    // const sessionUser = useSelector((state) => state.session.user)
     const [credential, setCredential] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState({})
     const { closeModal } = useModal()
-    const [disableSubmit, setDisableSubmit] = useState(false)
-
-    // if (sessionUser) return <Redirect to='/' />
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -25,7 +20,6 @@ function LoginFormModal() {
             const data = await res.json()
             if(data && data.message) {
                 setErrors(data)
-                setDisableSubmit(true)
             }
         })
     }

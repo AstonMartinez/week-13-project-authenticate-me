@@ -12,14 +12,10 @@
 
 #confirm-delete-p-text {
     font-family: 'Montserrat', sans-serif;
-    /* text-align: center; */
 }
 
 #delete-review-yes-button-div, #delete-review-no-button-div {
-    /* margin-right: 15px;
-    margin-left: 15px; */
     margin-bottom: 10px;
-    /* border: 1px solid red; */
 }
 
 #delete-review-confirm-yes-button, #delete-review-no-button-div {
