@@ -10,6 +10,7 @@
 #manage-spots-title-text {
     justify-self: flex-start;
     font-family: 'Montserrat', sans-serif;
+    margin-left: 40px;
 }
 
 #manage-spots-show-parent-div {
@@ -42,6 +43,7 @@
     background-color: #666666;
     color: white;
     font-family: 'Montserrat', sans-serif;
+    margin-left: 40px;
 }
 
 #spacer-div {
