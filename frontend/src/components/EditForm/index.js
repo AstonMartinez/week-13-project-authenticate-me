@@ -223,7 +223,7 @@ function EditForm() {
                     />
                     {errors.price && <p>{errors.price}</p>}
                 </div>
-                <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && latitude.length > 0 && longitude.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Update Spot</button>
+                <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && latitude.length > 0 && longitude.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Update Your Spot</button>
                 {errors.user && <p>{errors.user}</p>}
             </form>
         </div>

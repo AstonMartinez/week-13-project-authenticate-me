@@ -41,11 +41,9 @@ function SpotDetails() {
 
     useEffect(() => {
         dispatch(spotActions.fetchSingleSpot(spotId)).then(setHaveSpot(true))
-    }, [dispatch, spotId])
-
-    useEffect(() => {
         dispatch(reviewActions.getReviewsBySpotId(spotId))
     }, [dispatch, spotId, spotReviews])
+
 
 
     let rating;
@@ -144,10 +142,18 @@ function SpotDetails() {
                         <img id='preview-image-main' src={imgOne} alt='test spot preview' />
                     </div>
                     <div id='other-spot-images'>
-                        {imgTwo && <img className='other-spot-img' src={imgTwo} alt='preview two'/>}
-                        {imgThree && <img className='other-spot-img' src={imgThree} alt='preview three'/>}
-                        {imgFour && <img className='other-spot-img' src={imgFour} alt='preview four'/>}
-                        {imgFive && <img className='other-spot-img' src={imgFive} alt='preview five'/>}
+                        <div id='optional-img-one'>
+                            {imgTwo && <img className='other-spot-img' src={imgTwo} alt='preview two'/>}
+                        </div>
+                        <div id='optional-img-two'>
+                            {imgThree && <img className='other-spot-img' src={imgThree} alt='preview three'/>}
+                        </div>
+                        <div id='optional-img-three'>
+                            {imgFour && <img className='other-spot-img' src={imgFour} alt='preview four'/>}
+                        </div>
+                        <div id='optional-img-four'>
+                            {imgFive && <img id='optional-img-four' className='other-spot-img' src={imgFive} alt='preview five'/>}
+                        </div>
                     </div>
                 </div>
                 <div id='hosted-by-and-description'>
@@ -165,7 +171,7 @@ function SpotDetails() {
                             </div>
                         </div>
                         <div id='reserve-button'>
-                            <button id='reserve-button-inner'>Reserve</button>
+                            <button id='reserve-button-inner' onClick={() => alert('Feature coming soon.')}>Reserve</button>
                         </div>
                     </div>
                 </div>

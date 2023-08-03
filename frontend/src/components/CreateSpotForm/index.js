@@ -167,7 +167,6 @@ function CreateSpotForm() {
                             onChange={(e) => setLatitude(e.target.value)}
                             placeholder='Latitude'
                             id='lat-input'
-                            required
                             />
                         {errors.lat && <p>{errors.lat}</p>}
                         <span className='comma-span'> , </span>
@@ -179,7 +178,6 @@ function CreateSpotForm() {
                             onChange={(e) => setLongitude(e.target.value)}
                             placeholder='Longitude'
                             id='lng-input'
-                            required
                             />
                         </label>
                         {errors.lng && <p>{errors.lng}</p>}
@@ -284,7 +282,7 @@ function CreateSpotForm() {
                         </div>
                     </div>
                 </div>
-                <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && latitude.length > 0 && longitude.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0 && previewImage.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Create Spot</button>
+                <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0 && previewImage.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Create Spot</button>
                 {errors.user && <p>{errors.user}</p>}
             </form>
         </div>

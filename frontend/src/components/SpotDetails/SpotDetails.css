@@ -29,6 +29,7 @@ body {
     height: 195px;
     width: 250px;
     margin: 2px;
+    justify-self: flex-start;
 }
 
 #title-div {
@@ -48,9 +49,20 @@ body {
     margin-right: 10px;
 }
 
-#other-spot-imgs {
+#other-spot-images {
     display: flex;
     flex-flow: row wrap;
+    justify-content: flex-start;
+    width: 1100px;
+}
+
+#optional-img-one {
+    justify-self: flex-start;
+    height: 198px;
+}
+
+#optional-img-two, #optional-img-three, #optional-img-four {
+    height: 198px;
 }
 
 #hosted-by-and-description {
