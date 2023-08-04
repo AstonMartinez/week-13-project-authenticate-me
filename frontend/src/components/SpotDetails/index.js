@@ -7,8 +7,8 @@ import './SpotDetails.css'
 import OpenModalButton from '../OpenModalButton'
 import ReviewModal from '../ReviewModal/index.js'
 import DeleteReviewModal from '../DeleteReviewModal/index.js'
-import { NavLink } from 'react-router-dom'
-import Booking from '../Booking Component/index.js'
+// import { NavLink } from 'react-router-dom'
+// import Booking from '../Booking Component/index.js'
 
 function SpotDetails() {
     const { spotId } = useParams()
