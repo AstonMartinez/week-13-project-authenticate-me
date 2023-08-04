@@ -8,13 +8,13 @@ import OpenModalButton from '../OpenModalButton'
 import ReviewModal from '../ReviewModal/index.js'
 import DeleteReviewModal from '../DeleteReviewModal/index.js'
 // import { NavLink } from 'react-router-dom'
-// import Booking from '../Booking Component/index.js'
+// import Booking from '../BookingComponent/index.js'
 
 function SpotDetails() {
     const { spotId } = useParams()
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
-    const [bookingActive, setBookingActive] = useState(false)
+    // const [bookingActive, setBookingActive] = useState(false)
 
     let spotReviews
 
@@ -62,7 +62,7 @@ function SpotDetails() {
     let reviewButton;
     if(haveSpot) {
         if(spot.avgRating === 'NaN') {
-            rating = 'New'
+            rating = '·  New'
             spotReviews = ''
             sortedReviews = ''
             if(sessionUser.id !== ownerId) {

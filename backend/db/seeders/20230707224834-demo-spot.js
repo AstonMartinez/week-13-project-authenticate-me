@@ -141,7 +141,7 @@ module.exports = {
       lat: 45.7645358,
       lng: -300.4730327,
       name: "Draculas Hideout",
-      description: "A castle with questionable history. Dont worry, we replaced all the with tile that wont stain.",
+      description: "A castle with questionable history. Dont worry, we replaced all the flooring with tile that wont stain.",
       price: 666
     }
    ], { validate: true });

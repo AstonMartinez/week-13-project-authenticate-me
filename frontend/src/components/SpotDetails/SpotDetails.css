@@ -11,7 +11,7 @@ body {
 
 #spot-details-parent-div {
     z-index: 0;
-    margin-top: 60px;
+    margin-top: 30px;
     left: 40px;
     right: 40px;
     overflow-y: scroll;
@@ -185,7 +185,9 @@ span {
 }
 
 #all-reviews-div {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    height: fit-content;
+    /* border: 1px solid red; */
 }
 
 .modal-buttons {
@@ -194,4 +196,8 @@ span {
     background-color: #666666;
     width: 130px;
     height: 30px;
+}
+
+#star-favicon {
+    margin-right: 5px;
 }

@@ -8,10 +8,26 @@ function EditForm() {
     const { spotId } = useParams()
     const allSpots = useSelector(state => state.spots.allSpots)
     const dispatch = useDispatch()
+    const [priceError, setPriceError] = useState('')
 
     let spots;
     let userSpots;
     let currSpot;
+    let nameErrorText;
+
+    const reset = () => {
+        setCountry('')
+        setStreetAddress('')
+        setCity('')
+        setAddressState('')
+        setLatitude('')
+        setLongitude('')
+        setDescription('')
+        setSpotName('')
+        setPrice('')
+        setErrors({})
+        setPriceError('')
+    }
 
     if(Object.values(allSpots).length) {
         spots = Object.values(allSpots)
@@ -47,7 +63,13 @@ function EditForm() {
     const handleSubmit = (e) => {
         e.preventDefault()
         setErrors({})
+
         if(sessionUser && currSpot !== {}) {
+            if(spotName.length >= 50) {
+                nameErrorText = 'Name must be less than 50 characters'
+            } else {
+                nameErrorText = ''
+            }
             const editedSpot = {
                 country: country,
                 address: streetAddress,
@@ -58,24 +80,20 @@ function EditForm() {
                 description: description,
                 name: spotName,
                 price: price,
-                ownerId: sessionUser.id,
+                ownerId: sessionUser.id
             }
 
-
             dispatch(spotActions.updateSpot(spotId, editedSpot)).then(() => {
+                reset()
                 history.push(`/spots/${spotId}`)
-            }).catch(async res => {
+            })
+            .catch(async res => {
                 const data = await res.json()
-                if(data) {
-                    if(data.errors) {
-                        setErrors(data.errors)
-                    }
-                    if(data.message) {
-                        setErrors(data.message)
-                    }
+                if(data && data.errors) {
+                    setErrors(data)
+                    console.log(errors)
                 }
             })
-
 
         } else {
             setErrors({ user: 'You must be logged in to update a spot!'})
@@ -84,6 +102,43 @@ function EditForm() {
 
 
     }
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault()
+    //     setErrors({})
+    //     if(sessionUser && currSpot !== {}) {
+    //         const editedSpot = {
+    //             country: country,
+    //             address: streetAddress,
+    //             city: city,
+    //             state: addressState,
+    //             lat: latitude,
+    //             lng: longitude,
+    //             description: description,
+    //             name: spotName,
+    //             price: price,
+    //             ownerId: sessionUser.id,
+    //         }
+
+
+    //         dispatch(spotActions.updateSpot(spotId, editedSpot)).then(() => {
+    //             history.push(`/spots/${spotId}`)
+    //         })
+    //         .catch(async res => {
+    //             const data = await res.json()
+    //             if(data && data.errors) {
+    //                 setErrors(data)
+    //             }
+    //         })
+
+
+    //     } else {
+    //         setErrors({ user: 'You must be logged in to update a spot!'})
+    //     }
+
+
+
+    // }
 
 
     return (
@@ -105,22 +160,23 @@ function EditForm() {
                         placeholder='Country'
                         id='form-country-input'
                         />
-                        {errors.country && <p>{errors.country}</p>}
+                    {errors?.errors?.country ? <p className='create-form-errors-text'>{errors?.errors?.country}</p> : ''}
                     </div>
                     <div id='section-one-streetAddress'>
                         <label htmlFor='street-address'>Street Address</label>
 
                     </div>
                     <div>
-                            <input
-                            type='text'
-                            name='street-address'
-                            value={streetAddress}
-                            onChange={(e) => setStreetAddress(e.target.value)}
-                            placeholder='Address'
-                            id='form-street-address-input'
-                            />
-                            {errors.address && <p>{errors.address}</p>}
+                        <input
+                        type='text'
+                        name='street-address'
+                        value={streetAddress}
+                        onChange={(e) => setStreetAddress(e.target.value)}
+                        placeholder='Address'
+                        id='form-street-address-input'
+                        />
+                        {errors?.errors?.address ? <p className='create-form-errors-text'>{errors?.errors?.address}</p> : ''}
+
                     </div>
                     <div>
                         <div id='city-state-labels'>
@@ -137,7 +193,7 @@ function EditForm() {
                             id='city-input'
                             required
                             />
-                        {errors.city && <p>{errors.city}</p>}
+                            {errors?.errors?.city ? <p className='create-form-errors-text'>{errors?.errors?.city}</p> : ''}
                         <span className='comma-span'> , </span>
                         <input
                             type='text'
@@ -148,7 +204,7 @@ function EditForm() {
                             id='state-input'
                             required
                             />
-                        {errors.state && <p>{errors.state}</p>}
+                            {errors?.errors?.state ? <p className='create-form-errors-text'>{errors?.errors?.state}</p> : ''}
                     </div>
 
                         </div>
@@ -164,9 +220,7 @@ function EditForm() {
                             onChange={(e) => setLatitude(e.target.value)}
                             placeholder='Latitude'
                             id='lat-input'
-                            required
                             />
-                        {errors.lat && <p>{errors.lat}</p>}
                         <span className='comma-span'> , </span>
                         <label htmlFor='longitude'>
                         <input
@@ -176,10 +230,12 @@ function EditForm() {
                             onChange={(e) => setLongitude(e.target.value)}
                             placeholder='Longitude'
                             id='lng-input'
-                            required
                             />
                         </label>
-                        {errors.lng && <p>{errors.lng}</p>}
+                        {errors?.errors?.lat ?  <p className='create-form-errors-text'>{errors?.errors?.lat}</p> : ''}
+                        {parseInt(latitude) === 'NaN' ? <p className='create-form-errors-text'>Latitude is not valid.</p>  : ''}
+                        {errors?.errors?.lng ?  <p className='create-form-errors-text'>{errors?.errors?.lng}</p> : ''}
+                        {parseInt(longitude) === 'NaN' ? <p className='create-form-errors-text'>Longitude is not valid.</p> : ''}
                     </div>
                 </div>
                 <div id='form-section-two'>
@@ -193,7 +249,7 @@ function EditForm() {
                     onChange={(e) => setDescription(e.target.value)}
                     id='form-description-input'
                     />
-                    {errors.description && <p>{errors.description}</p>}
+                    {errors?.errors?.description ? <p className='create-form-errors-text'>{errors?.errors?.description}</p> : ''}
                 </div>
                 <div id='form-section-three'>
                     <h2 className='form-section-header-text'>Create a title for your spot</h2>
@@ -207,7 +263,8 @@ function EditForm() {
                     id='spot-name-input'
                     required
                     />
-                    {errors.name && <p>{errors.name}</p>}
+                    {nameErrorText}
+                    {errors?.errors?.name ? <p className='create-form-errors-text'>{errors?.errors?.name}</p> : ''}
                 </div>
                 <div id='form-section-four'>
                     <h2 className='form-section-header-text'>Set a base price for your spot</h2>
@@ -221,9 +278,11 @@ function EditForm() {
                     id='spot-price-input'
                     required
                     />
-                    {errors.price && <p>{errors.price}</p>}
+                    {/* {errors?.errors?.price ? <p className='create-form-errors-text'>{errors?.errors?.price}</p> : ''} */}
+                    {errors?.errors?.price ? <p className='create-form-errors-text'>{errors?.errors?.price}</p> : ''}
+                    {priceError}
                 </div>
-                <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && latitude.length > 0 && longitude.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Update Your Spot</button>
+                <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Update Your Spot</button>
                 {errors.user && <p>{errors.user}</p>}
             </form>
         </div>
