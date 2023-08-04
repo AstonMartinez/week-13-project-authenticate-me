@@ -1,0 +1,12 @@
+#booking-header-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#bookng-component-parent-div {
+    background-color: white;
+    margin-top: 50px;
+    border: 1px solid black;
+}

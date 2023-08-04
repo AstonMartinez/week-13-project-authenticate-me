@@ -7,11 +7,14 @@ import './SpotDetails.css'
 import OpenModalButton from '../OpenModalButton'
 import ReviewModal from '../ReviewModal/index.js'
 import DeleteReviewModal from '../DeleteReviewModal/index.js'
+import { NavLink } from 'react-router-dom'
+import Booking from '../Booking Component/index.js'
 
 function SpotDetails() {
     const { spotId } = useParams()
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
+    const [bookingActive, setBookingActive] = useState(false)
 
     let spotReviews
 
@@ -171,8 +174,18 @@ function SpotDetails() {
                             </div>
                         </div>
                         <div id='reserve-button'>
-                            <button id='reserve-button-inner' onClick={() => alert('Feature coming soon.')}>Reserve</button>
+                            <button id='reserve-button-inner'
+                            // onClick={() => bookingActive ? setBookingActive(false) : setBookingActive(true)}
+                            onClick={() => alert('Feature coming soon.')}
+                            >Reserve</button>
                         </div>
+                        {/* <div id='booking-component-container'>
+                                {bookingActive && (
+                                    <div>
+                                        <Booking />
+                                    </div>
+                                )}
+                        </div> */}
                     </div>
                 </div>
                 <div id='all-reviews-div'>
