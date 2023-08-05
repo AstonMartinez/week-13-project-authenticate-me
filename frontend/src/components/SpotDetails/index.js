@@ -62,7 +62,7 @@ function SpotDetails() {
     let reviewButton;
     if(haveSpot) {
         if(spot.avgRating === 'NaN') {
-            rating = '·  New'
+            rating = 'New'
             spotReviews = ''
             sortedReviews = ''
             if(sessionUser.id !== ownerId) {

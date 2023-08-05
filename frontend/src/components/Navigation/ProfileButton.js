@@ -6,6 +6,7 @@ import LoginFormModal from '../LoginFormModal'
 import SignupFormModal from '../SignupFormModal'
 import './ProfileButton.css'
 import { NavLink, useHistory } from 'react-router-dom'
+import Hamburger from './Hamburger'
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch()
@@ -41,7 +42,10 @@ function ProfileButton({ user }) {
     return (
         <div>
             <button onClick={openMenu} className='profile-icon-button'>
+            <div className='hamburger-div'>
+                        <Hamburger />
                 <i className="fa-solid fa-circle-user fa-xl" style={{color: "#000000"}}></i>
+            </div>
             </button>
             <ul className={ulClassName} ref={ulRef}>
                 {user ? (

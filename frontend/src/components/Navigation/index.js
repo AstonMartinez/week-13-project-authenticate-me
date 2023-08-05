@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import ProfileButton from './ProfileButton'
 import './Navigation.css'
-import Hamburger from './Hamburger'
+// import Hamburger from './Hamburger'
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user)
@@ -27,7 +27,9 @@ function Navigation({ isLoaded }) {
         <div id='parent-nav-div'>
             <div id='logo-div'>
                 <NavLink exact to='/'><img id='logo-img' src="https://i.ibb.co/35K9CmV/logo.png" alt="logo" border="0"/></NavLink>
-                <h1 id='logo-text'>lairbnb</h1>
+                <NavLink exact to='/'>
+                    <h1 id='logo-text'>lairbnb</h1>
+                </NavLink>
             </div>
 
             {isLoaded && (
@@ -35,9 +37,9 @@ function Navigation({ isLoaded }) {
                 {createSpotButton}
                 <div id='left-half-nav'>
                 <div className='nav-container' >
-                    <div className='hamburger-div'>
+                    {/* <div className='hamburger-div'>
                         <Hamburger />
-                    </div>
+                    </div> */}
                     <div className='profile-button-div'>
                         <ProfileButton user={sessionUser}/>
                     </div>
