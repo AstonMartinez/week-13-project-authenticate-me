@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import * as spotActions from '../../store/spots.js'
 import * as reviewActions from '../../store/reviews'
 import { useEffect, useState } from 'react'
@@ -12,6 +12,9 @@ function SpotDetails() {
     const { spotId } = useParams()
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
+    const [havePics, setHavePics] = useState(false)
+    const history = useHistory()
+
 
     // const [bookingActive, setBookingActive] = useState(false)
 
@@ -21,6 +24,11 @@ function SpotDetails() {
     const reviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user)
     const allSpots = useSelector(state => state.spots.allSpots)
+
+    // console.log('history: ', history)
+    // if(!spot.SpotImages) {
+    //     history.push(`/api/spots/${spotId}`)
+    // }
 
     spotReviews = reviews.reviews.Reviews
 
@@ -48,8 +56,17 @@ function SpotDetails() {
     useEffect(() => {
         dispatch(spotActions.fetchSingleSpot(spotId)).then(setHaveSpot(true))
         dispatch(reviewActions.getReviewsBySpotId(spotId))
+        if(!spot.SpotImages) {
+            setHavePics(false)
+        } else {
+            setHavePics(true)
+        }
         // dispatch(spotActions.fetchSpots())
     }, [dispatch, spotId, spotReviews])
+
+    // if(!spot.SpotImages) {
+    //     dispatch(spotActions.fetchSingleSpot(spotId).then(setHaveSpot(true)))
+    // }
 
     let rating;
     let spotImgs;
