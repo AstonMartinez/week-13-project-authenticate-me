@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import * as spotActions from '../../store/spots.js'
 import * as reviewActions from '../../store/reviews'
-import * as spotImageActions from '../../store/spotimages'
+// import * as spotImageActions from '../../store/spotimages'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './SpotDetails.css'
@@ -24,7 +24,7 @@ function SpotDetails() {
     const spot = useSelector(state => state.spots.singleSpot)
     const reviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user)
-    const allSpots = useSelector(state => state.spots.allSpots)
+    // const allSpots = useSelector(state => state.spots.allSpots)
     // const currSpotImgs = useSelector(state => state.Spot.spotImgs)
     // console.log(currSpotImgs)
 
