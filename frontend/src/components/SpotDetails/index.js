@@ -67,7 +67,7 @@ function SpotDetails() {
             setHavePics(true)
         }
         // dispatch(spotActions.fetchSpots())
-    }, [dispatch, spotId, spotReviews])
+    }, [dispatch, spotId, spotReviews, spot?.SpotImages])
 
     // if(!spot.SpotImages) {
     //     dispatch(spotActions.fetchSingleSpot(spotId).then(setHaveSpot(true)))
@@ -120,35 +120,55 @@ function SpotDetails() {
             }
         }
         spotImgs = spot.SpotImages
-        if(havePics) {
+        // const spotImgs = []
+        // if(havePics) {
 
-            if(allSpots) {
-                const currSpot = allSpots?.Spots?.find(currSpot => currSpot.name === spot.name)
-                // console.log(currSpot)
-                if(currSpot) {
-                    imgOne = currSpot.previewImage
-                    // console.log('this is image one: ', imgOne)
-                    for(let i = 0; i < spotImgs?.length; i++) {
-                        if(spotImgs[i].url === imgOne) {
-                            spotImgs.splice(i, 1)
-                            // console.log('splices pic arr: ', spotImgs)
-                        }
-                    }
-                    if(spotImgs && spotImgs[0]) {
-                        imgTwo = spotImgs[0].url
+        //     if(allSpots) {
+        //         const currSpot = allSpots?.Spots?.find(currSpot => currSpot.name === spot.name)
+        //         // console.log(currSpot)
+        //         if(currSpot) {
+        //             imgOne = currSpot?.previewImage
+        //             // console.log('this is image one: ', imgOne)
+        //             for(let i = 0; i < spotImgs?.length; i++) {
+        //                 if(spotImgs[i]?.url !== imgOne) {
+        //                     spotImgs.push(spotImgs[i])
+        //                     // console.log('splices pic arr: ', spotImgs)
+        //                     // console.log(spotImgs)
+        //                 }
+        //             }
+        //             if(spotImgs && spotImgs[0]) {
+        //                 imgTwo = spotImgs[0]?.url
+        //             }
+        //             if(spotImgs && spotImgs[1]) {
+        //                 imgThree = spotImgs[1]?.url
+        //             }
+        //             if(spotImgs&& spotImgs[2]) {
+        //                 imgFour = spotImgs[2]?.url
+        //             }
+        //             if(spotImgs && spotImgs[3]) {
+        //                 imgFive = spotImgs[3]?.url
+        //             }
+        //         }
+        //     }
+        //     // else {
+        //         else {
+                    if(spotImgs && spotImgs[0]?.url) {
+                        imgOne = spotImgs[0].url
                     }
                     if(spotImgs && spotImgs[1]) {
-                        imgThree = spotImgs[1].url
+                        imgTwo = spotImgs[1]?.url
                     }
-                    if(spotImgs&& spotImgs[2]) {
-                        imgFour = spotImgs[2].url
+                    if(spotImgs && spotImgs[2]) {
+                        imgThree = spotImgs[2]?.url
                     }
                     if(spotImgs && spotImgs[3]) {
-                        imgFive = spotImgs[3].url
+                        imgFour = spotImgs[3]?.url
                     }
-                }
-            }
-            // else {
+                    if(spotImgs && spotImgs[4]) {
+                        imgFive = spotImgs[4]?.url
+                    }
+                // }
+            // }
             //     if(spotImgs && spotImgs[0].url) {
             //         imgOne = spotImgs[0].url
             //     }
@@ -164,24 +184,7 @@ function SpotDetails() {
             //     if(spotImgs && spotImgs[4]) {
             //         imgFive = spotImgs[4].url
             //     }
-        }
-        else {
-            if(spotImgs && spotImgs[0].url) {
-                imgOne = spotImgs[0].url
-            }
-            if(spotImgs && spotImgs[1]) {
-                imgTwo = spotImgs[1].url
-            }
-            if(spotImgs && spotImgs[2]) {
-                imgThree = spotImgs[2].url
-            }
-            if(spotImgs && spotImgs[3]) {
-                imgFour = spotImgs[3].url
-            }
-            if(spotImgs && spotImgs[4]) {
-                imgFive = spotImgs[4].url
-            }
-        }
+        // }
 
 
 
