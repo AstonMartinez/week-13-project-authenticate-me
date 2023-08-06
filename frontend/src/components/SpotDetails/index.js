@@ -1,4 +1,4 @@
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import * as spotActions from '../../store/spots.js'
 import * as reviewActions from '../../store/reviews'
 import { useEffect, useState } from 'react'
@@ -13,7 +13,7 @@ function SpotDetails() {
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
     const [havePics, setHavePics] = useState(false)
-    const history = useHistory()
+    // const history = useHistory()
 
 
     // const [bookingActive, setBookingActive] = useState(false)
@@ -62,7 +62,7 @@ function SpotDetails() {
             setHavePics(true)
         }
         // dispatch(spotActions.fetchSpots())
-    }, [dispatch, spotId, spotReviews])
+    }, [dispatch, spotId, spotReviews, havePics, spot.SpotImages])
 
     // if(!spot.SpotImages) {
     //     dispatch(spotActions.fetchSingleSpot(spotId).then(setHaveSpot(true)))
