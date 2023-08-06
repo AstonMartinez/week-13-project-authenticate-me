@@ -30,10 +30,13 @@ const validateBody = [
     check('city').exists({ checkFalsy: true }).notEmpty().withMessage('City is required'),
     check('state').exists({ checkFalsy: true }).notEmpty().withMessage('State is required'),
     check('country').exists({ checkFalsy: true }).notEmpty().withMessage('Country is required'),
-    check('lat').exists({ checkFalsy: true }).notEmpty().isDecimal().withMessage('Latitude is not valid'),
-    check('lng').exists({ checkFalsy: true }).notEmpty().isDecimal().withMessage('Longitude is not valid'),
+    // check('lat').exists({ checkFalsy: true }).notEmpty().isDecimal().withMessage('Latitude is not valid'),
+    // check('lat').isDecimal().withMessage('Latitude is not valid'),
+    // check('lng').exists({ checkFalsy: true }).notEmpty().isDecimal().withMessage('Longitude is not valid'),
+    // check('lng').isDecimal().withMessage('Longitude is not valid'),
     check('name').exists({ checkFalsy: true }).notEmpty().isLength({ max: 50 }).withMessage('Name must be less than 50 characters'),
-    check('description').exists({ checkFalsy: true }).notEmpty().withMessage('Description is required'),
+    check('description').exists({ checkFalsy: true }).notEmpty().isLength({ min: 30 }).withMessage('Description is required'),
+    check('description').isLength({ min: 30 }).withMessage('Please write 30 characters or more.'),
     check('price').exists({ checkFalsy: true }).notEmpty().withMessage('Price per day is required'),
     handleValidationErrors
 ];
@@ -436,7 +439,13 @@ router.post('/', validateBody, async (req, res) => {
             name: name,
             description: description,
             price: price
+            // previewImage: previewImage
         })
+
+        // const spotPrevImg = await SpotImage.create({
+        //     url: previewImage,
+        //     preview: true
+        // })
 
         res.status(201)
         res.json(newSpot)
@@ -486,7 +495,8 @@ router.get('/current', async (req, res) => {
 
             const image = await SpotImage.findOne({
                 where: {
-                    spotId: spot.id
+                    spotId: spot.id,
+                    preview: true
                 }
             })
             if(image) {
@@ -528,6 +538,14 @@ router.get('/:id', async (req, res) => {
         sum += spotReviews[i].dataValues.stars
     }
     spot.dataValues.avgRating = (sum / spotReviews.length).toFixed(2)
+    // const previewImage = await SpotImage.findOne({
+    //     where: {
+    //         spotId: spot.id,
+    //         preview: true
+    //     }
+    // })
+
+    // spot.dataValues.previewImage = previewImage
 
     // const spotImages = await spot.getSpotImages()
     const spotImages = await SpotImage.findAll(
@@ -537,12 +555,13 @@ router.get('/:id', async (req, res) => {
         }
     })
 
-    // if(spotImages) {
+
+    if(spotImages) {
         spot.dataValues.SpotImages = spotImages
-    // }
-    // else {
-    //     spot.dataValues.SpotImages = null
-    // }
+    }
+    else {
+        spot.dataValues.SpotImages = null
+    }
 
 
     const spotOwner = await User.scope({ method: ['getSpotOwner', spot.ownerId] }).findOne({

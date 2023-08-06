@@ -59,6 +59,7 @@ module.exports = {
       name: "Castle Dour",
       description: "A seaside castle with beautiful sunsets and gloomy, rainy days.",
       price: 500
+      // previewImage: "https://images.pexels.com/photos/14043487/pexels-photo-14043487.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
     },
     {
       ownerId: user2.id,
@@ -71,6 +72,7 @@ module.exports = {
       name: "Minimalist Clubhouse",
       description: "A calming paradise that's just the right size.",
       price: 150
+      // previewImage: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     },
     {
       ownerId: user2.id,
@@ -83,6 +85,7 @@ module.exports = {
       name: "Castle Volkihar",
       description: "May or may not be inhabited by vampires.",
       price: 600
+      // previewImage: 'https://images.pexels.com/photos/145847/pexels-photo-145847.jpeg?auto=compress&cs=tinysrgb&w=1200'
     },
     {
       ownerId: user3.id,
@@ -95,6 +98,7 @@ module.exports = {
       name: "Scenic Refurbished Castle",
       description: "The perfect place for both eccentric villainy and harmless seclusion.",
       price: 800
+      // previewImage: 'https://images.pexels.com/photos/34223/mont-saint-michel-france-normandy-europe.jpg?auto=compress&cs=tinysrgb&w=1200'
     },
     {
       ownerId: user4.id,
@@ -107,6 +111,7 @@ module.exports = {
       name: "Dallas Art Palace",
       description: "A spacious home with a built-in art gallery.",
       price: 300
+      // previewImage: 'https://images.pexels.com/photos/5563472/pexels-photo-5563472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     },
     {
       ownerId: user4.id,
@@ -119,6 +124,7 @@ module.exports = {
       name: "Lakeside Cabin",
       description: "A luxurious cabin miles from any disturbances. Has access to a dock with multiple kayaks for guests to use.",
       price: 300
+      // previewImage: 'https://images.pexels.com/photos/1612351/pexels-photo-1612351.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     },
     {
       ownerId: user5.id,
@@ -131,6 +137,7 @@ module.exports = {
       name: "Countryside Spa Getaway",
       description: "A beautiful getaway in the middle of nowhere. Includes a spa area, outdoor courtyard, and a four-wheeler for outdoor exploration.",
       price: 123
+      // previewImage: 'https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     },
     {
       ownerId: user6.id,
@@ -143,6 +150,7 @@ module.exports = {
       name: "Draculas Hideout",
       description: "A castle with questionable history. Dont worry, we replaced all the flooring with tile that wont stain.",
       price: 666
+      // previewImage: 'https://images.pexels.com/photos/819806/pexels-photo-819806.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     }
    ], { validate: true });
   },

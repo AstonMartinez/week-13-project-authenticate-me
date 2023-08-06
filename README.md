@@ -12,8 +12,6 @@ This project was created as a portfolio project to demonstrate my proficiency as
 * Redux
 
 ## How to Launch Locally
-1. Once you've downloaded or cloned the GitHub repo, cd into the backend in your terminal.
-2. Run ```npm start```
-3. Cd into the front end.
-4. Run ```npm start``` once again. This should also automatically open the project in your browser, but if it doesn't, navigate to
-   http://localhost:3000/
+1. Once you've downloaded or cloned the GitHub repo, run ``npm install`` in the root directory
+2. cd into the backend and run ``npm install``, then ``npm start``.
+3. cd into the frontend and run ``npm install``, then ``npm start``. This should also automatically open the project in your browser, but if it doesn't, navigate to http://localhost:3000/
