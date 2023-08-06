@@ -60,6 +60,7 @@
     display: flex;
     justify-content: space-between;
     width: 350px;
+    margin-bottom: 10px;
 }
 
 #state-label {

@@ -91,7 +91,6 @@ function EditForm() {
                 const data = await res.json()
                 if(data && data.errors) {
                     setErrors(data)
-                    console.log(errors)
                 }
             })
 
@@ -191,7 +190,7 @@ function EditForm() {
                             onChange={(e) => setCity(e.target.value)}
                             placeholder='City'
                             id='city-input'
-                            required
+                            // required
                             />
                             {errors?.errors?.city ? <p className='create-form-errors-text'>{errors?.errors?.city}</p> : ''}
                         <span className='comma-span'> , </span>
@@ -202,13 +201,13 @@ function EditForm() {
                             onChange={(e) => setAddressState(e.target.value)}
                             placeholder='STATE'
                             id='state-input'
-                            required
+                            // required
                             />
                             {errors?.errors?.state ? <p className='create-form-errors-text'>{errors?.errors?.state}</p> : ''}
                     </div>
 
                         </div>
-                    <div id='lat-lng-div'>
+                    {/* <div id='lat-lng-div'>
                         <div id='lat-lng-labels'>
                         <label id='lat-label' htmlFor='latitude'>Latitude</label>
                         <label id='lng-label' htmlFor='longitude'>Longitude</label>
@@ -236,7 +235,7 @@ function EditForm() {
                         {parseInt(latitude) === 'NaN' ? <p className='create-form-errors-text'>Latitude is not valid.</p>  : ''}
                         {errors?.errors?.lng ?  <p className='create-form-errors-text'>{errors?.errors?.lng}</p> : ''}
                         {parseInt(longitude) === 'NaN' ? <p className='create-form-errors-text'>Longitude is not valid.</p> : ''}
-                    </div>
+                    </div> */}
                 </div>
                 <div id='form-section-two'>
                     <h2 className='form-section-header-text'>Describe your place to guests</h2>
@@ -261,7 +260,7 @@ function EditForm() {
                     value={spotName}
                     onChange={(e) => setSpotName(e.target.value)}
                     id='spot-name-input'
-                    required
+                    // required
                     />
                     {nameErrorText}
                     {errors?.errors?.name ? <p className='create-form-errors-text'>{errors?.errors?.name}</p> : ''}
@@ -276,7 +275,7 @@ function EditForm() {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     id='spot-price-input'
-                    required
+                    // required
                     />
                     {/* {errors?.errors?.price ? <p className='create-form-errors-text'>{errors?.errors?.price}</p> : ''} */}
                     {errors?.errors?.price ? <p className='create-form-errors-text'>{errors?.errors?.price}</p> : ''}

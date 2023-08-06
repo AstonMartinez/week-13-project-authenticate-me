@@ -9,7 +9,7 @@ body {
     box-sizing: border-box;
     flex-direction: column;
     width: 300px;
-    height: 400px;
+    height: fit-content;
     border: 2px solid black;
     border-radius: 10px;
 }
@@ -40,6 +40,7 @@ body {
     display: flex;
     margin: 0 auto;
     flex-flow: column;
+    margin-bottom: 15px;
 }
 
 #signup-submit-button {
@@ -57,4 +58,7 @@ body {
 #email-errors-display, #username-errors-display, #firstName-errors-display, #lastName-errors-display, #password-errors-display, #confirmPassword-errors-display {
     color: red;
     font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
 }

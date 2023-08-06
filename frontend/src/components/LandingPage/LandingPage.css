@@ -17,7 +17,8 @@ body {
 #landing-page-parent-div {
     margin-top: 40px;
     position: fixed;
-    width: 100%;
+    /* width: 100%; */
+    /* max-width: 1024px; */
     /* height: fit-content; */
     box-sizing: border-box;
     display: flex;
@@ -35,4 +36,5 @@ body {
     display: flex;
     flex-flow: row wrap;
     overflow-y: scroll;
+    max-width: 1024px;
 }

@@ -1,5 +1,5 @@
 import Calendar from 'react-calendar'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import './Booking.css'
 // import OpenModalButton from '../OpenModalButton'
 
@@ -10,8 +10,7 @@ function Booking() {
     const [endDate, setEndDate] = useState(new Date())
 
     const ulRef = useRef()
-    // console.log(startDate)
-    // console.log(endDate)
+
 
     const calendarClassName = "calendar-dropdown" + (showCalMenuOne ? "" : "-hidden")
 

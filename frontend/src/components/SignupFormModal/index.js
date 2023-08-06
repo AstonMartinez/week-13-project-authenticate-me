@@ -56,8 +56,10 @@ function SignupFormModal() {
                         required
                         placeholder='Email'
                     />
-                    {errors.email && <p id='email-errors-display'>{errors.email}</p>}
                 </div>
+                    <div>
+                        {errors.email && <p id='email-errors-display'>{errors.email}</p>}
+                    </div>
                 <div id='username-div'>
                     <input
                         id='username-input-field'
@@ -67,6 +69,8 @@ function SignupFormModal() {
                         required
                         placeholder='Username'
                     />
+                </div>
+                <div>
                     {errors.username && <p id='username-errors-display'>{errors.username}</p>}
                 </div>
                 <div id='firstName-div'>
@@ -78,6 +82,8 @@ function SignupFormModal() {
                         required
                         placeholder='First Name'
                     />
+                </div>
+                <div>
                     {errors.firstName && <p id='firstName-errors-display'>{errors.firstName}</p>}
                 </div>
                 <div id='lastName-div'>
@@ -89,6 +95,8 @@ function SignupFormModal() {
                         placeholder='Last Name'
                         required
                     />
+                </div>
+                <div>
                     {errors.lastName && <p id='lastName-errors-display'>{errors.lastName}</p>}
                 </div>
                 <div id='password-div'>
@@ -100,6 +108,8 @@ function SignupFormModal() {
                         required
                         placeholder='Password'
                     />
+                </div>
+                <div>
                     {errors.password && <p id='password-errors-display'>{errors.password}</p>}
                 </div>
                 <div id='confirmPassword-div'>
@@ -111,6 +121,8 @@ function SignupFormModal() {
                         required
                         placeholder='Confirm Password'
                     />
+                </div>
+                <div>
                     {errors.confirmPassword && <p id='confirmPassword-errors-display'>{errors.confirmPassword}</p>}
                 </div>
                 <div id='signup-button-div'>

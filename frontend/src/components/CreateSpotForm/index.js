@@ -10,8 +10,8 @@ function CreateSpotForm() {
     const [streetAddress, setStreetAddress] = useState('')
     const [city, setCity] = useState('')
     const [addressState, setAddressState] = useState('')
-    const [latitude, setLatitude] = useState('')
-    const [longitude, setLongitude] = useState('')
+    // const [latitude, setLatitude] = useState('')
+    // const [longitude, setLongitude] = useState('')
     const [description, setDescription] = useState('')
     const [spotName, setSpotName] = useState('')
     const [price, setPrice] = useState('')
@@ -32,8 +32,8 @@ function CreateSpotForm() {
         setStreetAddress('')
         setCity('')
         setAddressState('')
-        setLatitude('')
-        setLongitude('')
+        // setLatitude('')
+        // setLongitude('')
         setDescription('')
         setSpotName('')
         setPrice('')
@@ -50,40 +50,45 @@ function CreateSpotForm() {
         e.preventDefault()
         setErrors({})
 
+        const spotImgs = []
+        spotImgs.push({ url: previewImage, preview: true })
+
+        if(imgTwo.length > 1) {
+            spotImgs.push({ url: imgTwo, preview: false })
+        }
+
+        if(imgThree.length > 1) {
+            spotImgs.push({ url: imgThree, preview: false })
+        }
+
+        if(imgFour.length > 1) {
+            spotImgs.push({ url: imgFour, preview: false })
+        }
+
+        if(imgFive.length > 1) {
+            spotImgs.push({ url: imgFive, preview: false })
+        }
+
+        let spotId
+
         if(sessionUser) {
             const newSpot = {
                 country: country,
                 address: streetAddress,
                 city: city,
                 state: addressState,
-                lat: latitude,
-                lng: longitude,
+                // lat: latitude,
+                // lng: longitude,
                 description: description,
                 name: spotName,
                 price: price,
-                ownerId: sessionUser.id
+                ownerId: sessionUser.id,
+                // previewImage: previewImage
             }
 
 
-            const spotImgs = [{ url: previewImage, preview: true }]
+            // const spotImgs = [{ url: previewImage, preview: true }]
 
-            if(imgTwo.length > 1) {
-                spotImgs.push({ url: imgTwo, preview: false })
-            }
-
-            if(imgThree.length > 1) {
-                spotImgs.push({ url: imgThree, preview: false })
-            }
-
-            if(imgFour.length > 1) {
-                spotImgs.push({ url: imgFour, preview: false })
-            }
-
-            if(imgFive.length > 1) {
-                spotImgs.push({ url: imgFive, preview: false })
-            }
-
-            let spotId
 
             dispatch(spotActions.createNewSpot(newSpot)).then( async res => {
                 spotId = res.id
@@ -143,7 +148,7 @@ function CreateSpotForm() {
                             />
                         {errors?.errors?.address ? <p className='create-form-errors-text'>{errors?.errors?.address}</p> : ''}
                     </div>
-                    <div>
+                    <div id='city-and-state-parent-div'>
                         <div id='city-state-labels'>
                         <label id='city-label' htmlFor='city'>City</label>
                         <label id='state-label' htmlFor='state'>State</label>
@@ -156,7 +161,7 @@ function CreateSpotForm() {
                             onChange={(e) => setCity(e.target.value)}
                             placeholder='City'
                             id='city-input'
-                            required
+                            // required
                             />
                         {errors?.errors?.city ? <p className='create-form-errors-text'>{errors?.errors?.city}</p> : ''}
                         <span className='comma-span'> , </span>
@@ -167,13 +172,13 @@ function CreateSpotForm() {
                             onChange={(e) => setAddressState(e.target.value)}
                             placeholder='STATE'
                             id='state-input'
-                            required
+                            // required
                             />
                         {errors?.errors?.state ? <p className='create-form-errors-text'>{errors?.errors?.state}</p> : ''}
                     </div>
 
                         </div>
-                    <div id='lat-lng-div'>
+                    {/* <div id='lat-lng-div'>
                         <div id='lat-lng-labels'>
                         <label id='lat-label' htmlFor='latitude'>Latitude</label>
                         <label id='lng-label' htmlFor='longitude'>Longitude</label>
@@ -201,7 +206,7 @@ function CreateSpotForm() {
                         {parseInt(latitude) === 'NaN' ? <p className='create-form-errors-text'>Latitude is not valid.</p>  : ''}
                         {errors?.errors?.lng ?  <p className='create-form-errors-text'>{errors?.errors?.lng}</p> : ''}
                         {parseInt(longitude) === 'NaN' ? <p className='create-form-errors-text'>Longitude is not valid.</p> : ''}
-                    </div>
+                    </div> */}
                 </div>
                 <div id='form-section-two'>
                     <h2 className='form-section-header-text'>Describe your place to guests</h2>
@@ -215,6 +220,8 @@ function CreateSpotForm() {
                     id='form-description-input'
                     />
                     {errors?.errors?.description ? <p className='create-form-errors-text'>{errors?.errors?.description}</p> : ''}
+                    {/* {description.length < 30 ? <p>Please write at least 30 characters.</p> : ''} */}
+                    {/* {descriptionError} */}
                 </div>
                 <div id='form-section-three'>
                     <h2 className='form-section-header-text'>Create a title for your spot</h2>
@@ -226,7 +233,7 @@ function CreateSpotForm() {
                     value={spotName}
                     onChange={(e) => setSpotName(e.target.value)}
                     id='spot-name-input'
-                    required
+                    // required
                     />
                     {errors?.errors?.name ? <p className='create-form-errors-text'>{errors?.errors?.name}</p> : ''}
                 </div>
@@ -240,7 +247,7 @@ function CreateSpotForm() {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     id='spot-price-input'
-                    required
+                    // required
                     />
                     {errors?.errors?.price ? <p className='create-form-errors-text'>{errors?.errors?.price}</p> : ''}
                     {priceError}
@@ -257,7 +264,7 @@ function CreateSpotForm() {
                             value={previewImage}
                             onChange={(e) => setPreviewImage(e.target.value)}
                             className='form-preview-img-input'
-                            required
+                            // required
                             />
                         </div>
                         <div>
@@ -303,7 +310,8 @@ function CreateSpotForm() {
                         </div>
                     </div>
                 </div>
-                <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0 && previewImage.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Create Spot</button>
+                {/* <button disabled={(country.length > 0 && streetAddress.length > 0 && city.length > 0 && addressState.length > 0 && description.length > 0 && spotName.length > 0 && price.length > 0 && previewImage.length > 0) ? false : true} id='new-spot-form-submit-button' type='submit'>Create Spot</button> */}
+                <button id='new-spot-form-submit-button' type='submit'>Create Spot</button>
             </form>
         </div>
     )

@@ -7,13 +7,12 @@ import './SpotDetails.css'
 import OpenModalButton from '../OpenModalButton'
 import ReviewModal from '../ReviewModal/index.js'
 import DeleteReviewModal from '../DeleteReviewModal/index.js'
-// import { NavLink } from 'react-router-dom'
-// import Booking from '../BookingComponent/index.js'
 
 function SpotDetails() {
     const { spotId } = useParams()
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
+
     // const [bookingActive, setBookingActive] = useState(false)
 
     let spotReviews
@@ -21,7 +20,11 @@ function SpotDetails() {
     const spot = useSelector(state => state.spots.singleSpot)
     const reviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user)
+    const allSpots = useSelector(state => state.spots.allSpots)
+
     spotReviews = reviews.reviews.Reviews
+
+
 
     const reviewCompare = (a, b) => {
         if(a.updatedAt > b.updatedAt) {
@@ -45,9 +48,8 @@ function SpotDetails() {
     useEffect(() => {
         dispatch(spotActions.fetchSingleSpot(spotId)).then(setHaveSpot(true))
         dispatch(reviewActions.getReviewsBySpotId(spotId))
+        // dispatch(spotActions.fetchSpots())
     }, [dispatch, spotId, spotReviews])
-
-
 
     let rating;
     let spotImgs;
@@ -61,11 +63,11 @@ function SpotDetails() {
     let numberReviews;
     let reviewButton;
     if(haveSpot) {
-        if(spot.avgRating === 'NaN') {
+        if(spot?.avgRating === 'NaN') {
             rating = 'New'
             spotReviews = ''
             sortedReviews = ''
-            if(sessionUser.id !== ownerId) {
+            if(sessionUser?.id !== ownerId) {
                 reviewButton = (
                     <div id='review-button-parent-div'>
                         <OpenModalButton
@@ -97,22 +99,69 @@ function SpotDetails() {
         }
         spotImgs = spot.SpotImages
 
-        if(spotImgs && spotImgs[0]) {
-            imgOne = spotImgs[0].url
+        if(allSpots) {
+            const currSpot = allSpots?.Spots?.find(currSpot => currSpot.name === spot.name)
+            // console.log(currSpot)
+            if(currSpot) {
+                imgOne = currSpot.previewImage
+                console.log('this is image one: ', imgOne)
+                for(let i = 0; i < spotImgs?.length; i++) {
+                    if(spotImgs[i].url === imgOne) {
+                        spotImgs.splice(i, 1)
+                        // console.log('splices pic arr: ', spotImgs)
+                    }
+                }
+                if(spotImgs && spotImgs[0]) {
+                    imgTwo = spotImgs[0].url
+                }
+                if(spotImgs && spotImgs[1]) {
+                    imgThree = spotImgs[1].url
+                }
+                if(spotImgs&& spotImgs[2]) {
+                    imgFour = spotImgs[2].url
+                }
+                if(spotImgs && spotImgs[3]) {
+                    imgFive = spotImgs[3].url
+                }
+            }
+        } else {
+            if(spotImgs && spotImgs[0].url) {
+                imgOne = spotImgs[0].url
+            }
+            if(spotImgs && spotImgs[1]) {
+                imgTwo = spotImgs[1].url
+            }
+            if(spotImgs && spotImgs[2]) {
+                imgThree = spotImgs[2].url
+            }
+            if(spotImgs && spotImgs[3]) {
+                imgFour = spotImgs[3].url
+            }
+            if(spotImgs && spotImgs[4]) {
+                imgFive = spotImgs[4].url
+            }
         }
 
-        if(spotImgs && spotImgs[1]) {
-            imgTwo = spotImgs[1].url
-        }
-        if(spotImgs && spotImgs[2]) {
-            imgThree = spotImgs[2].url
-        }
-        if(spotImgs&& spotImgs[3]) {
-            imgFour = spotImgs[3].url
-        }
-        if(spotImgs && spotImgs[4]) {
-            imgFive = spotImgs[4].url
-        }
+
+
+        // if(spotImgs && spotImgs[0]) {
+        //     imgOne = spotImgs[0].url
+
+        // }
+
+
+        // if(spotImgs && spotImgs[0]) {
+        //     imgTwo = spotImgs[0].url
+        // }
+        // if(spotImgs && spotImgs[1]) {
+        //     imgThree = spotImgs[1].url
+        // }
+        // if(spotImgs&& spotImgs[2]) {
+        //     imgFour = spotImgs[2].url
+        // }
+        // if(spotImgs && spotImgs[3]) {
+        //     imgFive = spotImgs[3].url
+        // }
 
         ownerFirstName = spot.Owner?.firstName
         ownerLastName = spot.Owner?.lastName
