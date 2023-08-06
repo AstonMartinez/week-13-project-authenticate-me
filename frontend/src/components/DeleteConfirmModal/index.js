@@ -10,7 +10,8 @@ function DeleteConfirmModal({ spot }) {
 
     const handleDelete  = (e) => {
         e.preventDefault()
-        return dispatch(spotActions.deleteUserSpot(spot.id, spot)).then(closeModal)
+        dispatch(spotActions.deleteUserSpot(spot.id, spot)).then(closeModal)
+
     }
 
     return(
