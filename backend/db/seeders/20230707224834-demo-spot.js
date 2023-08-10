@@ -58,7 +58,8 @@ module.exports = {
       lng: -122.4730327,
       name: "Castle Dour",
       description: "A seaside castle with beautiful sunsets and gloomy, rainy days.",
-      price: 500
+      price: 500,
+      tags: 'castle'
       // previewImage: "https://images.pexels.com/photos/14043487/pexels-photo-14043487.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
     },
     {
@@ -71,7 +72,8 @@ module.exports = {
       lng: -321.4730327,
       name: "Minimalist Clubhouse",
       description: "A calming paradise that's just the right size.",
-      price: 150
+      price: 150,
+      tags: 'trending'
       // previewImage: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     },
     {
@@ -84,7 +86,8 @@ module.exports = {
       lng: -321.4730327,
       name: "Castle Volkihar",
       description: "May or may not be inhabited by vampires.",
-      price: 600
+      price: 600,
+      tags: 'castle'
       // previewImage: 'https://images.pexels.com/photos/145847/pexels-photo-145847.jpeg?auto=compress&cs=tinysrgb&w=1200'
     },
     {
@@ -97,7 +100,8 @@ module.exports = {
       lng: -400.4730327,
       name: "Scenic Refurbished Castle",
       description: "The perfect place for both eccentric villainy and harmless seclusion.",
-      price: 800
+      price: 800,
+      tags: 'castle'
       // previewImage: 'https://images.pexels.com/photos/34223/mont-saint-michel-france-normandy-europe.jpg?auto=compress&cs=tinysrgb&w=1200'
     },
     {
@@ -110,7 +114,8 @@ module.exports = {
       lng: -700.4730327,
       name: "Dallas Art Palace",
       description: "A spacious home with a built-in art gallery.",
-      price: 300
+      price: 300,
+      tags: '[great views, iconic cities'
       // previewImage: 'https://images.pexels.com/photos/5563472/pexels-photo-5563472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     },
     {
@@ -123,7 +128,8 @@ module.exports = {
       lng: -700.4730327,
       name: "Lakeside Cabin",
       description: "A luxurious cabin miles from any disturbances. Has access to a dock with multiple kayaks for guests to use.",
-      price: 300
+      price: 300,
+      tags: 'cabin'
       // previewImage: 'https://images.pexels.com/photos/1612351/pexels-photo-1612351.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     },
     {
@@ -136,7 +142,8 @@ module.exports = {
       lng: -300.4730327,
       name: "Countryside Spa Getaway",
       description: "A beautiful getaway in the middle of nowhere. Includes a spa area, outdoor courtyard, and a four-wheeler for outdoor exploration.",
-      price: 123
+      price: 123,
+      tags: 'countryside'
       // previewImage: 'https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     },
     {
@@ -149,7 +156,8 @@ module.exports = {
       lng: -300.4730327,
       name: "Draculas Hideout",
       description: "A castle with questionable history. Dont worry, we replaced all the flooring with tile that wont stain.",
-      price: 666
+      price: 666,
+      tags: 'castle'
       // previewImage: 'https://images.pexels.com/photos/819806/pexels-photo-819806.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
     }
    ], { validate: true });

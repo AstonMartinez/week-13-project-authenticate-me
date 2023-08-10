@@ -19,9 +19,9 @@ function ManageSpots() {
 
  return (
     <div id='manage-spots-parent-container'>
-                <h2 id='manage-spots-title-text'>Manage Your Spots</h2>
+                <h2 id='manage-spots-title-text'>Manage Your Lairs</h2>
                 <NavLink exact to='/spots/new'>
-                    <button id='manage-spots-create-new-button'>Create a New Spot</button>
+                    <button id='manage-spots-create-new-button'>Create a New Lair</button>
                 </NavLink>
         <div id='manage-spots-show-parent-div'>
             <div id='spot-card-show-div'>

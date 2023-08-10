@@ -65,7 +65,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     price: {
       type: DataTypes.DECIMAL
-    }
+    },
+    tags: {
+      type: DataTypes.STRING
+    },
     // previewImage: {
     //   allowNull: false,
     //   type: DataTypes.STRING

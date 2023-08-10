@@ -1,0 +1,28 @@
+#tag-not-found-text {
+    /* margin-top: 80px; */
+    /* border: 1px solid red; */
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    color: #FF5A5F;
+}
+
+#tag-not-found-div {
+    display: flex;
+    /* width: 100%; */
+    flex-direction: column;
+    align-content: center;
+    justify-items: center;
+    margin-top: 15px;
+    border-top: 1px solid #cfcfcf;
+    /* border: 1px solid purple; */
+}
+
+.fa-face-frown {
+    /* display: inline-block; */
+    /* border: 1px solid black; */
+    /* height: 400px;x/
+    width: 400px; */
+    margin: 0 auto;
+    /* margin-top: 280px; */
+    /* display: flex; */
+}

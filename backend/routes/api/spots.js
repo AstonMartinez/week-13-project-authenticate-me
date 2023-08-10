@@ -41,6 +41,59 @@ const validateBody = [
     handleValidationErrors
 ];
 
+router.get('/filtered/:tag', async (req, res) => {
+    const tag = req.params.tag
+    // console.log(tag)
+    const filteredSpots = await Spot.findAll({
+        where: {
+            tags: tag
+        }
+    })
+
+    if(!filteredSpots) {
+        res.status(404)
+        return res.json({ message: 'No spots of this type found' })
+    } else {
+        for (let spot of filteredSpots) {
+            const reviews = await spot.getReviews()
+            let sum = 0;
+            for(let i = 0; i < reviews.length; i++) {
+                sum += reviews[i].dataValues.stars
+            }
+
+            const avgRating = sum /reviews.length
+            // const avgRating = reviews[0].dataValues.stars / reviews.length
+            spot.dataValues.avgRating = avgRating.toFixed(2)
+
+            const image = await SpotImage.findOne({
+                where: {
+                    spotId: spot.id,
+                    preview: true
+                }
+            })
+
+            if(image) {
+                // let imgArr = []
+                // if(image.length > 1) {
+                //     for(let i = 0; i < image.length; i++) {
+                //         imgArr.push(image[i].dataValues.url)
+                //     }
+                //     spot.dataValues.previewImage =
+                // } else {
+
+                // }
+                // const allSpotImages = await SpotImage.findAll()
+
+            const imageUrl = image.dataValues.url
+            spot.dataValues.previewImage = imageUrl
+            } else {
+                spot.dataValues.previewImage = null
+            }
+        }
+        return res.json(filteredSpots)
+    }
+})
+
 router.get('/:id/bookings', async (req, res) => {
     if(req.user) {
         const spot = await Spot.findOne({
@@ -730,7 +783,6 @@ router.delete('/:id', async (req, res) => {
         res.json({ message: "Authentication required" })
     }
 })
-
 
 
 

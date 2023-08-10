@@ -6,6 +6,14 @@ const CREATE_SPOT = 'spots/createSpot'
 const GET_USER_SPOTS = 'spots/getUserSpots'
 const UPDATE_SPOT = 'spots/updateSingleSpot'
 const DELETE_SPOT = 'spots/deleteSpot'
+const GET_FILTERED_SPOTS = 'spots/filterSpots'
+
+const filterSpots = (spots) => {
+    return {
+        type: GET_FILTERED_SPOTS,
+        payload: spots,
+    }
+}
 
 const deleteSpot = (spot) => {
     return {
@@ -48,6 +56,15 @@ const getUserSpots = (data) => {
         type: GET_USER_SPOTS,
         payload: data,
     }
+}
+
+export const fetchFilteredSpots = (tag) => async (dispatch) => {
+    const response = await fetch(`/api/spots/filtered/${tag}`)
+    if(response.ok) {
+        const data = await response.json()
+        dispatch(filterSpots(data))
+    }
+    return response;
 }
 
 export const deleteUserSpot = (id, spot) => async (dispatch) => {
@@ -145,6 +162,10 @@ const spotsReducer = (state = initialState, action) => {
         case DELETE_SPOT:
             newState = Object.assign({ ...state })
             delete newState.allSpots[action.payload]
+            return newState;
+        case GET_FILTERED_SPOTS:
+            newState = Object.assign({ ...state })
+            newState.allSpots = action.payload
             return newState;
         default: return state
     }

@@ -24,7 +24,7 @@ body {
 
 .hamburger {
     width: 20px;
-    height: 20px;
+    height: 15px;
     display: flex;
     justify-content: space-around;
     flex-flow: column nowrap;
@@ -34,8 +34,8 @@ body {
 }
 
 .burger {
-    width: 30px;
-    height: 0.25rem;
+    width: 25px;
+    height: 0.15rem;
     border-radius: 10px;
     background-color: black;
     transform-origin: 1px;
@@ -90,7 +90,7 @@ ul > div, ul > button {
 }
 
 #parent-nav-div {
-    border-bottom: 2px solid #cfcfcf;
+    border-bottom: 1px solid #cfcfcf;
     height: 70px;
     position: fixed;
     display: flex;
@@ -144,4 +144,67 @@ a {
     margin-right: 10px;
     justify-items: flex-end;
     margin-top: 8px;
+}
+
+#filter-nav-bar-parent {
+    background-color: #fff;
+    /* border-top: 1px solid #ebebeb; */
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    justify-content: space-evenly;
+    margin-bottom: -10px;
+    opacity: .9;
+    padding-top: 5px;
+    position: sticky;
+    top: 60px;
+    z-index: 1;
+    /* margin-left: 10px; */
+    margin-top: 12px;
+}
+
+.filter-nav-bar-section {
+    margin: 10px 20px;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    /* justify-self: flex-start; */
+
+}
+
+.filter-icon {
+    height: 34px;
+    width: 34px;
+    /* border: 1px solid green; */
+}
+
+#beachfront-icon {
+    margin-left: 24px;
+    /* margin-right: 20px; */
+}
+
+#cabin-icon {
+    margin-left: 24px;
+}
+
+#castles-icon {
+    margin-left: 24px;
+}
+
+.filter-label {
+    display: flex;
+    justify-content: space-evenly;
+    width: 80px;
+}
+
+#great-views-icon {
+    margin-left: 24px;
+}
+
+#house-boats-icon {
+    margin-left: 24px;
+}
+
+#iconic-cities-icon, #lakehouse-icon, #mansion-icon, #treehouse-icon, #trending-icon {
+    margin-left: 24px;
 }
