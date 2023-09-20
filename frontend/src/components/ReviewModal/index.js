@@ -50,8 +50,8 @@ function ReviewModal({ spotId, onSubmit, onClose }) {
                     {errors.errors && <p>{errors.errors}</p>}
                     <form id='new-review-modal-form'>
                         <div id='review-textarea-div'>
-                            <input
-                            type='textarea'
+                            <textarea
+                            // type='textarea'
                             name='review'
                             id='review-textarea-input'
                             value={review}

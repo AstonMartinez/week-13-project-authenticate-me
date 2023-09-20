@@ -2,6 +2,14 @@ import { csrfFetch } from './csrf'
 const GET_REVIEWS_BY_SPOT = 'reviews/getReviewBySpot'
 const CREATE_REVIEWS = 'reviews/createReview'
 const DELETE_REVIEW = 'reviews/deleteReview'
+const UPDATE_REVIEW = 'reviews/updateReview'
+
+const updateReview = (data) => {
+    return {
+        type: UPDATE_REVIEW,
+        payload: data,
+    }
+}
 
 const deleteReview = (review) => {
     return {
@@ -22,6 +30,22 @@ const getReviewsBySpot = (data) => {
         type: GET_REVIEWS_BY_SPOT,
         payload: data,
     }
+}
+
+export const updateUserReview = (id, updatedReview) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${id}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedReview)
+    })
+
+    if(response.ok) {
+        dispatch(updateReview(updatedReview))
+    }
+
+    return response;
 }
 
 export const deleteUserReview = (id, review) => async (dispatch) => {

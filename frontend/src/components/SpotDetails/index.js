@@ -8,6 +8,7 @@ import './SpotDetails.css'
 import OpenModalButton from '../OpenModalButton'
 import ReviewModal from '../ReviewModal/index.js'
 import DeleteReviewModal from '../DeleteReviewModal/index.js'
+import UpdateReviewModal from '../DeleteReviewModal/UpdateReviewModal.js'
 
 function SpotDetails() {
     const { spotId } = useParams()
@@ -303,6 +304,24 @@ function SpotDetails() {
                             setModalType(null)
                             setSelectedReview(null)
                             console.log("SUBMITTING")
+                        }}
+                    />)}
+
+                    {showModal && modalType === "update" && (
+                    <UpdateReviewModal
+                        spotId={spotId}
+                        currReview={selectedReview}
+                        onClose={() => {
+                            setShowModal(false)
+                            setModalType(null)
+                            setSelectedReview(null)
+                            // console.log("CLOSING")
+                        }}
+                        onSubmit={() => {
+                            setShowModal(false)
+                            setModalType(null)
+                            setSelectedReview(null)
+                            // console.log("SUBMITTING")
                         }}
                     />)}
                 </>
