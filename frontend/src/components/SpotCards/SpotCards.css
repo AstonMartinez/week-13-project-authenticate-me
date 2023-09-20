@@ -19,9 +19,10 @@
 }
 
 @media screen and (max-width: 1024px) {
-    img {
-        height: 160px;
-        width: 208px;
+    .spot-card-img-elem {
+        /* border: 1px solid green; */
+        height: 190px;
+        width: 210px;
         border-radius: 10px;
         margin-top: 0;
         justify-self: flex-start;
@@ -31,7 +32,9 @@
         display: flex;
         flex-flow: row nowrap;
         justify-items: space-between;
-        height: 65px;
+        height: 80px;
+        width: 210px;
+        /* border: 1px solid red; */
     }
 
     #city-state-text {
@@ -44,26 +47,75 @@
     #price-text {
         color: black;
         font-size: 14px;
-        width: 120%;
+        width: 100%;
         margin-top: 0px;
+        /* border: 1px solid green; */
     }
 
     #rating-icon-div {
         margin-left: 0px;
         font-size: 14px;
-        width: 58%;
+        width: 80px;
         display: flex;
-        justify-content: flex-end;
+        /* justify-content: fl/ex-start; */
         margin-right: 0;
         margin-top: 4px;
         color: black;
+        /* border: 1px solid blue; */
     }
 }
+
+/* @media screen and (min-width: 1025px) {
+    .spot-card-img-elem {
+        height: 180px;
+        width: 200px;
+        border-radius: 10px;
+        margin-top: 0;
+        justify-self: flex-start;
+        border: 1px solid blue;
+    }
+
+    #spot-info-div {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-items: space-between;
+        height: 65px;
+        width: 268px;
+        /* border: 1px solid red; */
+    /* }
+
+    #city-state-text {
+        font-size: 12px;
+        color: black;
+        width: 155px;
+        margin-top: 5px;
+    }
+
+    #price-text {
+        color: black;
+        font-size: 14px;
+        width: 100%;
+        margin-top: 0px;
+        border: 1px solid green;
+    }
+
+    #rating-icon-div {
+        /* margin-left: 60px;
+        font-size: 14px;
+        width: 80px;
+        /* display: flex; */
+        /* justify-content: flex-end;
+        margin-right: 0;
+        margin-top: 4px;
+        color: black;
+        border: 1px solid orange;
+    }
+} */
 
 @media screen and (min-width: 1025px) {
-    img {
-        height: 220px;
-        width: 268px;
+    .spot-card-img-elem {
+        height: 215px;
+        width: 280px;
         border-radius: 10px;
         margin-top: 0;
         justify-self: flex-start;
@@ -74,6 +126,8 @@
         flex-flow: row nowrap;
         justify-items: space-between;
         height: 65px;
+        width: 280px;
+        /* border: 1px solid blue; */
     }
 
     #city-state-text {
@@ -86,12 +140,13 @@
     #price-text {
         color: black;
         font-size: 14px;
-        width: 120%;
+        width: 100%;
         margin-top: 0px;
+        /* border: 1px solid green; */
     }
 
     #rating-icon-div {
-        margin-left: 60px;
+        margin-left: 75px;
         font-size: 14px;
         width: 58%;
         display: flex;
@@ -99,48 +154,7 @@
         margin-right: 0;
         margin-top: 4px;
         color: black;
-    }
-}
-
-@media screen and (max-width: 1150px) {
-    img {
-        height: 220px;
-        width: 268px;
-        border-radius: 10px;
-        margin-top: 0;
-        justify-self: flex-start;
-    }
-
-    #spot-info-div {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-items: space-between;
-        height: 65px;
-    }
-
-    #city-state-text {
-        font-size: 12px;
-        color: black;
-        width: 155px;
-        margin-top: 5px;
-    }
-
-    #price-text {
-        color: black;
-        font-size: 14px;
-        width: 120%;
-        margin-top: 0px;
-    }
-
-    #rating-icon-div {
-        margin-left: 60px;
-        font-size: 14px;
-        width: 58%;
-        display: flex;
-        justify-content: flex-end;
-        margin-right: 0;
-        margin-top: 4px;
-        color: black;
+        /* border: 1px solid orange; */
     }
 }
 

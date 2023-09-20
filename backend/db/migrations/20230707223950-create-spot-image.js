@@ -22,6 +22,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      key: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       preview: {
         allowNull: false,
         type: Sequelize.BOOLEAN

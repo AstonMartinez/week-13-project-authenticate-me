@@ -15,6 +15,7 @@ function SpotCard({ spot, user }) {
         rating = spot.avgRating
     }
 
+    console.log("PREVIEW IMAGE: ", spot.previewImage)
     let manageButtons;
 
     if(user) {
@@ -45,7 +46,7 @@ function SpotCard({ spot, user }) {
         >
             <span className={`tooltip-span-${tooltipVisibility}`}>{spot.name}</span>
             <div id='prev-img-tab'>
-                {spot.previewImage && <img src={spot.previewImage} alt={spot.name} />}
+                {spot.previewImage && <img className='spot-card-img-elem' src={spot.previewImage} alt={spot.name} />}
 
             </div>
             <div id='spot-info-div'>

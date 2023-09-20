@@ -11,6 +11,8 @@ import EditForm from './components/EditForm'
 import FilteredSpotComponent from './components/FilteredSpotComponent'
 import FilterBar from './components/FilterBar'
 import * as spotActions from './store/spots'
+import BookingPage from './components/BookingPage'
+
 // import spot from '../../backend/db/models/spot'
 
 function App() {
@@ -35,6 +37,9 @@ function App() {
           <FilterBar />
           <LandingPage />
         </Route>
+        {/* <Route exact path='/spots/:id/booking'>
+          <BookingPage />
+        </Route> */}
         <Route exact path='/spots/new'>
           <CreateSpotForm />
         </Route>
@@ -45,14 +50,15 @@ function App() {
           <FilterBar />
           <EditForm />
         </Route>
-        <Route exact path='/spots/filtered/:tag'>
+        {/* <Route exact path='/spots/filtered/:tag'>
           <FilterBar />
           <FilteredSpotComponent />
-        </Route>
+        </Route> */}
         <Route path='/spots/:spotId'>
           <FilterBar />
           <SpotDetails />
         </Route>
+
       </Switch>}
     </>
   )

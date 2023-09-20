@@ -10,8 +10,8 @@ function LandingPage() {
     const allSpots = useSelector(state => state.spots.allSpots)
     const [isLoaded, setIsLoaded] = useState(false)
     useEffect(() => {
-        dispatch(spotActions.fetchSpots()).then(() => setIsLoaded(true))
-    }, [dispatch, allSpots])
+        dispatch(spotActions.fetchSpots())
+    }, [dispatch])
     // const lpSpotData = Object.values(spotData)
     // const lpFinal = lpSpotData[0]
     let spots
@@ -27,7 +27,7 @@ function LandingPage() {
         return (
             <div id='landing-page-parent-div'>
                 <div id='spot-card-show-div'>
-                {isLoaded && final ? final?.map((spot) => (<SpotCard spot={spot} key={spot.id} />)) : (<div>Loading</div>)}
+                {final ? final?.map((spot) => (<SpotCard spot={spot} key={spot.id} />)) : (<div>Loading</div>)}
                     {/* placeholder */}
                 </div>
             </div>

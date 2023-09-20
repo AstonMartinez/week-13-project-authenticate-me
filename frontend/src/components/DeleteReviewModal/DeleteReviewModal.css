@@ -1,3 +1,9 @@
+#confirm-delete-modal-parent {
+    position: fixed;
+    left: 38%;
+    top: 33%;
+}
+
 #confirm-delete-review-modal-text {
     margin-left: 15px;
     margin-right: 15px;

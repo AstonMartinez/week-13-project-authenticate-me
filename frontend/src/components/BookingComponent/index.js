@@ -1,5 +1,5 @@
 import Calendar from 'react-calendar'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './Booking.css'
 // import OpenModalButton from '../OpenModalButton'
 
@@ -24,18 +24,18 @@ function Booking() {
         return setShowCalMenuTwo(true)
     }
 
-    // useEffect(() => {
-    //     if(!showCalMenuOne || !showCalMenuTwo) return
-    //     const closeMenu = (e) => {
-    //         if(!ulRef.current.contains(e.target)) {
-    //             setShowCalMenuOne(false)
-    //             setShowCalMenuTwo(false)
-    //         }
-    //     }
-    //     document.addEventListener('click', closeMenu)
+    useEffect(() => {
+        if(!showCalMenuOne || !showCalMenuTwo) return
+        const closeMenu = (e) => {
+            if(!ulRef.current.contains(e.target)) {
+                setShowCalMenuOne(false)
+                setShowCalMenuTwo(false)
+            }
+        }
+        document.addEventListener('click', closeMenu)
 
-    //     return () => document.removeEventListener('click', closeMenu)
-    // }, [showCalMenuOne, showCalMenuTwo])
+        return () => document.removeEventListener('click', closeMenu)
+    }, [showCalMenuOne, showCalMenuTwo])
 
     return(
         <div id='booking-component-parent-div'>

@@ -7,7 +7,10 @@ function FilterBar() {
     let content
     if(filterSet === 0) {
         content = (
-            <>
+            <div id='filter-set-ulti-cont'>
+                            <div id='angle-left-div' onClick={() => filterSet === 0 ? setFilterSet(1) : setFilterSet(0)}>
+                <i className="fa-solid fa-angle-left" style={{color: "#989998"}}/>
+            </div>
                 <div className='filter-nav-bar-section' id='beachfront' >
             <NavLink exact to='/spots/filtered/beachfront' >
                 <img className="filter-icon" id='beachfront-icon' alt='cabin' src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATgSURBVHgB7ZyBcds6DIb/13sD5E3wuEE9gt4EL53A6gTNBlEnqDuB3QnaDdQNmk4gb+B0Apc8W42iMyCCoiSaxneH61WhAYogQQiWCSiKoizGX7gdCiv3Vt5aWVm5O19/tvJk5aeVb1a+z6TnZnCDVVs5ekpjZT2hnpvBzUzJgPVla8VE1HNTGJxm4HGkNBH1GNwIbsbGGLTY0uBlv0gK1ymDeHxCeoPfyickRGFlY+WAeLHSYHgWfsBrOy6TKSFbNWP0LL4KCvCb2hhHbBi9G4/PVxge/LF6KixEAVk2EeKImtHly26gT2P11JgZg/nSuAOhYwV/CvCh5ytO+b0Z0LMidBy6jaZ8Enax7tHKA+Kws/LRyp5pUwmvd7k7t1vDP07vwPepEl6PhtugqNk4RtwMXCM+Y/o7VZ+CMJCFG3fTFU4zqRF8rka81PVRYJeTRyyMZBa1A99d6uZ8rRHoGBveYg3+ok5wg/gV4QPfx8AvHWxli7DVUAJBgzwksfY8Lwz8Z6wbKMlDiAGfEnalgcwJBuHlih8YnmSzPGzdwy/k1DildqEY+A3W4dwnH3bgnelSSOqhbuPRpwoTs4bfgMRcjpWHzSOGMxIDv5VUMm1aPZQTJl0FH+C3TA3iY+C3GjgnlMznTKfdHdOuHdwV02aSvWCN4Zv3qZWMpfLoB+UEKmHYXmjbEG27T9Y7gb5RGPAx3/2txHw8YDgEXipBUJtocaEt5ayy06YAH6qiYMAvfepmp2Y10C/3t34sHgorXaiNuOq0oULVAR78DT8q0DF9b+U/8DWaqXg6265xuX/u2tbKu861j4SuZ0L/Jf7tfY7SGYUS6c38Pq4PXHgsEMY9oa/GjDSQb3RLUIIPRSFQWc4PzESJZbMdKdw3Yv9DjkFch4qp4b+5pQD3RkRI2DBY0AEG1xF6+pSg+20gh9I1OSUWXn4joDbkkKfTSR3whvkbFTO/I32+ENff4ooYKrteozSQs9gKMMiP5BIHzgFJvsc4Euk9GeL6MyLxBgoH5TB1wExQDtgjEuoAHqrO9QuR4Kqh1FtzR2H7qZmyP4a4/oRI6ArgoZ4bZivGXWLSvDiAqfrDfSdsEAldATRU/N9DN+FZoN4x+omFuZUQ1CDRSnCsG05NTxfufR+DhbkFB+wInYtmPy234IAGiYYfR+4OKJFw+HHk7oCG0PcNiZCzA0pGX8hbFZNwvBIJoSF0NUiI1Ac+1AElo2uNhEh94EMd0GCB2R9Ssp3tN1AjcN9Y/YMrIKQW9Bnp8wWZ0z1mJiVpfwarKIqiKIqiJM3Yd2cKvJyjbPBSrp3qHOUic3uijtXwz88bjKunFJnb82buc5RztyfCYN5zlHO35017+mHM0oPTtZ7Z3kMi9l7BbcJbnDy5wnTVz3Yz25//bzK29x5CJEsuxnnMudsT46N046GnAkQ3nKs9MZwy6XFkQ2f7DEkO9sRQimqEnZBiEJbi5WJPTH9GOOUFxlPg9Orf0Olbudm7CJcFled/nxDxJzk9CpwykG4Wkqu9HRRFUdJCy9Fp2RN1TJLiNdBydBS0HB3XnggDLUfHtOeNlqPj2nuFlqO1HB20xLUcfZaNh54KEN1wrvbEcMq0HC23J4ZSVEPL0SH2xPRnhFNeYDwFtBz9By1HazlaURRFURRlAX4D28joVW4K/i8AAAAASUVORK5CYII=" />
@@ -33,7 +36,7 @@ function FilterBar() {
                     </div>
                 </div>
                 <div className='filter-nav-bar-section' id='great-views' >
-            <NavLink exact to='/spots/filtered/greatviews' >
+            <NavLink exact to='/spots/filtered/great-view' >
                     <img className="filter-icon" alt='great views icon' id='great-views-icon' src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg" />
             </NavLink>
                     <div className='filter-label' id='great-views-label'>
@@ -49,7 +52,7 @@ function FilterBar() {
                     </div>
                 </div>
                 <div className='filter-nav-bar-section' id='iconic-cities' >
-            <NavLink exact to='/spots/filtered/iconic-cities' >
+            <NavLink exact to='/spots/filtered/iconic-city' >
                     <img className="filter-icon" alt='iconic cities icon' id='iconic-cities-icon' src="https://a0.muscache.com/pictures/ed8b9e47-609b-44c2-9768-33e6a22eccb2.jpg" />
             </NavLink>
                     <div className='filter-label' id='iconic-cities-label'>
@@ -88,13 +91,19 @@ function FilterBar() {
                     Trending
                     </div>
                 </div>
-            </>
+                <div id='angle-right-div' onClick={() => filterSet === 0 ? setFilterSet(1) : setFilterSet(0)}>
+                <i className="fa-solid fa-angle-right" style={{color: "#989998"}}></i>
+            </div>
+            </div>
         )
     }
 
     if(filterSet === 1) {
         content = (
-            <>
+            <div id='filter-set-ulti-cont'>
+                            <div id='angle-left-div' onClick={() => filterSet === 0 ? setFilterSet(1) : setFilterSet(0)}>
+                <i className="fa-solid fa-angle-left" style={{color: "#989998"}}/>
+            </div>
                 <div className='filter-nav-bar-section-2' id='tiny-homes' >
                     <NavLink exact to='/spots/filtered/tiny-home'>
                         <img className="filter-icon-2" alt='tiny homes icon' id='tiny-homes-icon' src="https://a0.muscache.com/pictures/35919456-df89-4024-ad50-5fcb7a472df9.jpg" />
@@ -168,28 +177,31 @@ function FilterBar() {
                         </div>
                     </div>
                     <div className='filter-nav-bar-section-2' id='amazing-pools' >
-                <NavLink exact to='/spots/filtered/amazing-pool'>
-                        <img className="filter-icon-2" alt='amazing pools icon' id='amazing-pools-icon' src="https://a0.muscache.com/pictures/3fb523a0-b622-4368-8142-b5e03df7549b.jpg" />
-                </NavLink>
-                        <div className='filter-label-2' id='amazing-pools-label'>
-                        Amazing Pools
-                        </div>
+                        <NavLink exact to='/spots/filtered/amazing-pool'>
+                            <img className="filter-icon-2" alt='amazing pools icon' id='amazing-pools-icon' src="https://a0.muscache.com/pictures/3fb523a0-b622-4368-8142-b5e03df7549b.jpg" />
+                        </NavLink>
+                            <div className='filter-label-2' id='amazing-pools-label'>
+                                <spa className='filter-icon-inner-text'>Amazing Pools</spa>
+                            </div>
                     </div>
-            </>
+                <div id='angle-right-div' onClick={() => filterSet === 0 ? setFilterSet(1) : setFilterSet(0)}>
+                    <i className="fa-solid fa-angle-right" style={{color: "#989998"}}></i>
+                </div>
+            </div>
         )
     }
 
     return (
         <div id='filter-bar-angle-wrapper'>
-            <div id='angle-left-div' onClick={() => setFilterSet(0)}>
+            {/* <div id='angle-left-div' onClick={() => filterSet === 0 ? setFilterSet(1) : setFilterSet(0)}>
                 <i className="fa-solid fa-angle-left" style={{color: "#989998"}}/>
-            </div>
+            </div> */}
             <div id='filter-nav-bar-parent'>
                 {content}
             </div>
-            <div id='angle-right-div' onClick={() => setFilterSet(1)}>
+            {/* <div id='angle-right-div' onClick={() => filterSet === 0 ? setFilterSet(1) : setFilterSet(0)}>
                 <i class="fa-solid fa-angle-right" style={{color: "#989998"}}></i>
-            </div>
+            </div> */}
         </div>
     )
 }

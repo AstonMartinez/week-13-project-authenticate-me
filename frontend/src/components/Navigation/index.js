@@ -39,7 +39,7 @@ function Navigation({ isLoaded }) {
 
             {isLoaded && (
                 <>
-                {createSpotButton}
+                {/* {createSpotButton} */}
                 <div id='left-half-nav'>
                 <div className='nav-container' >
                     {/* <div className='hamburger-div'>

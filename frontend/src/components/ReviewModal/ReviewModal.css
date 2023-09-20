@@ -7,7 +7,11 @@
 
 #review-modal-form-div {
     border-radius: 15px;
-    background-color: transparent;
+    position: fixed;
+    top: 33%;
+    left: 38%;
+    z-index: 1000;
+    background-color: white;
     overflow: hidden;
     height: 300px;
     width: 300px;
@@ -19,6 +23,11 @@
 
 #review-modal-parent-div {
     background-color: transparent;
+    /* position: fixed; */
+    /* top: 33%;
+    left: 38%; */
+    /* height: 300px;
+    width: 300px; */
 }
 
 #review-textarea-input {

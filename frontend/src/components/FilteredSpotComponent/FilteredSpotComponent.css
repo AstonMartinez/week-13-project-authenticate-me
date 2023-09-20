@@ -26,3 +26,33 @@
     /* margin-top: 280px; */
     /* display: flex; */
 }
+
+#filtered-component-parent-div {
+    margin-top: 30px;
+}
+
+#filtered-spot-card-show-div {
+    position: absolute;
+    height: 1000px;
+    width: 125%;
+    left: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    overflow-y: scroll;
+    /* border: 1px solid blue; */
+}
+
+/* #filtered-spot-wrapper-div {
+    border: 1px solid red;
+    margin-top: 20px;
+    margin-left: 40px;
+    position: absolute;
+} */
+
+.filtered-individual-spot-card {
+    /* border: 1px solid green; */
+    height: 315px;
+    width: 295px;
+    display: flex;
+    justify-content: center;
+}

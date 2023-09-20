@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as sessionActions from '../../store/session'
 import OpenModalButton from '../OpenModalButton'
 import LoginFormModal from '../LoginFormModal'
@@ -13,6 +13,25 @@ function ProfileButton({ user }) {
     const [showMenu, setShowMenu] = useState(false)
     const ulRef = useRef()
     const history = useHistory()
+    const sessionUser = useSelector(state => state.session.user)
+    // const dispatch = useDispatch()
+    // const [filteredSpots, setFilteredSpots] = useState('')
+    // const [haveFilteredSpots, setHaveFilteredSpots] = useState(false)
+    // const [errors, setErrors] = useState({})
+    let createSpotButton;
+
+    if(sessionUser) {
+        createSpotButton = (
+        <div id={`create-spot-button-div`}>
+            <NavLink to='/spots/new'>
+                <button id='create-new-spot-button'>Create a New Lair</button>
+            </NavLink>
+        </div>
+        )
+
+    } else {
+        createSpotButton = (<></>)
+    }
 
     const openMenu = () => {
         if(showMenu) return;
@@ -40,7 +59,8 @@ function ProfileButton({ user }) {
     const ulClassName = "profile-dropdown" + (showMenu ? "" : "-hidden")
 
     return (
-        <div>
+        <div id='create-spot-and-profile-dropdown'>
+            {createSpotButton}
             <button onClick={openMenu} className='profile-icon-button'>
             <div className='hamburger-div'>
                         <Hamburger />

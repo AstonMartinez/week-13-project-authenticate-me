@@ -40,9 +40,13 @@ function FilteredSpotComponent() {
         // console.log('content: ', content)
     } else {
         content = (
-        <div id='landing-page-parent-div'>
-            <div id='spot-card-show-div'>
-                {spots && spots.map((spot) => (<SpotCard spot={spot} key={spot.id} />))}
+        <div id='filtered-component-parent-div'>
+            <div id='filtered-spot-card-show-div'>
+                {spots && spots.map((spot) => (
+                    <div className='filtered-individual-spot-card'>
+                        <SpotCard spot={spot} key={spot.id} />
+                    </div>
+                ))}
             </div>
         </div>
         )
@@ -53,10 +57,10 @@ function FilteredSpotComponent() {
     // }
 
     return (
-        <>
+        <div id="filtered-spot-wrapper-div">
         {/* <div>Placeholder</div> */}
         {content}
-        </>
+        </div>
     )
 }
 

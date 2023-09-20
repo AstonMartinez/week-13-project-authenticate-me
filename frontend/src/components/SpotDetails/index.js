@@ -14,6 +14,10 @@ function SpotDetails() {
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
     const [havePics, setHavePics] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [modalType, setModalType] = useState(null)
+    const [selectedReview, setSelectedReview] = useState(null)
+
     // const history = useHistory()
 
 
@@ -57,11 +61,11 @@ function SpotDetails() {
 
 
     useEffect(() => {
-        dispatch(spotActions.fetchSingleSpot(spotId)).then(setHaveSpot(true))
+        dispatch(spotActions.fetchSingleSpot(spotId))
         dispatch(reviewActions.getReviewsBySpotId(spotId))
-        // dispatch(spotImageActions.fetchSpotImages(spotId))
-        // dispatch(spotActions.fetchSpots())
-    }, [dispatch, spotId, spotReviews])
+        dispatch(spotImageActions.fetchSpotImages(spotId))
+        dispatch(spotActions.fetchSpots())
+    }, [dispatch])
 
     // if(!spot.SpotImages) {
     //     dispatch(spotActions.fetchSingleSpot(spotId).then(setHaveSpot(true)))
@@ -78,12 +82,12 @@ function SpotDetails() {
     let ownerLastName;
     let numberReviews;
     let reviewButton;
-    if(haveSpot) {
+    if(spot) {
         if(spot?.avgRating === 'NaN') {
             rating = 'New'
             spotReviews = ''
             sortedReviews = ''
-            if(sessionUser?.id !== ownerId) {
+            if(sessionUser && sessionUser?.id !== ownerId) {
                 reviewButton = (
                     <div id='review-button-parent-div'>
                         <OpenModalButton
@@ -101,11 +105,15 @@ function SpotDetails() {
             if((sessionUser && sessionUser.id !== ownerId) && !spotReviews?.find(review => review.userId === sessionUser.id)) {
                 reviewButton = (
                     <div id='review-button-parent-div'>
-                        <OpenModalButton
+                        <button onClick={() => {
+                            setShowModal(true)
+                            setModalType("create")
+                        }}>Post Your Review</button>
+                        {/* <OpenModalButton
                         id='review-modal-button'
                         className='.modal-buttons'
                         buttonText='Post Your Review'
-                        modalComponent={<ReviewModal spotId={spotId} />} />
+                        modalComponent={<ReviewModal spotId={spotId} />} /> */}
                     </div>
                 )
 
@@ -241,19 +249,63 @@ function SpotDetails() {
                             <p className='review-inner-text'>{review.review}</p>
                             {(sessionUser && review.userId === sessionUser.id) ? (
                                 <div id='delete-review-button-div'>
-                                    <OpenModalButton
+                                    {/* <OpenModalButton
                                         buttonText='Delete'
                                         modalComponent={<DeleteReviewModal review={review} />}
-                                    />
+                                    /> */}
+                                    <button onClick={() => {
+                                        setShowModal(true)
+                                        setModalType('update')
+                                        setSelectedReview(review)
+                                    }}>Update</button>
+                                    <button onClick={() => {
+                                        setShowModal(true)
+                                        setModalType('delete')
+                                        setSelectedReview(review)
+                                    }}>Delete</button>
                                 </div>
                             ) : ''}
                         </div>
                     ))}
                 </div>
 
-
             </div>
         )}
+                        <>
+                {showModal && modalType === "create" && (
+                    <ReviewModal
+                        spotId={spotId}
+                        onClose={() => {
+                            setShowModal(false)
+                            setModalType(null)
+                            console.log("CLOSING")
+                        }}
+                        onSubmit={() => {
+                            setShowModal(false)
+                            setModalType(null)
+                            console.log("SUBMITTING")
+                        }}
+                    />
+                )}
+
+                {showModal && modalType === "delete" && (
+                    <DeleteReviewModal
+                        spotId={spotId}
+                        review={selectedReview}
+                        onClose={() => {
+                            setShowModal(false)
+                            setModalType(null)
+                            setSelectedReview(null)
+                            console.log("CLOSING")
+                        }}
+                        onSubmit={() => {
+                            setShowModal(false)
+                            setModalType(null)
+                            setSelectedReview(null)
+                            console.log("SUBMITTING")
+                        }}
+                    />)}
+                </>
         </>
     )
 }

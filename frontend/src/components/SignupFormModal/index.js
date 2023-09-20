@@ -13,6 +13,7 @@ function SignupFormModal() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errors, setErrors] = useState({})
+    const [image, setImage] = useState(null)
 
     const { closeModal } = useModal()
 
@@ -27,6 +28,7 @@ function SignupFormModal() {
                     firstName,
                     lastName,
                     password,
+                    image
                 })
             )
             .then(closeModal)
@@ -40,6 +42,11 @@ function SignupFormModal() {
         return setErrors({
             confirmPassword: "Confirm Password field must be the same as the Password field"
         })
+    }
+
+    const updateFile = (e) => {
+        const file = e.target.files[0]
+        if(file) setImage(file)
     }
 
     return (
@@ -124,6 +131,10 @@ function SignupFormModal() {
                 </div>
                 <div>
                     {errors.confirmPassword && <p id='confirmPassword-errors-display'>{errors.confirmPassword}</p>}
+                </div>
+                <div>
+                    <label>Avatar</label>
+                    <input type='file' onChange={updateFile} />
                 </div>
                 <div id='signup-button-div'>
                     <button id='signup-submit-button' type='submit' onClick={handleSubmit} disabled={(email.length > 0 && username.length >= 4 && firstName.length > 0 && lastName.length > 0 && password.length >= 6) ? false : true}>Sign Up</button>
