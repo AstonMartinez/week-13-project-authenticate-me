@@ -1,0 +1,21 @@
+#footer-wrapper {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(247, 247, 247);
+    border-top: 1px solid rgb(221, 221, 221);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin-top: 20px;
+    /* border: 1px solid red; */
+}
+
+#footer-inner-wrap {
+    padding-left: 100px;
+    display: flex;
+    align-items: center;
+    width: 350px;
+    justify-content: space-evenly;
+}

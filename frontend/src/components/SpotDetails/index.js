@@ -9,8 +9,11 @@ import OpenModalButton from '../OpenModalButton'
 import ReviewModal from '../ReviewModal/index.js'
 import DeleteReviewModal from '../DeleteReviewModal/index.js'
 import UpdateReviewModal from '../DeleteReviewModal/UpdateReviewModal.js'
+import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min.js'
+import Footer from '../Footer/index.js'
 
 function SpotDetails() {
+    const history = useHistory()
     const { spotId } = useParams()
     const dispatch = useDispatch()
     const [haveSpot, setHaveSpot] = useState(false)
@@ -19,25 +22,12 @@ function SpotDetails() {
     const [modalType, setModalType] = useState(null)
     const [selectedReview, setSelectedReview] = useState(null)
 
-    // const history = useHistory()
-
-
-    // const [bookingActive, setBookingActive] = useState(false)
-
     let spotReviews
 
     const spot = useSelector(state => state.spots.singleSpot)
     const reviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user)
     const allSpots = useSelector(state => state.spots.allSpots)
-    // const currSpotImgs = useSelector(state => state.Spot.spotImgs)
-    // console.log(currSpotImgs)
-
-    // console.log('history: ', history)
-    // if(!spot.SpotImages) {
-    //     history.push(`/api/spots/${spotId}`)
-    // }
-
     spotReviews = reviews.reviews.Reviews
 
 
@@ -68,10 +58,6 @@ function SpotDetails() {
         dispatch(spotActions.fetchSpots())
     }, [dispatch])
 
-    // if(!spot.SpotImages) {
-    //     dispatch(spotActions.fetchSingleSpot(spotId).then(setHaveSpot(true)))
-    // }
-
     let rating;
     let spotImgs;
     let imgOne;
@@ -91,12 +77,10 @@ function SpotDetails() {
             if(sessionUser && sessionUser?.id !== ownerId) {
                 reviewButton = (
                     <div id='review-button-parent-div'>
-                        <OpenModalButton
-                        id='review-modal-button'
-                        className='.modal-buttons'
-                        buttonText='Post Your Review'
-                        modalComponent={<ReviewModal spotId={spotId} />}
-                         />
+                        <button onClick={() => {
+                            setShowModal(true)
+                            setModalType("create")
+                        }}>Post Your Review</button>
                         <p>Be the first to post a review!</p>
                     </div>
                 )
@@ -110,11 +94,7 @@ function SpotDetails() {
                             setShowModal(true)
                             setModalType("create")
                         }}>Post Your Review</button>
-                        {/* <OpenModalButton
-                        id='review-modal-button'
-                        className='.modal-buttons'
-                        buttonText='Post Your Review'
-                        modalComponent={<ReviewModal spotId={spotId} />} /> */}
+
                     </div>
                 )
 
@@ -140,29 +120,6 @@ function SpotDetails() {
                     imgFive = spotImgs[4].url
                 }
 
-
-
-
-
-        // if(spotImgs && spotImgs[0]) {
-        //     imgOne = spotImgs[0].url
-
-        // }
-
-
-        // if(spotImgs && spotImgs[0]) {
-        //     imgTwo = spotImgs[0].url
-        // }
-        // if(spotImgs && spotImgs[1]) {
-        //     imgThree = spotImgs[1].url
-        // }
-        // if(spotImgs&& spotImgs[2]) {
-        //     imgFour = spotImgs[2].url
-        // }
-        // if(spotImgs && spotImgs[3]) {
-        //     imgFive = spotImgs[3].url
-        // }
-
         ownerFirstName = spot.Owner?.firstName
         ownerLastName = spot.Owner?.lastName
 
@@ -182,7 +139,7 @@ function SpotDetails() {
     }
 
     return(
-        <>
+        <div id='spot-details-wrapper'>
         {spot && (
             <div id='spot-details-parent-div'>
                 <div id='title-div'>
@@ -225,16 +182,9 @@ function SpotDetails() {
                         <div id='reserve-button'>
                             <button id='reserve-button-inner'
                             // onClick={() => bookingActive ? setBookingActive(false) : setBookingActive(true)}
-                            onClick={() => alert('Feature coming soon.')}
+                            onClick={() => history.push(`/spots/${spotId}/booking`)}
                             >Reserve</button>
                         </div>
-                        {/* <div id='booking-component-container'>
-                                {bookingActive && (
-                                    <div>
-                                        <Booking />
-                                    </div>
-                                )}
-                        </div> */}
                     </div>
                 </div>
                 <div id='all-reviews-div'>
@@ -250,10 +200,6 @@ function SpotDetails() {
                             <p className='review-inner-text'>{review.review}</p>
                             {(sessionUser && review.userId === sessionUser.id) ? (
                                 <div id='delete-review-button-div'>
-                                    {/* <OpenModalButton
-                                        buttonText='Delete'
-                                        modalComponent={<DeleteReviewModal review={review} />}
-                                    /> */}
                                     <button onClick={() => {
                                         setShowModal(true)
                                         setModalType('update')
@@ -272,19 +218,17 @@ function SpotDetails() {
 
             </div>
         )}
-                        <>
+            <>
                 {showModal && modalType === "create" && (
                     <ReviewModal
                         spotId={spotId}
                         onClose={() => {
                             setShowModal(false)
                             setModalType(null)
-                            console.log("CLOSING")
                         }}
                         onSubmit={() => {
                             setShowModal(false)
                             setModalType(null)
-                            console.log("SUBMITTING")
                         }}
                     />
                 )}
@@ -297,13 +241,11 @@ function SpotDetails() {
                             setShowModal(false)
                             setModalType(null)
                             setSelectedReview(null)
-                            console.log("CLOSING")
                         }}
                         onSubmit={() => {
                             setShowModal(false)
                             setModalType(null)
                             setSelectedReview(null)
-                            console.log("SUBMITTING")
                         }}
                     />)}
 
@@ -315,17 +257,16 @@ function SpotDetails() {
                             setShowModal(false)
                             setModalType(null)
                             setSelectedReview(null)
-                            // console.log("CLOSING")
                         }}
                         onSubmit={() => {
                             setShowModal(false)
                             setModalType(null)
                             setSelectedReview(null)
-                            // console.log("SUBMITTING")
                         }}
                     />)}
                 </>
-        </>
+            {/* <Footer /> */}
+        </div>
     )
 }
 

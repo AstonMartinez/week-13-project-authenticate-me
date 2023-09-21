@@ -8,6 +8,46 @@ const router = express.Router();
 
 const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require('../../db/models')
 
+router.get('/:id/details', async (req, res) => {
+    if(req.user) {
+        const booking = await Booking.findOne({
+            where: {
+                id: req.params.id,
+                userId: req.user.id
+            }
+        })
+
+        if(!booking) {
+            res.status(404)
+            return res.json({ message: "Booking couldn't be found" })
+        }
+
+        if(booking && booking.userId !== req.user.id) {
+            res.status(403)
+            return res.json({ message: "Forbidden" })
+        }
+
+        if(booking && booking.userId === req.user.id) {
+            const spot = await Spot.findOne({
+                where: {
+                    id: booking.spotId
+                }
+            })
+
+            if(!spot) {
+                res.status(404)
+                return res.json({ message: "Spot couldn't be found" })
+            }
+
+            booking.dataValues.Spot = spot
+            return res.json(booking)
+        }
+    } else {
+        res.status(401)
+        return res.json({ message: "Authorization required" })
+    }
+})
+
 // <---------------------------- GET ALL CURRENT USER BOOKINGS ---------------------------->
 router.get('/current', async (req, res) => {
     if(req.user) {

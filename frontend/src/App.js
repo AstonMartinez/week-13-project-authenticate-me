@@ -12,6 +12,8 @@ import FilteredSpotComponent from './components/FilteredSpotComponent'
 import FilterBar from './components/FilterBar'
 import * as spotActions from './store/spots'
 import BookingPage from './components/BookingPage'
+import Footer from './components/Footer'
+import BookingConfirmation from './components/BookingConfirmation'
 
 // import spot from '../../backend/db/models/spot'
 
@@ -36,30 +38,42 @@ function App() {
         <Route exact path='/'>
           <FilterBar />
           <LandingPage />
+          {/* <Footer /> */}
         </Route>
-        {/* <Route exact path='/spots/:id/booking'>
+        <Route exact path='/spots/:id/booking'>
           <BookingPage />
-        </Route> */}
+          {/* <Footer /> */}
+        </Route>
         <Route exact path='/spots/new'>
           <CreateSpotForm />
+          {/* <Footer /> */}
         </Route>
         <Route exact path='/spots/current'>
           <ManageSpots />
+          {/* <Footer /> */}
         </Route>
         <Route exact path='/spots/:spotId/edit'>
           <FilterBar />
           <EditForm />
+          {/* <Footer /> */}
         </Route>
-        {/* <Route exact path='/spots/filtered/:tag'>
+        <Route exact path='/spots/filtered/:tag'>
           <FilterBar />
           <FilteredSpotComponent />
-        </Route> */}
+          {/* <Footer /> */}
+        </Route>
         <Route path='/spots/:spotId'>
           <FilterBar />
           <SpotDetails />
+          {/* <Footer /> */}
+        </Route>
+        <Route exact path ='/booking/confirmation'>
+          <BookingConfirmation />
+          {/* <Footer /> */}
         </Route>
 
       </Switch>}
+      {/* <Footer /> */}
     </>
   )
 };

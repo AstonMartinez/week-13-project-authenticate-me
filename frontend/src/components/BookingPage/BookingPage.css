@@ -1,0 +1,275 @@
+#booking-page-left-arrow {
+    width: 18px;
+    height: 18px;
+    margin-right: 15px;
+}
+
+#booking-page-wrapper {
+    margin-top: 40px;
+    margin-left: 15px;
+    width: 98%;
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(34, 34, 34);
+    padding-bottom: 20px;
+}
+
+#booking-icon-and-header {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 65px;
+}
+
+.travel-insurance-icon {
+    height: 25px;
+    width: 25px;
+}
+
+#booking-page-spot-prev {
+    height: 80px;
+    /* margin-left: 20px; */
+    margin-top: 20px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+#booking-page-main-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+#booking-page-left-side {
+    width: 35%;
+    position: absolute;
+    left: 100px;
+    top: 175px;
+}
+
+#booking-page-right-side {
+    width: 100%;
+    /* position: fixed; */
+    /* right: 100px; */
+    /* top: 200px; */
+    /* border: 1px solid lightgray; */
+    border-radius: 10px;
+    margin-bottom: 88px;
+    padding-bottom: 24px;
+    /* bottom: 200px; */
+}
+
+#your-trip-dates-section, #booking-guests-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#trav-ins-top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    /* border: 1px solid blue; */
+    height: 85px;
+}
+
+#trav-ins-bot-container {
+    margin-top: -10px;
+    /* border: 1px solid red; */
+    padding-top: 0;
+    height: 65px;
+}
+
+#bp-right-top-section {
+    display: flex;
+    margin-bottom: 20px;
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+#bp-right-bot-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.booking-cost-info-section {
+    display: flex;
+    justify-content: space-between;
+    /* margin-right: 20px;
+    margin-left: 20px; */
+    /* border: 1px solid blue; */
+}
+
+#bp-right-bottom-section {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 15px;
+    /* border: 1px solid red; */
+}
+
+#bp-right-mid-section-header {
+    /* margin-left: 20px; */
+}
+
+#bp-right-mid-section {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+.bp-spot-name {
+    padding-top: 10px;
+}
+
+.bp-spot-reviews {
+    margin-top: 10px;
+    display: flex;
+    font-size: 12px;
+    height: fit-content;
+    align-items: center;
+    /* padding-bottom: 5px; */
+}
+
+#bp-spot-reviews-span {
+    font-size: 12px;
+    color: gray;
+    font-weight: 400;
+}
+
+#bp-star-favicon {
+    height: 13px;
+    margin-right: 5px;
+}
+
+.bp-h2-tag {
+    font-size: 22px;
+    color: rgb(34, 34, 34);
+}
+
+#bp-confirm-and-pay-header {
+    color: rgb(34, 34, 34);
+    font-size: 32px;
+}
+
+#bp-dates-text, #bp-guests-text {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#bp-date-range-text, #bp-guests-num {
+    font-size: 16px;
+}
+
+#bp-edit-dates, #bp-edit-guests {
+    font-size: 16px;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+#bp-edit-dates:hover, #bp-edit-guests:hover {
+    cursor: pointer;
+}
+
+#peace-of-mind-text {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#only-avail-while-text {
+    font-size: 16px;
+    color: rgb(113, 113, 113);
+}
+
+#get-reimbursed-text {
+    font-size: 16px;
+}
+
+#right-cancellation-section {
+    /* border: 1px solid red; */
+    padding-bottom: 20px;
+    padding-top: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+#cancel-before-text {
+    font-size: 16px;
+}
+
+
+
+#trav-insurance-section {
+    border-top: 1px solid lightgray;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+#bp-ground-rules-section {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+#bp-submit-button-container {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: flex-start;
+
+}
+
+#bp-submit-button {
+    height: 55px;
+    width: 200px;
+    color: rgb(255, 255, 255);
+    background-color: #de0f62;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+
+#bp-right-wrapper {
+    height: 100%;
+    width: fit-content;
+    /* bottom: 50px; */
+    /* border: 1px solid red; */
+    width: 40%;
+    /* position: sticky; */
+    /* right: 100px; */
+    /* top: 88px; */
+    /* position: relative; */
+    margin-left: 95px;
+    right: 0px;
+    left: 200px;
+    /* padding-bottom: 50px; */
+    /* margin-bottom: 300px; */
+    /* left: 50px; */
+    /* border: 1px solid lightgray; */
+    /* border-radius: 10px; */
+}
+
+#bp-right-inner {
+    /* padding-top: 50px; */
+    position: fixed;
+    width: 460px;
+    /* top: 200px; */
+    right: 180px;
+    top: 110px;
+    /* bottom: 95px; */
+    /* left: 50px; */
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+#bp-left-your-trip {
+    padding-bottom: 20px;
+}
