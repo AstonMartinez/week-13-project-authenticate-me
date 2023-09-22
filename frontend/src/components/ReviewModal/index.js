@@ -2,8 +2,6 @@ import './ReviewModal.css'
 import React, { useState, useRef } from 'react'
 import * as reviewActions from '../../store/reviews'
 import { useDispatch } from 'react-redux'
-import { useModal } from '../../context/Modal.js'
-
 
 function ReviewModal({ spotId, onSubmit, onClose }) {
     const dispatch = useDispatch()
@@ -15,7 +13,6 @@ function ReviewModal({ spotId, onSubmit, onClose }) {
     const [fillThree, setFillThree] = useState('regular')
     const [fillFour, setFillFour] = useState('regular')
     const [fillFive, setFillFive] = useState('regular')
-    const { closeModal } = useModal()
     const modalOverlayRef = useRef()
 
     const handleDispatches = async (review) => {

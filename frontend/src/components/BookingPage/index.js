@@ -1,9 +1,7 @@
-import { useParams, useHistory, Redirect } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import './BookingPage.css'
 import { useState, useRef, useEffect } from 'react'
 import Calendar from 'react-calendar'
-import CalendarModal from './CalendarModal'
-import { csrfFetch } from '../../store/csrf'
 import { useDispatch, useSelector } from 'react-redux'
 import { createNewBooking } from '../../store/bookings'
 import { fetchSingleSpot } from '../../store/spots'
@@ -11,13 +9,15 @@ import { fetchSingleSpot } from '../../store/spots'
 
 function BookingPage() {
     const { id } = useParams()
+    const modalOverlayRef = useRef()
     const dispatch = useDispatch()
     const history = useHistory()
     const spot = useSelector(state => state.spots.singleSpot)
     const booking = useSelector(state => state.bookings.singleBooking)
-    // console.log(spot)
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+
     const spotImages = spot.SpotImages
-    // console.log(spotImages)
+
     let previewImage
     if(spot && spotImages) {
         previewImage = spotImages.find(img => img.preview === true)
@@ -39,7 +39,7 @@ function BookingPage() {
 
     useEffect(() => {
         dispatch(fetchSingleSpot(id))
-    }, [dispatch])
+    }, [dispatch, id])
 
     const determineMonthLength = (month) => {
         if(month === 'Jan') {
@@ -102,8 +102,6 @@ function BookingPage() {
 
     const getDefaultDates = (dateInfo) => {
         const dateArr = dateInfo.split(' ')
-        // let result = []
-        // console.log(dateArr)
         if(dateArr[1] === 'Jan') {
             const incrementedDate = Number(dateArr[2]) + 1
             const projectedEndDate = Number(dateArr[2]) + 3
@@ -169,10 +167,8 @@ function BookingPage() {
                 return "Sep 1 - 3"
             }
         } else if(dateArr[1] === 'Sep') {
-            // console.log(dateArr[2])
             const incrementedDate = Number(dateArr[2]) + 1
             const projectedEndDate = Number(dateArr[2]) + 3
-            // console.log(incrementedDate, projectedEndDate)
             if(projectedEndDate <= 30) {
                 return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
             } else {
@@ -372,34 +368,16 @@ function BookingPage() {
     }
     const formattedStartDate = formatStartDates(defaultDateInfo)
     const formattedEndDate = formatEndDates(defaultDateInfo)
-
     const [defaultDates, setDefaultDates] = useState(defaultDateInfo)
-    // const [checkin, setCheckin] = useState('')
-    // const [checkout, setCheckout] = useState('')
-    const [guestsNum, setGuestsNum] = useState(1)
     const [showCalMenuOne, setShowCalMenuOne] = useState(false)
     const [showCalMenuTwo, setShowCalMenuTwo] = useState(false)
     const [startDate, setStartDate] = useState(formattedStartDate)
 
     const [endDate, setEndDate] = useState(formattedEndDate)
-    // const stayLength = getLengthOfStay(startDate, endDate)
     const [lengthOfStay, setLengthOfStay] = useState(getLengthOfStay(startDate, endDate))
-    const [saveDateError, setSaveDateError] = useState('')
 
     const ulRef = useRef()
-
-
     const calendarClassName = "calendar-dropdown" + (showCalMenuOne ? "" : "-hidden")
-
-    const openMenuOne = () => {
-        if(showCalMenuOne) return setShowCalMenuOne(false);
-        return setShowCalMenuOne(true)
-    }
-
-    const openMenuTwo = () => {
-        if(showCalMenuTwo) return setShowCalMenuTwo(false);
-        return setShowCalMenuTwo(true)
-    }
 
     const handleDatesChangeSubmit = () => {
         let startDateArr
@@ -421,6 +399,7 @@ function BookingPage() {
         } else {
             setDefaultDates(`${startDateArr[1]} ${startDateArr[2]} - ${endDateArr[1]} ${endDateArr[2]}`)
         }
+        setShowModal(false)
         return
     }
 
@@ -440,17 +419,16 @@ function BookingPage() {
         }
 
         dispatch(createNewBooking(id, newBooking)).then(async () => {
+            setHasSubmitted(true)
             const bookingId = booking.id
             if(booking && booking.id) {
-                console.log("BOOKING ID: ", bookingId)
-                // return <Redirect exact to={`/booking/${bookingId}/confirmation`} />
                 return history.push(`/booking/${bookingId}/confirmation`)
             }
         }).catch(async err => {
-            // const data = await res.json()
             if(err) {
                 console.log(err)
                 setSubmitError(err)
+                return
             }
         })
 
@@ -470,147 +448,154 @@ function BookingPage() {
     }, [showCalMenuOne, showCalMenuTwo])
 
     const calendarModal = (
-        <div id='booking-component-parent-div'>
-            <button onClick={() => setShowModal(false)}>X</button>
-            <div id='booking-reserve-buttons-parent'>
-                <div>
-                    <div>
-                        <h3>{lengthOfStay} nights</h3>
+        <>
+            <div id='modal-background' ref={modalOverlayRef} onClick={() => setShowModal(false)}></div>
+            <div id='booking-component-parent-div'>
+                <button id='cal-modal-x-button' onClick={() => setShowModal(false)}>X</button>
+                <div id='booking-reserve-buttons-parent'>
+                    <div id='cal-modal-top-cont'>
+                        <div id='top-row-nights-container'>
+                            <h3>{lengthOfStay} nights</h3>
+                        </div>
+                        <div id='top-row-button-div'>
+                            <button className={calendarClassName} id='start-date-calendar-button' ><span id='check-in-text-span'>CHECK-IN:</span> <p id='check-in-p-tag'>{typeof startDate === "object" ? startDate.toDateString() : startDate}</p> </button>
+                            <button className={calendarClassName} id='end-date-calendar-button'><span id='check-out-text-span'>CHECK-OUT:</span> <p id='check-out-p-tag'>{typeof endDate === "object" ? endDate.toDateString() : endDate}</p> </button>
+                        </div>
                     </div>
-                    <div id='top-row-button-div'>
-                        {/* <button className={calendarClassName} onClick={() => setShowCalMenuOne === false ? setShowCalMenuOne(false) : setShowCalMenuOne(true)}>Check-In: {startDate.toDateString()} </button> */}
-                        <button className={calendarClassName} id='start-date-calendar-button' onClick={openMenuOne}><span id='check-in-text-span'>Check-In:</span> <p id='check-in-p-tag'>{typeof startDate === "object" ? startDate.toDateString() : startDate}</p> </button>
-
-                        <button className={calendarClassName} id='end-date-calendar-button' onClick={openMenuTwo}><span id='check-out-text-span'>Check-Out:</span> <p id='check-out-p-tag'>{typeof endDate === "object" ? endDate.toDateString() : endDate}</p> </button>
+                    <div id='check-in-out-span-container'>
+                        <span id='check-in-span'>Check-In</span>
+                        <span id='check-out-span'>Check-Out</span>
                     </div>
-                </div>
-                <div id='calendar-menu-dropdown-div' ref={ulRef}>
-                    <div id='calendar-menu-dropdown-one'>
-                {showCalMenuOne && <Calendar onChange={(date) => {
-                    setLengthOfStay(getLengthOfStay(date, endDate))
-                    setStartDate(date)
-                    setShowCalMenuOne(false)
-                    return
-                }} value={startDate} />}
-
+                    <div id='calendar-menu-dropdown-div' ref={ulRef}>
+                        <div id='calendar-menu-dropdown-one'>
+                            {<Calendar onChange={(date) => {
+                                setLengthOfStay(getLengthOfStay(date, endDate))
+                                setStartDate(date)
+                                return
+                            }} value={startDate} />}
+                        </div>
+                        <div id='calendar-menu-dropdown-two'>
+                            {<Calendar onChange={(date) => {
+                                setLengthOfStay(getLengthOfStay(startDate, date))
+                                setEndDate(date)
+                                return
+                            }} value={endDate}/>}
+                        </div>
                     </div>
-                    <div id='calendar-menu-dropdown-two'>
-                {showCalMenuTwo && <Calendar onChange={(date) => {
-                    setLengthOfStay(getLengthOfStay(startDate, date))
-                    setEndDate(date)
-                    setShowCalMenuTwo(false)
-                    return
-                }} value={endDate}/>}
-
+                    <div id='confirm-or-cancel-booking'>
+                        <button id='cancel-booking-button'>Clear Dates</button>
+                        <button id='confirm-booking-button' onClick={handleDatesChangeSubmit}>Save</button>
                     </div>
-                </div>
-                <div id='confirm-or-cancel-booking'>
-                    <button id='cancel-booking-button'>Clear Dates</button>
-                    <button id='confirm-booking-button' onClick={handleDatesChangeSubmit}>Save</button>
                 </div>
             </div>
-        </div>
+        </>
     )
 
     const guestsModal = (
-        <div>
+        <>
+        <div id='modal-background' ref={modalOverlayRef} onClick={() => setShowModal(false)}></div>
+        <div id='edit-guests-modal-wrapper'>
             <div>
                 <h3>Guests</h3>
             </div>
             <div>
                 <p>This place has a maximum of 10 guests, not including infants. Pets aren't allowed.</p>
             </div>
-            <div>
-                <div>
+            <div id='plus-minus-sections-container'>
+                <div id='plus-minus-section'>
                     <div>
-                        <p>Adults</p>
-                        <p>Age 13+</p>
+                        <p className='guests-type-text'>Adults</p>
+                        <p className='guests-sub-text'>Age 13+</p>
                     </div>
-                    <div>
-                        <div onClick={() => {
-                            changeGuests("Adults", "+")
-                        }}>
-                            <p>+</p>
-                        </div>
-                        <div>
-                            {adultsNum}
-                        </div>
-                        <div onClick={() => {
+                    <div className='plus-minus'>
+
+                        <div className='minus-div' onClick={() => {
                             changeGuests("Adults", "-")
                         }}>
                             <p>-</p>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <p>Children</p>
-                        <p>Ages 2-12</p>
-                    </div>
-                    <div>
-                        <div onClick={() => {
-                            changeGuests("Children", "+")
+                        <div className='num-div'>
+                            <p>{adultsNum}</p>
+                        </div>
+                        <div className='plus-div' onClick={() => {
+                            changeGuests("Adults", "+")
                         }}>
                             <p>+</p>
                         </div>
-                        <div>
-                            {childrenNum}
-                        </div>
-                        <div onClick={() => {
+                    </div>
+                </div>
+                <div id='plus-minus-section'>
+                    <div>
+                        <p className='guests-type-text'>Children</p>
+                        <p className='guests-sub-text'>Ages 2-12</p>
+                    </div>
+                    <div className='plus-minus'>
+
+                        <div className='minus-div' onClick={() => {
                             changeGuests("Children", "-")
                         }}>
                             <p>-</p>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <p>Infants</p>
-                        <p>Under 2</p>
-                    </div>
-                    <div>
-                        <div onClick={() => {
-                            changeGuests("Infants", "+")
+                        <div className='num-div'>
+                            <p>{childrenNum}</p>
+                        </div>
+                        <div className='plus-div' onClick={() => {
+                            changeGuests("Children", "+")
                         }}>
                             <p>+</p>
                         </div>
-                        <div>
-                            {infantsNum}
-                        </div>
-                        <div onClick={() => {
+                    </div>
+                </div>
+                <div id='plus-minus-section'>
+                    <div>
+                        <p className='guests-type-text'>Infants</p>
+                        <p className='guests-sub-text'>Under 2</p>
+                    </div>
+                    <div className='plus-minus'>
+
+                        <div className='minus-div' onClick={() => {
                             changeGuests("Infants", "-")
                         }}>
                             <p>-</p>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <p>Pets</p>
-                        {/* <p>Age 13+</p> */}
-                    </div>
-                    <div>
-                        <div onClick={() => {
-                            changeGuests("Pets", "+")
+                        <div className='num-div'>
+                            <p>{infantsNum}</p>
+                        </div>
+                        <div className='plus-div' onClick={() => {
+                            changeGuests("Infants", "+")
                         }}>
                             <p>+</p>
                         </div>
-                        <div>
-                            {petsNum}
-                        </div>
-                        <div onClick={() => {
+                    </div>
+                </div>
+                <div id='plus-minus-section'>
+                    <div>
+                        <p className='guests-type-text'>Pets</p>
+                    </div>
+                    <div className='plus-minus'>
+
+                        <div className='minus-div' onClick={() => {
                             changeGuests("Pets", "-")
                         }}>
                             <p>-</p>
                         </div>
+                        <div className='num-div'>
+                            <p>{petsNum}</p>
+                        </div>
+                        <div className='plus-div' onClick={() => {
+                            changeGuests("Pets", "+")
+                        }}>
+                            <p>+</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <button onClick={() => {
+                </div>
+            <div id='guests-modal-button-container'>
+                {guestsNumError && (<p>{guestsNumError}</p>)}
+                <button id='guests-modal-cancel-button' onClick={() => {
                     setShowGuestsModal(false)
                 }}>Cancel</button>
-                <button onClick={() => {
+                <button id='guests-modal-save-button' onClick={() => {
                     if(totalGuestsNum === 0) {
                         setGuestsNumError("You need at least one guest to schedule a booking.")
                         return
@@ -622,6 +607,7 @@ function BookingPage() {
                 }}>Save</button>
             </div>
         </div>
+        </>
     )
 
 
@@ -708,6 +694,7 @@ function BookingPage() {
                         </div>
                     </div>
                     <div id='bp-submit-button-container'>
+                        {submitError && (<p>{submitError}</p>)}
                         <button id='bp-submit-button' onClick={handleBookingSubmit}>Confirm Booking</button>
                     </div>
                 </div>

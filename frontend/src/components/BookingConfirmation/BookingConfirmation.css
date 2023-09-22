@@ -63,14 +63,6 @@
     height: 19px;
 }
 
-#bc-spot-name {
-    /* margin-top: -10px; */
-    /* border: 1px solid red; */
-    /* height: fit-content; */
-    /* display: flex; */
-    /* align-items: flex-start; */
-}
-
 #bc-spot-name-revs-dets {
     /* border: 1px solid blue; */
     display: flex;

@@ -1,0 +1,8 @@
+#trip-manage-button {
+    display: flex;
+    flex-direction: column;
+}
+
+#trip-card-prev-img {
+    height: 100px;
+}

@@ -106,12 +106,16 @@ router.get('/current', async (req, res) => {
 
 // <---------------------------- EDIT A BOOKING ---------------------------->
 router.put('/:id', async (req, res) => {
+    console.log(req.user.id)
+    console.log(req.params.id)
     if(req.user) {
         const booking = await Booking.findOne({
             where: {
                 id: req.params.id
             }
         })
+        console.log("BOOKING.USERID: ", booking.userId)
+        console.log("REQ.USER.ID: ", req.user.id)
 
         if(!booking) {
             res.status(404)
@@ -120,10 +124,11 @@ router.put('/:id', async (req, res) => {
 
 
 
-        if(booking && booking.userId !== req.user.id) {
-            res.status(403)
-            return res.json({ message: "Forbidden" })
-        }
+
+        // if(booking && booking.userId !== req.user.id) {
+        //     res.status(403)
+        //     return res.json({ message: "Forbidden" })
+        // }
 
         if(booking && booking.userId === req.user.id) {
             const { startDate, endDate, numGuests, stayLength, hasTravelIns } = req.body
@@ -210,10 +215,10 @@ router.put('/:id', async (req, res) => {
                 }
 
             }
-            if(errObj.errors.startDate || errObj.errors.endDate) {
-                res.status(403)
-                return res.json(errObj)
-            }
+            // if(errObj.errors.startDate || errObj.errors.endDate) {
+            //     res.status(403)
+            //     return res.json(errObj)
+            // }
         }
         // checking for invalid end date
         if(newBookStartDateObj >= newBookEndDateObj) {

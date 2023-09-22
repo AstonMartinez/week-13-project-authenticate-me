@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import * as sessionActions from './store/session'
 import Navigation from './components/Navigation/index'
@@ -10,24 +10,19 @@ import ManageSpots from './components/ManageSpots'
 import EditForm from './components/EditForm'
 import FilteredSpotComponent from './components/FilteredSpotComponent'
 import FilterBar from './components/FilterBar'
-import * as spotActions from './store/spots'
 import BookingPage from './components/BookingPage'
 import Footer from './components/Footer'
 import BookingConfirmation from './components/BookingConfirmation'
 import EditBookingPage from './components/EditBookingPage'
-
-// import spot from '../../backend/db/models/spot'
+import EditedBookingConfirmation from './components/BookingConfirmation/EditedBookingConfirmation'
+import UserTrips from './components/Trips'
 
 function App() {
   const dispatch = useDispatch()
   const [isLoaded, setIsLoaded] = useState(false)
-  // const [haveSpots, setHaveSpots] = useState(false)
-  // const [landingPageSpots, setLandingPageSpots] = useState('')
-  // const allSpots = useSelector(state => state.spots.allSpots)
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
-    // dispatch(spotActions.fetchSpots()).then(() => setHaveSpots(true)).then(() => setLandingPageSpots(allSpots))
   }, [dispatch])
 
 
@@ -40,6 +35,9 @@ function App() {
           <FilterBar />
           <LandingPage />
           {/* <Footer /> */}
+        </Route>
+        <Route exact path='/trips/current'>
+          <UserTrips />
         </Route>
         <Route exact path='/spots/:id/booking'>
           <BookingPage />
@@ -74,6 +72,9 @@ function App() {
         <Route exact path ='/booking/:id/confirmation'>
           <BookingConfirmation />
           {/* <Footer /> */}
+        </Route>
+        <Route exact path='/booking/:id/edited/confirmation'>
+          <EditedBookingConfirmation />
         </Route>
 
       </Switch>}

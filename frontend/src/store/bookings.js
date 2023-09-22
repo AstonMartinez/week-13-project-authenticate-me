@@ -58,6 +58,7 @@ export const updateUserBooking = (id, updatedBooking) => async (dispatch) => {
     })
 
     if(response.ok) {
+        console.log("EDIT BOOKING SUCCESSFUL")
         dispatch(updateBooking(updatedBooking))
     }
 

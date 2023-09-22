@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { getById } from '../../store/bookings'
 import { useParams, useHistory } from 'react-router-dom'
 
-function BookingConfirmation() {
+function EditedBookingConfirmation() {
     const dispatch = useDispatch()
     const { id } = useParams()
     const booking = useSelector(state => state.bookings.singleBooking)
@@ -74,26 +74,6 @@ function BookingConfirmation() {
 
     }
 
-    // const convertDates = (startDate, endDate) => {
-    //     const startDateSplit = startDate.split("-")
-    //     const endDateSplit = endDate.split("-")
-    //     if(startDateSplit[1] === endDateSplit[1]) {
-    //         const month = startDateSplit[1]
-    //         const monthString = getMonthString(month)
-    //         const startDay = startDateSplit[2]
-    //         const endDay = endDateSplit[2]
-    //         return `${monthString} ${startDay} - ${endDay}`
-    //     } else {
-    //         const startMonth = startDateSplit[1]
-    //         const startMonthString = getMonthString(startMonth)
-    //         const endMonth = endDateSplit[1]
-    //         const endMonthString = getMonthString(endMonth)
-    //         const startDay = startDateSplit[2]
-    //         const endDay = endDateSplit[2]
-    //         return `${startMonthString} ${startDay} - ${endMonthString} ${endDay}`
-    //     }
-    // }
-
     useEffect(() => {
         dispatch(getById(id))
     }, [dispatch, id])
@@ -103,6 +83,9 @@ function BookingConfirmation() {
             <div id='bc-h1'>
                 <h1>Booking Confirmed!</h1>
             </div>
+            {/* <div>
+                <h2>Details:</h2>
+            </div> */}
             <div id='booking-details-wrapper'>
                 <div id='booking-confirmation-details-top-half'>
                     <div id='bc-dates-container'>
@@ -140,7 +123,7 @@ function BookingConfirmation() {
                                 </div>
                                 <div id='bc-icon-ratings'>
                                     <i id='bc-star-favicon' className="fa-solid fa-star" style={{"color": "#000000"}} />
-                                    <p id='bc-avg-rating-text'>{booking?.Spot?.avgRating !== 'NaN' ? booking?.Spot?.avgRating : "New"} <span id='bp-spot-reviews-span'>({booking?.Spot?.numReviews} reviews)</span></p>
+                                    <p id='bc-avg-rating-text'>{booking?.Spot?.avgRating} <span id='bp-spot-reviews-span'>({booking?.Spot?.numReviews} reviews)</span></p>
                                 </div>
                             </div>
                         </div>
@@ -161,12 +144,9 @@ function BookingConfirmation() {
                 <button id='bc-edit-booking-button' onClick={() => {
                     history.push(`/spots/${booking?.Spot?.id}/bookings/${booking?.id}`)
                 }}>Edit Booking</button>
-                {/* <button onClick={() => {
-                    return <Redirect exact to={`/spots/${booking?.Spot?.id}/bookings/${booking?.id}`} />
-                }}>Edit Booking</button> */}
             </div>
         </div>
     )
 }
 
-export default BookingConfirmation;
+export default EditedBookingConfirmation;

@@ -1,0 +1,362 @@
+#booking-component-parent-div {
+    position: fixed;
+    z-index: 12000;
+    background-color: white;
+    width: 700px;
+    height: 490px;
+    top: 140px;
+    left: 28%;
+    border-radius: 10px;
+}
+
+#cal-top {
+    display: flex;
+    justify-content: space-around;
+}
+
+#text-above-cal {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+#calendar-menu-dropdown-div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#calendar-menu-dropdown-two {
+    width: 300px;
+    margin-right: 20px;
+}
+
+#calendar-menu-dropdown-one {
+    padding: 20px;
+    width: 300px;
+}
+
+.react-calendar {
+    width: 350px;
+    max-width: 100%;
+    background: white;
+    /* border: 1px solid #a0a096; */
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
+  }
+
+  .react-calendar--doubleView {
+    width: 700px;
+  }
+
+  .react-calendar--doubleView .react-calendar__viewContainer {
+    display: flex;
+    margin: -0.5em;
+  }
+
+  .react-calendar--doubleView .react-calendar__viewContainer > * {
+    width: 50%;
+    margin: 0.5em;
+  }
+
+  .react-calendar,
+  .react-calendar *,
+  .react-calendar *:before,
+  .react-calendar *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .react-calendar button {
+    margin: 0;
+    border: 0;
+    outline: none;
+  }
+
+  .react-calendar button:enabled:hover {
+    cursor: pointer;
+  }
+
+  .react-calendar__navigation {
+    display: flex;
+    height: 44px;
+    margin-bottom: 1em;
+  }
+
+  .react-calendar__navigation button {
+    min-width: 44px;
+    background: none;
+  }
+
+  .react-calendar__navigation button:disabled {
+    background-color: #f0f0f0;
+  }
+
+  .react-calendar__navigation button:enabled:hover,
+  .react-calendar__navigation button:enabled:focus {
+    background-color: #e6e6e6;
+  }
+
+  .react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.75em;
+  }
+
+  .react-calendar__month-view__weekdays__weekday {
+    padding: 0.5em;
+  }
+
+  .react-calendar__month-view__weekNumbers .react-calendar__tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    font-weight: bold;
+  }
+
+  /* .react-calendar__month-view__days__day--weekend {
+    color: #d10000;
+  } */
+
+  .react-calendar__month-view__days__day--neighboringMonth {
+    color: #757575;
+  }
+
+  .react-calendar__year-view .react-calendar__tile,
+  .react-calendar__decade-view .react-calendar__tile,
+  .react-calendar__century-view .react-calendar__tile {
+    padding: 2em 0.5em;
+  }
+
+  .react-calendar__tile {
+    max-width: 100%;
+    padding: 10px 6.6667px;
+    background: white;
+    text-align: center;
+    line-height: 16px;
+  }
+
+  .react-calendar__tile:disabled {
+    background-color: #f0f0f0;
+  }
+
+  /* .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus {
+    background-color: #e6e6e6;
+  } */
+
+  /* .react-calendar__tile--now {
+    background: #ffff76;
+  } */
+
+  .react-calendar__tile--now:enabled:hover,
+  .react-calendar__tile--now:enabled:focus {
+    background: #ffffa9;
+  }
+
+  .react-calendar__tile--hasActive {
+    background: white;
+  }
+
+  .react-calendar__tile--hasActive:enabled:hover,
+  .react-calendar__tile--hasActive:enabled:focus {
+    background: #a9d4ff;
+  }
+
+  .react-calendar__tile--active {
+    background: #006edc;
+    color: white;
+  }
+
+  .react-calendar__tile--active:enabled:hover,
+  .react-calendar__tile--active:enabled:focus {
+    background: #d10000;
+  }
+
+  .react-calendar--selectRange .react-calendar__tile--hover {
+    background-color: #d10000;
+  }
+
+  #check-in-span, #check-out-span {
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  #edit-guests-modal-wrapper {
+    background-color: white;
+    width: 400px;
+    position: fixed;
+    top: 135px;
+    left: 35%;
+    z-index: 13000;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .plus-minus {
+    display: flex;
+    /* border: 1px solid red; */
+    /* align-items: center; */
+  }
+
+  #plus-minus-section {
+    /* border: 1px solid blue; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .plus-div, .minus-div {
+    border: 1px solid gray;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .plus-div {
+    margin-left: 10px;
+  }
+
+  .minus-div {
+    margin-right: 10px;
+  }
+
+
+  #guests-modal-button-container {
+    /* width: 105%; */
+    border-top: 1px solid #cfcfcf;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+#guests-modal-cancel-button {
+    text-decoration: underline;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#guests-modal-cancel-button:hover {
+    cursor: pointer;
+}
+
+#guests-modal-save-button {
+    width: 80px;
+    height: 40px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+#plus-minus-sections-container {
+    margin-bottom: 10px;
+}
+
+.guests-type-text {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.guests-sub-text {
+    font-size: 13px;
+}
+
+#cal-modal-top-cont {
+    display: flex;
+    justify-content: space-around;
+    margin-left: 50px;
+
+}
+
+#check-in-out-span-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+#start-date-calendar-button, #end-date-calendar-button {
+    /* border: 0 1px 0 0 solid lightgray; */
+    /* border: none; */
+    background-color: transparent;
+    height: 50px;
+}
+
+#end-date-calendar-button {
+    border: none;
+}
+
+#start-date-calendar-button {
+    border-top: none;
+    border-right: 1px solid lightgray;
+    border-bottom: none;
+    border-left: none;
+}
+
+#check-in-text-span, #check-out-text-span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+#check-in-p-tag, #check-out-p-tag {
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+#top-row-button-div {
+    border: 1px solid lightgray;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+#top-row-nights-container {
+    margin-right: 60px;
+}
+
+#cal-modal-x-button {
+    border: none;
+    background-color: transparent;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+#confirm-or-cancel-booking {
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+#cancel-booking-button {
+    text-decoration: underline;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+#confirm-booking-button {
+    width: 80px;
+    height: 40px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    margin-left: 10px;
+}

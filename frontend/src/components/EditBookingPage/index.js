@@ -4,25 +4,26 @@ import { useState, useRef, useEffect } from 'react'
 import Calendar from 'react-calendar'
 // import CalendarModal from './CalendarModal'
 import { useDispatch, useSelector } from 'react-redux'
-import { createNewBooking, getById, updateUserBooking } from '../../store/bookings'
+import { getById, updateUserBooking } from '../../store/bookings'
 import { fetchSingleSpot } from '../../store/spots'
 
 function EditBookingPage() {
+    const modalOverlayRef = useRef()
     const { spotId, bookingId } = useParams()
     const dispatch = useDispatch()
     const history = useHistory()
     const spot = useSelector(state => state.spots.singleSpot)
     const booking = useSelector(state => state.bookings.singleBooking)
-    // console.log(spot)
+
     const spotImages = spot.SpotImages
-    // console.log(spotImages)
+
     let previewImage
     if(spot && spotImages) {
         previewImage = spotImages.find(img => img.preview === true)
     } else {
         previewImage = ''
     }
-    // const defaultStart = new Date().toDateString()
+
     const checkForIns = () => {
         if(booking && booking.hasTravelIns === "true") {
             return true
@@ -46,25 +47,7 @@ function EditBookingPage() {
     useEffect(() => {
         dispatch(fetchSingleSpot(spotId))
         dispatch(getById(bookingId))
-    }, [dispatch])
-
-
-    // !!! LOOK HERE
-
-    // const [isTravelInsurance, setIsTravelInsurance] = useState(false)
-    // const [showModal, setShowModal] = useState(false)
-    // const [adultsNum, setAdultsNum] = useState(1)
-    // const [childrenNum, setChildrenNum] = useState(0)
-    // const [infantsNum, setInfantsNum] = useState(0)
-    // const [petsNum, setPetsNum] = useState(0)
-    // const [beginningGuestsNum, setBeginningGuestsNum] = useState(1)
-    // const [totalGuestsNum, setTotalGuestsNum] = useState(1)
-    // const [guestsNumError, setGuestsNumError] = useState('')
-    // const [showGuestsModal, setShowGuestsModal] = useState(false)
-    // const [submitError, setSubmitError] = useState('')
-
-    const [prevStartDate, setPrevStartDate] = useState(booking.startDate)
-    const [prevEndDate, setPrevEndDate] = useState(booking.endDate)
+    }, [dispatch, bookingId, spotId])
 
     const getMonthString = (month) => {
         if(month === "01") {
@@ -122,30 +105,28 @@ function EditBookingPage() {
         }
     }
 
-
-    const getCurrStayLength = (startDate, endDate) => {
-        const startDateSplit = startDate.split("-")
-        const endDateSplit = endDate.split("-")
-
-        if(startDateSplit[1] === endDateSplit[1]) {
-            const startDateNum = startDateSplit[2]
-            const endDateNum = endDateSplit[2]
-            return endDateNum - startDateNum
-          }
-            else {
-              const monthLength = determineMonthLength(startDateSplit[1])
-              const startDateNum = startDateSplit[2]
-              const endDateNum = monthLength
-              const sum1 = endDateNum - Number(startDateNum)
-              const result = Number(sum1) + Number(endDateSplit[2])
-              return result
-          }
-    }
-
     const convertDates = (startDate, endDate) => {
-        // console.log(typeof booking.startDate)
-        const startDateSplit = startDate.split("-")
-        const endDateSplit = endDate.split("-")
+        let startDateSplit
+        let endDateSplit
+
+        if(typeof startDate === "string") {
+            startDateSplit = startDate.split("-")
+            // endDateSplit = endDate.split("-")
+        } else if(typeof endDate === "object") {
+            startDateSplit = startDate.toDateString().split(" ")
+            // endDateSplit = endDate.toDateString().split(" ")
+        } else {
+            startDateSplit = ''
+        }
+
+        if(typeof endDate === "string") {
+            endDateSplit = endDate.split("-")
+        } else if(typeof endDate === "object") {
+            endDateSplit = endDate.toDateString().split(" ")
+        } else {
+            endDateSplit = ''
+        }
+
         if(startDateSplit[1] === endDateSplit[1]) {
             const month = startDateSplit[1]
             const monthString = getMonthString(month)
@@ -167,19 +148,20 @@ function EditBookingPage() {
     const [stayDateRange, setStayDateRange] = useState(initialRange)
 
 
-    const getLengthOfStay = (start, end) => {
+    const getLengthOfStay = () => {
         let startDateArr
         let endDateArr
-        if(typeof start === "object") {
-            startDateArr = start.toDateString().split(" ")
+
+        if(typeof startDate === "object") {
+            startDateArr = startDate.toDateString().split(" ")
         } else {
-            startDateArr = start.split(" ")
+            startDateArr = startDate.split(" ")
         }
 
-        if(typeof end === "object") {
-            endDateArr = end.toDateString().split(" ")
+        if(typeof endDate === "object") {
+            endDateArr = endDate.toDateString().split(" ")
         } else {
-            endDateArr = end.split(" ")
+            endDateArr = endDate.split(" ")
         }
 
         if(startDateArr[1] === endDateArr[1]) {
@@ -199,11 +181,18 @@ function EditBookingPage() {
 
 
     const getCurrDays = (dateInfo) => {
-        const dateArr = dateInfo.split('-')
+        let dateArr
+        let month
+        if(typeof dateInfo === "object") {
+            dateArr = dateInfo.toDateString()
+            month = getMonthNum(dateArr[1])
+        } else {
+            dateArr = dateInfo.split('-')
+            month = getMonthString(dateArr[1])
+        }
         const year = dateArr[0]
-        const monthNum = dateArr[1]
         const day = dateArr[2]
-        const newDateObj = new Date(`${year}-${monthNum}-${day}`)
+        const newDateObj = new Date(`${year}-${month}-${day}`)
         return newDateObj.toDateString()
     }
 
@@ -213,7 +202,7 @@ function EditBookingPage() {
             if(plusOrMinus === "+") {
                 if(currentTotal < 10) {
                     setAdultsNum(adultsNum + 1)
-                    setTotalGuestsNum(totalGuestsNum + 1)
+                    setTotalGuestsNum(currentTotal + 1)
                     return
                 } else {
                     setGuestsNumError("You've reached your maximum number of guests")
@@ -380,61 +369,37 @@ function EditBookingPage() {
     const formattedStartDate = getCurrDays(booking?.startDate)
     const formattedEndDate = getCurrDays(booking?.endDate)
 
-    const [showCalMenuOne, setShowCalMenuOne] = useState(false)
-    const [showCalMenuTwo, setShowCalMenuTwo] = useState(false)
     const [startDate, setStartDate] = useState(formattedStartDate)
-
     const [endDate, setEndDate] = useState(formattedEndDate)
-    // const stayLength = getLengthOfStay(startDate, endDate)
     const [lengthOfStay, setLengthOfStay] = useState(booking?.stayLength)
-    const [saveDateError, setSaveDateError] = useState('')
 
     const ulRef = useRef()
-
-
-    const calendarClassName = "calendar-dropdown" + (showCalMenuOne ? "" : "-hidden")
-
-    const openMenuOne = () => {
-        if(showCalMenuOne) return setShowCalMenuOne(false);
-        return setShowCalMenuOne(true)
-    }
-
-    const openMenuTwo = () => {
-        if(showCalMenuTwo) return setShowCalMenuTwo(false);
-        return setShowCalMenuTwo(true)
-    }
+    const calendarClassName = "calendar-dropdown"
 
     const handleDatesChangeSubmit = () => {
         let startDateArr
         let endDateArr
-        console.log(booking?.startDate)
-        console.log(booking?.endDat)
+
         if(typeof startDate === "object") {
             startDateArr = startDate.toDateString().split(" ")
         } else {
-            startDateArr = startDate.split("-")
+            startDateArr = startDate.split(" ")
         }
 
         if(typeof endDate === "object") {
             endDateArr = endDate.toDateString().split(" ")
         } else {
-            endDateArr = endDate.split("-")
+            endDateArr = endDate.split(" ")
         }
-        // console.log(startDateArr)
-        // console.log(endDateArr)
-        // if(typeof startDate === "object") {
-        //     if(typeof endDate === "string") {
-        //         const monthString = getMonthString(endDateArr[1])
-        //         // if(startDateArr[])
-        //     } else {
 
-        //     }
-        // }
         if(startDateArr[1] === endDateArr[1]) {
             setStayDateRange(`${startDateArr[1]} ${startDateArr[2]} - ${endDateArr[2]}`)
         } else {
             setStayDateRange(`${startDateArr[1]} ${startDateArr[2]} - ${endDateArr[1]} ${endDateArr[2]}`)
         }
+        const newLength = getLengthOfStay(startDate, endDate)
+        setLengthOfStay(newLength)
+        setShowModal(false)
         return
     }
 
@@ -445,6 +410,7 @@ function EditBookingPage() {
         } else {
             hasIns = "false"
         }
+
         const updatedBooking = {
             startDate: startDate,
             endDate: endDate,
@@ -456,175 +422,172 @@ function EditBookingPage() {
         dispatch(updateUserBooking(bookingId, updatedBooking)).then(async () => {
             const bookingId = booking.id
             if(booking && booking.id) {
-                console.log("BOOKING ID: ", bookingId)
-                // return <Redirect exact to={`/booking/${bookingId}/confirmation`} />
-                return history.push(`/booking/${bookingId}/confirmation`)
+                return history.push(`/booking/${bookingId}/edited/confirmation`)
             }
         }).catch(async err => {
-            // const data = await res.json()
             if(err) {
                 console.log(err)
                 setSubmitError(err)
+                return
             }
         })
 
     }
 
-    useEffect(() => {
-        if(!showCalMenuOne || !showCalMenuTwo) return
-        const closeMenu = (e) => {
-            if(!ulRef.current.contains(e.target)) {
-                setShowCalMenuOne(false)
-                setShowCalMenuTwo(false)
-            }
-        }
-        document.addEventListener('click', closeMenu)
+    // useEffect(() => {
+    //     if(!showCalMenuOne || !showCalMenuTwo) return
+    //     const closeMenu = (e) => {
+    //         if(!ulRef.current.contains(e.target)) {
+    //             setShowCalMenuOne(false)
+    //             setShowCalMenuTwo(false)
+    //         }
+    //     }
+    //     document.addEventListener('click', closeMenu)
 
-        return () => document.removeEventListener('click', closeMenu)
-    }, [showCalMenuOne, showCalMenuTwo])
+    //     return () => document.removeEventListener('click', closeMenu)
+    // }, [showCalMenuOne, showCalMenuTwo])
 
     const calendarModal = (
-        <div id='booking-component-parent-div'>
-            <button onClick={() => setShowModal(false)}>X</button>
-            <div id='booking-reserve-buttons-parent'>
-                <div>
-                    <div>
-                        <h3>{lengthOfStay} nights</h3>
+        <>
+            <div id='modal-background' ref={modalOverlayRef} onClick={() => setShowModal(false)}></div>
+            <div id='booking-component-parent-div'>
+                <button id='cal-modal-x-button' onClick={() => setShowModal(false)}>X</button>
+                <div id='booking-reserve-buttons-parent'>
+                    <div id='cal-modal-top-cont'>
+                        <div id='top-row-nights-container'>
+                            <h3>{lengthOfStay} nights</h3>
+                        </div>
+                        <div id='top-row-button-div'>
+                            <button className={calendarClassName} id='start-date-calendar-button' ><span id='check-in-text-span'>CHECK-IN:</span> <p id='check-in-p-tag'>{typeof startDate === "object" ? startDate.toDateString() : startDate}</p> </button>
+                            <button className={calendarClassName} id='end-date-calendar-button'><span id='check-out-text-span'>CHECK-OUT:</span> <p id='check-out-p-tag'>{typeof endDate === "object" ? endDate.toDateString() : endDate}</p> </button>
+                        </div>
                     </div>
-                    <div id='top-row-button-div'>
-                        {/* <button className={calendarClassName} onClick={() => setShowCalMenuOne === false ? setShowCalMenuOne(false) : setShowCalMenuOne(true)}>Check-In: {startDate.toDateString()} </button> */}
-                        <button className={calendarClassName} id='start-date-calendar-button' onClick={openMenuOne}><span id='check-in-text-span'>Check-In:</span> <p id='check-in-p-tag'>{typeof startDate === "object" ? startDate.toDateString() : startDate}</p> </button>
-
-                        <button className={calendarClassName} id='end-date-calendar-button' onClick={openMenuTwo}><span id='check-out-text-span'>Check-Out:</span> <p id='check-out-p-tag'>{typeof endDate === "object" ? endDate.toDateString() : endDate}</p> </button>
+                    <div id='check-in-out-span-container'>
+                        <span id='check-in-span'>Check-In</span>
+                        <span id='check-out-span'>Check-Out</span>
                     </div>
-                </div>
-                <div id='calendar-menu-dropdown-div' ref={ulRef}>
-                    <div id='calendar-menu-dropdown-one'>
-                {showCalMenuOne && <Calendar onChange={(date) => {
-                    setLengthOfStay(getLengthOfStay(date, endDate))
-                    setStartDate(date)
-                    setShowCalMenuOne(false)
-                    return
-                }} value={startDate} />}
-
+                    <div id='calendar-menu-dropdown-div' ref={ulRef}>
+                        <div id='calendar-menu-dropdown-one'>
+                            {<Calendar onChange={setStartDate} value={startDate} />}
+                        </div>
+                        <div id='calendar-menu-dropdown-two'>
+                            {<Calendar onChange={setEndDate} value={endDate}/>}
+                        </div>
                     </div>
-                    <div id='calendar-menu-dropdown-two'>
-                {showCalMenuTwo && <Calendar onChange={(date) => {
-                    setLengthOfStay(getLengthOfStay(startDate, date))
-                    setEndDate(date)
-                    setShowCalMenuTwo(false)
-                    return
-                }} value={endDate}/>}
-
+                    <div id='confirm-or-cancel-booking'>
+                        <button id='cancel-booking-button'>Clear Dates</button>
+                        <button id='confirm-booking-button' onClick={handleDatesChangeSubmit}>Save</button>
                     </div>
-                </div>
-                <div id='confirm-or-cancel-booking'>
-                    <button id='cancel-booking-button'>Clear Dates</button>
-                    <button id='confirm-booking-button' onClick={handleDatesChangeSubmit}>Save</button>
                 </div>
             </div>
-        </div>
+        </>
     )
 
     const guestsModal = (
-        <div>
+        <>
+        <div id='modal-background' ref={modalOverlayRef} onClick={() => setShowModal(false)}></div>
+        <div id='edit-guests-modal-wrapper'>
             <div>
                 <h3>Guests</h3>
             </div>
             <div>
                 <p>This place has a maximum of 10 guests, not including infants. Pets aren't allowed.</p>
             </div>
-            <div>
-                <div>
+            <div id='plus-minus-sections-container'>
+                <div id='plus-minus-section'>
                     <div>
-                        <p>Adults</p>
-                        <p>Age 13+</p>
+                        <p className='guests-type-text'>Adults</p>
+                        <p className='guests-sub-text'>Age 13+</p>
                     </div>
-                    <div>
-                        <div onClick={() => {
-                            changeGuests("Adults", "+")
-                        }}>
-                            <p>+</p>
-                        </div>
-                        <div>
-                            {adultsNum}
-                        </div>
-                        <div onClick={() => {
+                    <div className='plus-minus'>
+
+                        <div className='minus-div' onClick={() => {
                             changeGuests("Adults", "-")
                         }}>
                             <p>-</p>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <p>Children</p>
-                        <p>Ages 2-12</p>
-                    </div>
-                    <div>
-                        <div onClick={() => {
-                            changeGuests("Children", "+")
+                        <div className='num-div'>
+                            <p>{adultsNum}</p>
+                        </div>
+                        <div className='plus-div' onClick={() => {
+                            changeGuests("Adults", "+")
                         }}>
                             <p>+</p>
                         </div>
-                        <div>
-                            {childrenNum}
-                        </div>
-                        <div onClick={() => {
+                    </div>
+                </div>
+                <div id='plus-minus-section'>
+                    <div>
+                        <p className='guests-type-text'>Children</p>
+                        <p className='guests-sub-text'>Ages 2-12</p>
+                    </div>
+                    <div className='plus-minus'>
+
+                        <div className='minus-div' onClick={() => {
                             changeGuests("Children", "-")
                         }}>
                             <p>-</p>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <p>Infants</p>
-                        <p>Under 2</p>
-                    </div>
-                    <div>
-                        <div onClick={() => {
-                            changeGuests("Infants", "+")
+                        <div className='num-div'>
+                            <p>{childrenNum}</p>
+                        </div>
+                        <div className='plus-div' onClick={() => {
+                            changeGuests("Children", "+")
                         }}>
                             <p>+</p>
                         </div>
-                        <div>
-                            {infantsNum}
-                        </div>
-                        <div onClick={() => {
+                    </div>
+                </div>
+                <div id='plus-minus-section'>
+                    <div>
+                        <p className='guests-type-text'>Infants</p>
+                        <p className='guests-sub-text'>Under 2</p>
+                    </div>
+                    <div className='plus-minus'>
+
+                        <div className='minus-div' onClick={() => {
                             changeGuests("Infants", "-")
                         }}>
                             <p>-</p>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <p>Pets</p>
-                        {/* <p>Age 13+</p> */}
-                    </div>
-                    <div>
-                        <div onClick={() => {
-                            changeGuests("Pets", "+")
+                        <div className='num-div'>
+                            <p>{infantsNum}</p>
+                        </div>
+                        <div className='plus-div' onClick={() => {
+                            changeGuests("Infants", "+")
                         }}>
                             <p>+</p>
                         </div>
-                        <div>
-                            {petsNum}
-                        </div>
-                        <div onClick={() => {
+                    </div>
+                </div>
+                <div id='plus-minus-section'>
+                    <div>
+                        <p className='guests-type-text'>Pets</p>
+                    </div>
+                    <div className='plus-minus'>
+
+                        <div className='minus-div' onClick={() => {
                             changeGuests("Pets", "-")
                         }}>
                             <p>-</p>
                         </div>
+                        <div className='num-div'>
+                            <p>{petsNum}</p>
+                        </div>
+                        <div className='plus-div' onClick={() => {
+                            changeGuests("Pets", "+")
+                        }}>
+                            <p>+</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div>
-                <button onClick={() => {
+            <div id='guests-modal-button-container'>
+                {guestsNumError && (<p>{guestsNumError}</p>)}
+                <button id='guests-modal-cancel-button' onClick={() => {
                     setShowGuestsModal(false)
                 }}>Cancel</button>
-                <button onClick={() => {
+                <button id='guests-modal-save-button' onClick={() => {
                     if(totalGuestsNum === 0) {
                         setGuestsNumError("You need at least one guest to schedule a booking.")
                         return
@@ -636,6 +599,7 @@ function EditBookingPage() {
                 }}>Save</button>
             </div>
         </div>
+        </>
     )
 
 
@@ -670,7 +634,7 @@ function EditBookingPage() {
                             <div id='booking-guests-section'>
                                 <div>
                                     <p id='bp-guests-text' className='booking-page-section-p'>Guests</p>
-                                    <p id='bp-guests-num' className='booking-page-section-p'>{beginningGuestsNum} {beginningGuestsNum === 1 ? "guest" : "guests"}</p>
+                                    <p id='bp-guests-num' className='booking-page-section-p'>{totalGuestsNum} {totalGuestsNum === 1 ? "guest" : "guests"}</p>
                                 </div>
                                 <div>
                                     <p id='bp-edit-guests' className='booking-page-section-p' onClick={() => setShowGuestsModal(true)}>Edit</p>
@@ -706,7 +670,7 @@ function EditBookingPage() {
                             <h2 className='bp-h2-tag'>Cancellation policy</h2>
                         </div>
                         <div>
-                            <p id='cancel-before-text' className='booking-page-section-p'>Cancel before check-in on {startDate} for a partial refund. After that, your refund depends on when you cancel.</p>
+                            <p id='cancel-before-text' className='booking-page-section-p'>Cancel before check-in on {typeof startDate === "object" ? startDate.toDateString() : startDate} for a partial refund. After that, your refund depends on when you cancel.</p>
                         </div>
                     </div>
                     <div id='bp-ground-rules-section'>
@@ -722,6 +686,7 @@ function EditBookingPage() {
                         </div>
                     </div>
                     <div id='bp-submit-button-container'>
+                        {submitError && (<p>{submitError}</p>)}
                         <button id='bp-submit-button' onClick={handleBookingSubmit}>Confirm Booking</button>
                     </div>
                 </div>
@@ -738,7 +703,7 @@ function EditBookingPage() {
                                     </div>
                                     <div className='bp-spot-reviews'>
                                         <i id='bp-star-favicon' className="fa-solid fa-star" style={{color: "#000000"}} />
-                                        <p>{spot?.avgRating} <span id='bp-spot-reviews-span'>({spot.numReviews} reviews)</span></p>
+                                        <p>{spot?.avgRating !== 'NaN' ? spot?.avgRating : "New"} <span id='bp-spot-reviews-span'>({spot.numReviews} reviews)</span></p>
                                     </div>
                                 </div>
                             </div>
