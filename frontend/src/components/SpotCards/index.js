@@ -15,7 +15,7 @@ function SpotCard({ spot, user }) {
         rating = spot.avgRating
     }
 
-    console.log("PREVIEW IMAGE: ", spot.previewImage)
+    // console.log("PREVIEW IMAGE: ", spot.previewImage)
     let manageButtons;
 
     if(user) {
@@ -34,6 +34,8 @@ function SpotCard({ spot, user }) {
     } else {
         manageButtons = ''
     }
+
+    console.log("SPOT FROM SPOT CARD", spot)
 
 
     return (

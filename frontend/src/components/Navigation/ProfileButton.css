@@ -1,19 +1,21 @@
 .profile-dropdown {
     background-color: white;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 5px;
-    border: 1px solid black;
-    height: 155px;
+    /* padding-left: 20px; */
+    /* padding-right: 20px; */
+    width: 130px;
+    /* padding-top: 5px; */
+    border: .5px solid #cfcfcf;
+    /* height: 145px; */
     display: flex;
     flex-direction: column;
-    margin-top: 12px;
+    margin-top: 60px;
     position: absolute;
-    margin-bottom: 2px;
-    right: 10px;
+    right: 15px;
     list-style-type: none;
     justify-self: flex-end;
-    z-index: 2;
+    z-index: 15;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 16px 0px;
+    border-radius: 10px;
 }
 
 .profile-dropdown > li {
@@ -83,13 +85,57 @@
 }
 
 #manage-spots-div {
+    width: 100%;
     margin-top: 3px;
     padding-bottom: 3px;
-    border-bottom: 2px solid black;
+    /* border-bottom: 1px solid #cfcfcf; */
 }
 
 .manage-spots-button {
     border: none;
-    background-color: white;
+    background-color: transparent;
     font-family: 'Montserrat', sans-serif;
+}
+
+.dropdown-inner-wrap {
+    /* width: 100%; */
+    /* border-bottom: 1px solid #cfcfcf; */
+    /* width: 128px; */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+}
+
+.dropdown-inner-wrap:hover {
+    cursor: pointer;
+    background-color: #cfcfcf;
+}
+
+#manage-trips-wrapper, #manage-spots-wrapper {
+    border-bottom: .5px solid #cfcfcf;
+}
+
+#manage-spots-wrapper, #logout-wrapper {
+    /* padding-top: 5px; */
+    width: 125px;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    /* margin-top: 3px; */
+    /* padding-bottom: 5px; */
+}
+
+#manage-trips-wrapper {
+    width: 125px;
+    margin-top: 0;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    /* width: 100%; */
+    border-radius: 10px 10px 0 0;
+}
+
+/* #manage-trips-wrapper {
+    margin-top: 5px;
+} */
+#logout-wrapper {
+    border-radius: 0 0 10px 10px;
 }

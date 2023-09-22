@@ -77,31 +77,46 @@ module.exports = {
         spotId: spot1.id,
         userId: user2.id,
         startDate: "2023-07-30",
-        endDate: '2023-08-06'
+        endDate: '2023-08-06',
+        numGuests: 2,
+        stayLength: 8,
+        hasTravelIns: 'true'
       },
       {
         spotId: spot2.id,
         userId: user3.id,
         startDate: "2023-08-01",
-        endDate: '2023-08-04'
+        endDate: '2023-08-04',
+        numGuests: 2,
+        stayLength: 3,
+        hasTravelIns: 'true'
       },
       {
         spotId: spot3.id,
         userId: user4.id,
         startDate: "2023-08-02",
-        endDate: '2023-08-06'
+        endDate: '2023-08-06',
+        numGuests: 2,
+        stayLength: 4,
+        hasTravelIns: 'false'
       },
       {
         spotId: spot4.id,
         userId: user5.id,
         startDate: "2023-07-25",
-        endDate: '2023-08-01'
+        endDate: '2023-08-01',
+        numGuests: 4,
+        stayLength: 7,
+        hasTravelIns: 'true'
       },
       {
         spotId: spot5.id,
         userId: user1.id,
         startDate: "2023-07-16",
-        endDate: '2023-07-20'
+        endDate: '2023-07-20',
+        numGuests: 5,
+        stayLength: 4,
+        hasTravelIns: 'false'
       }
     ], { validate: true })
   },

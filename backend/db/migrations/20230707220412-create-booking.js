@@ -30,6 +30,18 @@ module.exports = {
         allownull: false,
         type: Sequelize.DATEONLY
       },
+      numGuests: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      stayLength: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      hasTravelIns: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),

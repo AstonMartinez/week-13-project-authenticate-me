@@ -59,9 +59,10 @@ body {
     height: 100px;
     display: flex;
     flex-direction: column;
-    margin-top: 50px;
+    margin-top: 80px;
     margin-right: 0;
     position: absolute;
+    z-index: 1000;
 }
 
 ul > div, ul > button {

@@ -1,0 +1,145 @@
+#booking-confirmation-lair-prev {
+    height: 100px;
+    margin-right: 15px;
+    border-radius: 10px;
+}
+
+#booking-confirmation-wrapper {
+    font-family: 'Montserrat', sans-serif;
+    top: 100px;
+    left: 35%;
+    /* margin: 0 auto; */
+    position: absolute;
+}
+
+#booking-details-wrapper {
+    border: 1px solid lightgray;
+    padding: 20px;
+    border-radius: 10px;
+    width: 450px;
+}
+
+#booking-confirmation-details-top-half {
+    border-bottom: 1px solid lightgray;
+}
+
+#bc-dates-container, #bc-los-container, #bc-spot-img-name-reviews-outer, #bc-where-header, #bc-address-header, #address-span-container {
+    padding-left: 10px;
+}
+
+#bc-los-container {
+    margin-top: 25px;
+}
+
+.bc-h4 {
+    font-size: 16px;
+}
+
+.bc-p {
+    font-size: 14px;
+}
+
+#bc-spot-img-name-reviews-outer {
+    display: flex;
+    /* border: 1px solid red; */
+    /* justify-content: space-around; */
+    align-items: flex-start;
+    /* width: 400px; */
+}
+
+#bc-icon-ratings {
+    display: flex;
+    align-items: center;
+    /* border: 1px solid blue; */
+    height: 25px;
+}
+
+#bc-avg-rating-text {
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+#bc-star-favicon {
+    height: 19px;
+}
+
+#bc-spot-name {
+    /* margin-top: -10px; */
+    /* border: 1px solid red; */
+    /* height: fit-content; */
+    /* display: flex; */
+    /* align-items: flex-start; */
+}
+
+#bc-spot-name-revs-dets {
+    /* border: 1px solid blue; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-start; */
+}
+
+#bc-spot-name-inner {
+    margin: 2px 0 5px 0;
+    padding: 0;
+    /* border: 1px solid purple; */
+}
+
+#bc-name-span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+#address-span-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: -8px;
+}
+
+.bc-address-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* .bc-address-header {
+    margin-bottom: -10px;
+} */
+
+#booking-confirmation-details-bottom-half {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    /* border: 1px solid red; */
+}
+
+#bc-h1 {
+    text-align: center;
+}
+
+#bc-edit-booking-button-wrapper {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    margin: 20px auto 50px auto;
+    height: 55px;
+    width: 200px;
+    /* color: rgb(255, 255, 255);
+    background-color: #de0f62;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif; */
+}
+
+#bc-edit-booking-button {
+    height: 55px;
+    width: 200px;
+    color: rgb(255, 255, 255);
+    background-color: #de0f62;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+}

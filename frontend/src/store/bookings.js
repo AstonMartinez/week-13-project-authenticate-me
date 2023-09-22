@@ -88,6 +88,7 @@ export const createNewBooking = (spotId, booking) => async (dispatch) => {
         body: JSON.stringify(booking)
     })
     if(res.ok) {
+        console.log("BOOKING SUCCESSFUL")
         const data = await res.json()
         dispatch(createBooking(data))
     }

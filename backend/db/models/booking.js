@@ -31,6 +31,18 @@ module.exports = (sequelize, DataTypes) => {
       allownull: false,
       type: DataTypes.INTEGER
     },
+    numGuests: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    stayLength: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    hasTravelIns: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
     startDate: {
       allowNull: false,
       type: DataTypes.DATEONLY

@@ -41,6 +41,38 @@ const validateBody = [
     handleValidationErrors
 ];
 
+router.get('/filtered/:tag', async (req, res) => {
+    const filteredSpots = await Spot.findAll({
+        where: {
+            tags: req.params.tag
+        }
+    })
+
+    if(filteredSpots) {
+        for (let spot of filteredSpots) {
+            const reviews = await spot.getReviews()
+            let sum = 0;
+            for(let i = 0; i < reviews.length; i++) {
+                sum += reviews[i].dataValues.stars
+            }
+
+            const avgRating = sum /reviews.length
+            // const avgRating = reviews[0].dataValues.stars / reviews.length
+            spot.dataValues.avgRating = avgRating.toFixed(2)
+
+            const image = await SpotImage.findOne({
+                where: {
+                    spotId: spot.id,
+                    preview: true
+                }
+            })
+
+            spot.dataValues.previewImage = image.url
+        }
+        return res.json({ Spots: filteredSpots })
+
+}})
+
 router.get('/:id/bookings', async (req, res) => {
     if(req.user) {
         const spot = await Spot.findOne({
@@ -93,7 +125,7 @@ router.get('/:id/bookings', async (req, res) => {
 
 // <---------------------------- CREATE BOOKING BY SPOT ID ---------------------------->
 router.post('/:id/bookings', async (req, res) => {
-    const { startDate, endDate } = req.body
+    const { startDate, endDate, numGuests, stayLength, hasTravelIns } = req.body
     if(req.user) {
         const spot = await Spot.findOne({
             where: {
@@ -220,7 +252,10 @@ router.post('/:id/bookings', async (req, res) => {
             spotId: spot.id,
             userId: req.user.id,
             startDate: startDate,
-            endDate: endDate
+            endDate: endDate,
+            numGuests: numGuests,
+            stayLength: stayLength,
+            hasTravelIns: hasTravelIns
         })
 
         return res.json(newBooking)
@@ -730,6 +765,8 @@ router.delete('/:id', async (req, res) => {
         res.json({ message: "Authentication required" })
     }
 })
+
+
 
 
 

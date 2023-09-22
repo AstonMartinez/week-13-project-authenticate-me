@@ -67,30 +67,47 @@ function ProfileButton({ user }) {
                 <i className="fa-solid fa-circle-user fa-xl" style={{color: "#000000"}}></i>
             </div>
             </button>
-            <ul className={ulClassName} ref={ulRef}>
+            <div className={ulClassName} ref={ulRef}>
                 {user ? (
                     <>
                     <div className='dropdown-menu-list'>
-                        <li className='user-profile-info' id='user-name-info'>Hello, {user.firstName}</li>
-                        <li className='user-profile-info' id='user-username-info'>{user.username}</li>
-                        <li className='user-profile-info' id='user-email-info'>{user.email}</li>
-                        <li className='user-profile-info' id='user-manage-spots'>
-                            <div id='manage-spots-div'>
+                        <div className='dropdown-inner-wrap' id='manage-trips-wrapper'>
+                            {/* <div id='manage-trips-div'> */}
+                                <NavLink exact to='/trips/current'>
+                                    <button className='manage-spots-button'>
+                                        Trips
+                                    </button>
+                                </NavLink>
+                            {/* </div> */}
+                        </div>
+                        <div className='dropdown-inner-wrap' id='manage-spots-wrapper'>
+                            {/* <div id='manage-spots-div'> */}
                                 <NavLink to='/spots/current'>
                                     <button className='manage-spots-button'>
-                                        Manage Spots
+                                        Manage Lairs
                                     </button>
-
                                 </NavLink>
-                            </div>
-                        </li>
-                        <li>
-                            <div id='logout-div'>
+                            {/* </div> */}
+                        </div>
+                        <div className='dropdown-inner-wrap' id='logout-wrapper'>
+                            {/* <div id='logout-div'> */}
                                 <NavLink exact to='/spots/current'>
-                                    <button className='logout-profile-button' onClick={logout}>Log Out</button>
+                                    <button className='manage-spots-button' onClick={logout}>Log Out</button>
                                 </NavLink>
-                            </div>
-                        </li>
+                            {/* </div> */}
+                        </div>
+                        {/* <li className='user-profile-info' id='user-name-info'>Hello, {user.firstName}</li>
+                        <li className='user-profile-info' id='user-username-info'>{user.username}</li>
+                        <li className='user-profile-info' id='user-email-info'>{user.email}</li> */}
+                        {/* <li className='user-profile-info' id='user-manage-spots'> */}
+
+                        {/* </li> */}
+                        {/* <li className='user-profile-info' id='user-manage-spots'> */}
+
+                        {/* </li> */}
+                        {/* <li>
+
+                        </li> */}
                     </div>
                     </>
                 ) : (
@@ -109,7 +126,7 @@ function ProfileButton({ user }) {
                         </li>
                     </>
                 )}
-            </ul>
+            </div>
         </div>
     )
 

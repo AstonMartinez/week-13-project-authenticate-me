@@ -14,6 +14,7 @@ import * as spotActions from './store/spots'
 import BookingPage from './components/BookingPage'
 import Footer from './components/Footer'
 import BookingConfirmation from './components/BookingConfirmation'
+import EditBookingPage from './components/EditBookingPage'
 
 // import spot from '../../backend/db/models/spot'
 
@@ -62,12 +63,15 @@ function App() {
           <FilteredSpotComponent />
           {/* <Footer /> */}
         </Route>
+        <Route exact path='/spots/:spotId/bookings/:bookingId'>
+          <EditBookingPage />
+        </Route>
         <Route path='/spots/:spotId'>
           <FilterBar />
           <SpotDetails />
           {/* <Footer /> */}
         </Route>
-        <Route exact path ='/booking/confirmation'>
+        <Route exact path ='/booking/:id/confirmation'>
           <BookingConfirmation />
           {/* <Footer /> */}
         </Route>

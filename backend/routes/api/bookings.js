@@ -39,6 +39,24 @@ router.get('/:id/details', async (req, res) => {
                 return res.json({ message: "Spot couldn't be found" })
             }
 
+            const image = await SpotImage.findOne({
+                where: {
+                    spotId: spot.id,
+                    preview: true
+                }
+            })
+
+            const reviews = await spot.getReviews()
+            let sum = 0;
+            for(let i = 0; i < reviews.length; i++) {
+                sum += reviews[i].dataValues.stars
+            }
+
+            const avgRating = sum /reviews.length
+
+            spot.dataValues.previewImage = image.url
+            spot.dataValues.avgRating = avgRating
+            spot.dataValues.numReviews = reviews.length
             booking.dataValues.Spot = spot
             return res.json(booking)
         }
@@ -108,7 +126,7 @@ router.put('/:id', async (req, res) => {
         }
 
         if(booking && booking.userId === req.user.id) {
-            const { startDate, endDate } = req.body
+            const { startDate, endDate, numGuests, stayLength, hasTravelIns } = req.body
 
             const spot = await Spot.findOne({
                 where: {
@@ -211,7 +229,10 @@ router.put('/:id', async (req, res) => {
             // updating booking if none of the above errors apply
             booking.set({
                 startDate: startDate || booking.startDate,
-                endDate: endDate || booking.endDate
+                endDate: endDate || booking.endDate,
+                numGuests: numGuests || booking.numGuests,
+                stayLength: stayLength || booking.stayLength,
+                hasTravelIns: hasTravelIns || booking.hasTravelIns
             })
 
             await booking.save()

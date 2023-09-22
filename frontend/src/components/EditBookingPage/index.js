@@ -1,16 +1,14 @@
-import { useParams, useHistory, Redirect } from 'react-router-dom'
-import './BookingPage.css'
+import './EditBooking.css'
+import { useParams, useHistory } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
 import Calendar from 'react-calendar'
-import CalendarModal from './CalendarModal'
-import { csrfFetch } from '../../store/csrf'
+// import CalendarModal from './CalendarModal'
 import { useDispatch, useSelector } from 'react-redux'
-import { createNewBooking } from '../../store/bookings'
+import { createNewBooking, getById, updateUserBooking } from '../../store/bookings'
 import { fetchSingleSpot } from '../../store/spots'
-// import { getLengthOfStay } from './stayLength'
 
-function BookingPage() {
-    const { id } = useParams()
+function EditBookingPage() {
+    const { spotId, bookingId } = useParams()
     const dispatch = useDispatch()
     const history = useHistory()
     const spot = useSelector(state => state.spots.singleSpot)
@@ -24,50 +22,150 @@ function BookingPage() {
     } else {
         previewImage = ''
     }
-    const defaultStart = new Date().toDateString()
-    const [isTravelInsurance, setIsTravelInsurance] = useState(false)
+    // const defaultStart = new Date().toDateString()
+    const checkForIns = () => {
+        if(booking && booking.hasTravelIns === "true") {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const [isTravelInsurance, setIsTravelInsurance] = useState(checkForIns())
     const [showModal, setShowModal] = useState(false)
-    const [adultsNum, setAdultsNum] = useState(1)
+    const [adultsNum, setAdultsNum] = useState(booking?.numGuests)
     const [childrenNum, setChildrenNum] = useState(0)
     const [infantsNum, setInfantsNum] = useState(0)
     const [petsNum, setPetsNum] = useState(0)
-    const [beginningGuestsNum, setBeginningGuestsNum] = useState(1)
-    const [totalGuestsNum, setTotalGuestsNum] = useState(1)
+    const [beginningGuestsNum, setBeginningGuestsNum] = useState(booking?.numGuests)
+    const [totalGuestsNum, setTotalGuestsNum] = useState(booking?.numGuests)
     const [guestsNumError, setGuestsNumError] = useState('')
     const [showGuestsModal, setShowGuestsModal] = useState(false)
     const [submitError, setSubmitError] = useState('')
 
     useEffect(() => {
-        dispatch(fetchSingleSpot(id))
+        dispatch(fetchSingleSpot(spotId))
+        dispatch(getById(bookingId))
     }, [dispatch])
 
+
+    // !!! LOOK HERE
+
+    // const [isTravelInsurance, setIsTravelInsurance] = useState(false)
+    // const [showModal, setShowModal] = useState(false)
+    // const [adultsNum, setAdultsNum] = useState(1)
+    // const [childrenNum, setChildrenNum] = useState(0)
+    // const [infantsNum, setInfantsNum] = useState(0)
+    // const [petsNum, setPetsNum] = useState(0)
+    // const [beginningGuestsNum, setBeginningGuestsNum] = useState(1)
+    // const [totalGuestsNum, setTotalGuestsNum] = useState(1)
+    // const [guestsNumError, setGuestsNumError] = useState('')
+    // const [showGuestsModal, setShowGuestsModal] = useState(false)
+    // const [submitError, setSubmitError] = useState('')
+
+    const [prevStartDate, setPrevStartDate] = useState(booking.startDate)
+    const [prevEndDate, setPrevEndDate] = useState(booking.endDate)
+
+    const getMonthString = (month) => {
+        if(month === "01") {
+            return "Jan"
+        } else if(month === "02") {
+            return "Feb"
+        } else if(month === "03") {
+            return "Mar"
+        } else if(month === "04") {
+            return "Apr"
+        } else if(month === "05") {
+            return "May"
+        } else if(month === "06") {
+            return "Jun"
+        } else if(month === "07") {
+            return "Jul"
+        } else if(month === "08") {
+            return "Aug"
+        } else if(month === "09") {
+            return "Sep"
+        } else if(month === "10") {
+            return "Oct"
+        } else if(month === "11") {
+            return "Nov"
+        } else if(month === "12") {
+            return "Dec"
+        }
+    }
+
     const determineMonthLength = (month) => {
-        if(month === 'Jan') {
+        if(month === 'Jan' || month === "01") {
             return 31
-        } else if(month === 'Feb') {
+        } else if(month === 'Feb' || month === "02") {
             return 28
-        } else if(month === 'Mar') {
+        } else if(month === 'Mar' || month === "03") {
             return 31
-        } else if(month === 'Apr') {
+        } else if(month === 'Apr' || month === "04") {
             return 30
-        } else if(month === 'May') {
+        } else if(month === 'May' || month === "05") {
             return 31
-        } else if(month === 'Jun') {
+        } else if(month === 'Jun' || month === "06") {
             return 30
-        } else if(month === 'Jul') {
+        } else if(month === 'Jul' || month === "07") {
             return 31
-        } else if(month === 'Aug') {
+        } else if(month === 'Aug' || month === "08") {
             return 31
-        } else if(month === 'Sep') {
+        } else if(month === 'Sep' || month === "09") {
             return 30
-        } else if(month === 'Oct') {
+        } else if(month === 'Oct' || month === "10") {
             return 31
-        } else if(month === 'Nov') {
+        } else if(month === 'Nov' || month === "11") {
             return 30
-        } else if(month === 'Dec') {
+        } else if(month === 'Dec' || month === "12") {
             return 31
         }
     }
+
+
+    const getCurrStayLength = (startDate, endDate) => {
+        const startDateSplit = startDate.split("-")
+        const endDateSplit = endDate.split("-")
+
+        if(startDateSplit[1] === endDateSplit[1]) {
+            const startDateNum = startDateSplit[2]
+            const endDateNum = endDateSplit[2]
+            return endDateNum - startDateNum
+          }
+            else {
+              const monthLength = determineMonthLength(startDateSplit[1])
+              const startDateNum = startDateSplit[2]
+              const endDateNum = monthLength
+              const sum1 = endDateNum - Number(startDateNum)
+              const result = Number(sum1) + Number(endDateSplit[2])
+              return result
+          }
+    }
+
+    const convertDates = (startDate, endDate) => {
+        // console.log(typeof booking.startDate)
+        const startDateSplit = startDate.split("-")
+        const endDateSplit = endDate.split("-")
+        if(startDateSplit[1] === endDateSplit[1]) {
+            const month = startDateSplit[1]
+            const monthString = getMonthString(month)
+            const startDay = startDateSplit[2]
+            const endDay = endDateSplit[2]
+            return `${monthString} ${startDay} - ${endDay}`
+        } else {
+            const startMonth = startDateSplit[1]
+            const startMonthString = getMonthString(startMonth)
+            const endMonth = endDateSplit[1]
+            const endMonthString = getMonthString(endMonth)
+            const startDay = startDateSplit[2]
+            const endDay = endDateSplit[2]
+            return `${startMonthString} ${startDay} - ${endMonthString} ${endDay}`
+        }
+    }
+
+    const initialRange = convertDates(booking?.startDate, booking?.endDate)
+    const [stayDateRange, setStayDateRange] = useState(initialRange)
+
 
     const getLengthOfStay = (start, end) => {
         let startDateArr
@@ -100,109 +198,13 @@ function BookingPage() {
     }
 
 
-    const getDefaultDates = (dateInfo) => {
-        const dateArr = dateInfo.split(' ')
-        // let result = []
-        // console.log(dateArr)
-        if(dateArr[1] === 'Jan') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 31) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Feb 1 - 3"
-            }
-        } else if(dateArr[1] === 'Feb') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 28) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Mar 1 - 3"
-            }
-        } else if(dateArr[1] === 'Mar') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 31) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Apr 1 - 3"
-            }
-        } else if(dateArr[1] === 'Apr') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 30) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "May 1 - 3"
-            }
-        } else if(dateArr[1] === 'May') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 31) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Jun 1 - 3"
-            }
-        } else if(dateArr[1] === 'Jun') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 30) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Jul 1 - 3"
-            }
-        } else if(dateArr[1] === 'Jul') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 31) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Aug 1 - 3"
-            }
-        } else if(dateArr[1] === 'Aug') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 31) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Sep 1 - 3"
-            }
-        } else if(dateArr[1] === 'Sep') {
-            // console.log(dateArr[2])
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            // console.log(incrementedDate, projectedEndDate)
-            if(projectedEndDate <= 30) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Oct 1 - 3"
-            }
-        } else if(dateArr[1] === 'Oct') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 31) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Nov 1 - 3"
-            }
-        } else if(dateArr[1] === 'Nov') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 30) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Dec 1 - 3"
-            }
-        } else if(dateArr[1] === 'Dec') {
-            const incrementedDate = Number(dateArr[2]) + 1
-            const projectedEndDate = Number(dateArr[2]) + 3
-            if(projectedEndDate <= 31) {
-                return `${dateArr[1]} ${incrementedDate} - ${projectedEndDate}`
-            } else {
-                return "Jan 1 - 3"
-            }
-        }
+    const getCurrDays = (dateInfo) => {
+        const dateArr = dateInfo.split('-')
+        const year = dateArr[0]
+        const monthNum = dateArr[1]
+        const day = dateArr[2]
+        const newDateObj = new Date(`${year}-${monthNum}-${day}`)
+        return newDateObj.toDateString()
     }
 
     const changeGuests = (type, plusOrMinus) => {
@@ -286,9 +288,8 @@ function BookingPage() {
         }
     }
 
-    // const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-    const defaultDateInfo = getDefaultDates(defaultStart)
+    // const defaultDateInfo = getDefaultDates(defaultStart)
 
     const getMonthNum = (month) => {
         if(month === "Jan") {
@@ -323,67 +324,69 @@ function BookingPage() {
     //     const
     // }
 
-    const formatStartDates = (dates) => {
-        const datesSplit = dates.split(' ')
-        if(Number(datesSplit[1]) === 1 && Number(datesSplit[3]) === 3) {
-            const monthString = datesSplit[0]
-            const monthNum = getMonthNum(monthString)
-            const day = datesSplit[1]
-            let year
-            if(monthString === "Jan") {
-                year = new Date().getFullYear() + 1
-            } else {
-                year = new Date().getFullYear()
-            }
-            const newDateObj = new Date(`${year}-${monthNum}-${day}`)
-            return newDateObj.toDateString()
-        } else {
-            const monthString = datesSplit[0]
-            const monthNum = getMonthNum(monthString)
-            const day = datesSplit[1]
-            const year = new Date().getFullYear()
-            const newDateObj = new Date(`${year}-${monthNum}-${day}`)
-          	return newDateObj.toDateString()
-        }
-    }
+    // const formatStartDates = (dates) => {
+    //     const datesSplit = dates.split(' ')
+    //     if(Number(datesSplit[1]) === 1 && Number(datesSplit[3]) === 3) {
+    //         const monthString = datesSplit[0]
+    //         const monthNum = getMonthNum(monthString)
+    //         const day = datesSplit[1]
+    //         let year
+    //         if(monthString === "Jan") {
+    //             year = new Date().getFullYear() + 1
+    //         } else {
+    //             year = new Date().getFullYear()
+    //         }
+    //         const newDateObj = new Date(`${year}-${monthNum}-${day}`)
+    //         return newDateObj.toDateString()
+    //     } else {
+    //         const monthString = datesSplit[0]
+    //         const monthNum = getMonthNum(monthString)
+    //         const day = datesSplit[1]
+    //         const year = new Date().getFullYear()
+    //         const newDateObj = new Date(`${year}-${monthNum}-${day}`)
+    //       	return newDateObj.toDateString()
+    //     }
+    // }
 
-    const formatEndDates = (dates) => {
-        const datesSplit = dates.split(' ')
-        if(Number(datesSplit[1]) === 1 && Number(datesSplit[3]) === 3) {
-            const monthString = datesSplit[0]
-            const monthNum = getMonthNum(monthString)
-            const day = datesSplit[3]
-            let year
-            if(monthString === "Jan") {
-                year = new Date().getFullYear() + 1
-            } else {
-                year = new Date().getFullYear()
-            }
-            const newDateObj = new Date(`${year}-${monthNum}-${day}`)
-            return newDateObj.toDateString()
-        } else {
-            const monthString = datesSplit[0]
-            const monthNum = getMonthNum(monthString)
-            const day = datesSplit[3]
-            const year = new Date().getFullYear()
-            const newDateObj = new Date(`${year}-${monthNum}-${day}`)
-          	return newDateObj.toDateString()
-        }
-    }
-    const formattedStartDate = formatStartDates(defaultDateInfo)
-    const formattedEndDate = formatEndDates(defaultDateInfo)
+    // const formatEndDates = (dates) => {
+    //     const datesSplit = dates.split(' ')
+    //     if(Number(datesSplit[1]) === 1 && Number(datesSplit[3]) === 3) {
+    //         const monthString = datesSplit[0]
+    //         const monthNum = getMonthNum(monthString)
+    //         const day = datesSplit[3]
+    //         let year
+    //         if(monthString === "Jan") {
+    //             year = new Date().getFullYear() + 1
+    //         } else {
+    //             year = new Date().getFullYear()
+    //         }
+    //         const newDateObj = new Date(`${year}-${monthNum}-${day}`)
+    //         return newDateObj.toDateString()
+    //     } else {
+    //         const monthString = datesSplit[0]
+    //         const monthNum = getMonthNum(monthString)
+    //         const day = datesSplit[3]
+    //         const year = new Date().getFullYear()
+    //         const newDateObj = new Date(`${year}-${monthNum}-${day}`)
+    //       	return newDateObj.toDateString()
+    //     }
+    // }
+    // const formattedStartDate = formatStartDates(defaultDateInfo)
+    // const formattedEndDate = formatEndDates(defaultDateInfo)
 
-    const [defaultDates, setDefaultDates] = useState(defaultDateInfo)
+    // const [defaultDates, setDefaultDates] = useState(defaultDateInfo)
     // const [checkin, setCheckin] = useState('')
     // const [checkout, setCheckout] = useState('')
-    const [guestsNum, setGuestsNum] = useState(1)
+    const formattedStartDate = getCurrDays(booking?.startDate)
+    const formattedEndDate = getCurrDays(booking?.endDate)
+
     const [showCalMenuOne, setShowCalMenuOne] = useState(false)
     const [showCalMenuTwo, setShowCalMenuTwo] = useState(false)
     const [startDate, setStartDate] = useState(formattedStartDate)
 
     const [endDate, setEndDate] = useState(formattedEndDate)
     // const stayLength = getLengthOfStay(startDate, endDate)
-    const [lengthOfStay, setLengthOfStay] = useState(getLengthOfStay(startDate, endDate))
+    const [lengthOfStay, setLengthOfStay] = useState(booking?.stayLength)
     const [saveDateError, setSaveDateError] = useState('')
 
     const ulRef = useRef()
@@ -404,22 +407,33 @@ function BookingPage() {
     const handleDatesChangeSubmit = () => {
         let startDateArr
         let endDateArr
+        console.log(booking?.startDate)
+        console.log(booking?.endDat)
         if(typeof startDate === "object") {
             startDateArr = startDate.toDateString().split(" ")
         } else {
-            startDateArr = startDate.split(" ")
+            startDateArr = startDate.split("-")
         }
 
         if(typeof endDate === "object") {
             endDateArr = endDate.toDateString().split(" ")
         } else {
-            endDateArr = endDate.split(" ")
+            endDateArr = endDate.split("-")
         }
+        // console.log(startDateArr)
+        // console.log(endDateArr)
+        // if(typeof startDate === "object") {
+        //     if(typeof endDate === "string") {
+        //         const monthString = getMonthString(endDateArr[1])
+        //         // if(startDateArr[])
+        //     } else {
 
+        //     }
+        // }
         if(startDateArr[1] === endDateArr[1]) {
-            setDefaultDates(`${startDateArr[1]} ${startDateArr[2]} - ${endDateArr[2]}`)
+            setStayDateRange(`${startDateArr[1]} ${startDateArr[2]} - ${endDateArr[2]}`)
         } else {
-            setDefaultDates(`${startDateArr[1]} ${startDateArr[2]} - ${endDateArr[1]} ${endDateArr[2]}`)
+            setStayDateRange(`${startDateArr[1]} ${startDateArr[2]} - ${endDateArr[1]} ${endDateArr[2]}`)
         }
         return
     }
@@ -431,7 +445,7 @@ function BookingPage() {
         } else {
             hasIns = "false"
         }
-        const newBooking = {
+        const updatedBooking = {
             startDate: startDate,
             endDate: endDate,
             numGuests: totalGuestsNum,
@@ -439,7 +453,7 @@ function BookingPage() {
             stayLength: lengthOfStay
         }
 
-        dispatch(createNewBooking(id, newBooking)).then(async () => {
+        dispatch(updateUserBooking(bookingId, updatedBooking)).then(async () => {
             const bookingId = booking.id
             if(booking && booking.id) {
                 console.log("BOOKING ID: ", bookingId)
@@ -630,7 +644,7 @@ function BookingPage() {
         <div id='booking-page-wrapper'>
             <div id='booking-icon-and-header'>
                 <img id='booking-page-left-arrow' src="https://i.ibb.co/p1WmzF2/left-arrow-icon.png" alt="left-arrow-icon" border="0" />
-                <h1 id='bp-confirm-and-pay-header'>Confirm and pay</h1>
+                <h1 id='bp-confirm-and-pay-header'>Edit booking</h1>
             </div>
             <div id='booking-page-main-content'>
                 <div id='booking-page-left-side'>
@@ -642,7 +656,7 @@ function BookingPage() {
                             <div id='your-trip-dates-section'>
                                 <div>
                                     <p id='bp-dates-text' className='booking-page-section-p'>Dates</p>
-                                    <p id='bp-date-range-text' className='booking-page-section-p'>{defaultDates}</p>
+                                    <p id='bp-date-range-text' className='booking-page-section-p'>{stayDateRange}</p>
                                 </div>
                                 <div>
                                     <p id='bp-edit-dates' className='booking-page-section-p' onClick={() => setShowModal(true)}>Edit</p>
@@ -676,10 +690,10 @@ function BookingPage() {
                         <div id='trav-ins-top-container'>
                             <div>
                                 <p id='peace-of-mind-text' className='booking-page-section-p'>Add peace of mind for $138</p>
-                                <p id='only-avail-while-text' className='booking-page-section-p'>Only available while booking.</p>
+                                <p id='only-avail-while-text' className='booking-page-section-p'>Cannot be changed after initial booking.</p>
                             </div>
                             <div>
-                                {isTravelInsurance ? (<img className='travel-insurance-icon' onClick={() => setIsTravelInsurance(false)} src="https://i.ibb.co/60F3sW9/black-check-box-with-white-check.png" alt="black-check-box-with-white-check" border="0" />) : (<img className='travel-insurance-icon' onClick={() => setIsTravelInsurance(true)} src="https://i.ibb.co/xY7Zhcf/square.png" alt="square" border="0" />)}
+                                {isTravelInsurance ? (<img className='travel-insurance-icon' src="https://i.ibb.co/60F3sW9/black-check-box-with-white-check.png" alt="black-check-box-with-white-check" border="0" />) : (<img className='travel-insurance-icon' src="https://i.ibb.co/xY7Zhcf/square.png" alt="square" border="0" />)}
                             </div>
                         </div>
                         <div id='trav-ins-bot-container'>
@@ -767,4 +781,4 @@ function BookingPage() {
     )
 }
 
-export default BookingPage;
+export default EditBookingPage;
