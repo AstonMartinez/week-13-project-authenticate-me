@@ -210,15 +210,6 @@ body {
         width: 1150px;
     }
 
-    /* #optional-img-one {
-        justify-self: flex-start;
-        height: 198px;
-    }
-
-    #optional-img-two, #optional-img-three, #optional-img-four {
-        height: 198px;
-    } */
-
     #hosted-by-and-description {
         display: flex;
         height: 200px;
