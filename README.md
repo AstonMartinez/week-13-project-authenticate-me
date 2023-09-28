@@ -1,5 +1,5 @@
 # Lairbnb
-This project was created as a portfolio project to demonstrate my proficiency as a full-stack developer. It mimicks the functionality of airbnb, including the ability to perform CRUD operations on Spots, Spot Images, Reviews, Review Images, and Bookings.
+This project was created as a portfolio project to demonstrate my proficiency as a full-stack developer. It mimics the functionality of Airbnb, including the ability to perform CRUD operations on Spots, Spot Images, Reviews, Review Images, and Bookings.
 
 You can access the live app here: https://astons-mod-4-portfolio-project.onrender.com
 
