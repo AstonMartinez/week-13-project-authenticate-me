@@ -15,6 +15,7 @@ function BookingPage() {
     const history = useHistory()
     const spot = useSelector(state => state.spots.singleSpot)
     const booking = useSelector(state => state.bookings.singleBooking)
+    const sessionUser = useSelector(state => state.session.user)
     const [hasSubmitted, setHasSubmitted] = useState(false)
     const [errors, setErrors] = useState('')
     let errorsArr = []
@@ -86,6 +87,10 @@ function BookingPage() {
         } else if(month === 'Dec') {
             return 31
         }
+    }
+
+    function dateCompare(date1, date2){
+        return new Date(date2) > new Date(date1);
     }
 
     const getLengthOfStay = (start, end) => {
@@ -423,7 +428,8 @@ function BookingPage() {
         return
     }
 
-    const handleBookingSubmit = async () => {
+    const handleBookingSubmit = async (e) => {
+        e.preventDefault()
         let hasIns
         setHasSubmitted(true)
         if(isTravelInsurance) {
@@ -439,39 +445,52 @@ function BookingPage() {
             stayLength: lengthOfStay
         }
 
-        try {
-            const response = await csrfFetch(`/api/spots/${spot.id}/bookings`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newBooking)
-            })
+        return dispatch(createNewBooking(id, newBooking))
+        .then(() => {
+            history.push(`/booking/${booking.id}/confirmation`)
+        })
+        .catch(async (res) => {
+            const data = await res.json()
+            if(data && data.message) {
+                setErrors(data)
+            }
+        })
 
-            if(response.ok && booking.id !== undefined) {
-                return history.push(`/booking/${booking.id}/confirmation`)
-            }
-        } catch (err) {
-            const data = await err.json()
 
-            if(data.message === "Forbidden") {
-                errorsArr.push("You can't submit a booking for a Lair that you own.")
-            }
-            if(data.errors.endDate) {
-                console.log(data.errors.endDate)
-                errorsArr.push(data.errors.endDate)
-                console.log(errorsArr)
-            }
+        // try {
+        //     const response = await csrfFetch(`/api/spots/${spot.id}/bookings`, {
+        //         method: "POST",
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(newBooking)
+        //     })
 
-            if(data.errors.startDate) {
-                console.log(data.errors.startDate)
-                errorsArr.push(data.errors.startDate)
-                console.log(errorsArr)
-            }
-            setErrors(processErrors(errorsArr))
-            // setSubmitError(data.message)
-            return
-        }
+        //     if(response.ok && booking.id !== undefined) {
+        //         return history.push(`/booking/${booking.id}/confirmation`)
+        //     }
+        // } catch (err) {
+        //     const data = await err.json()
+        //     console.log("DATA: ", data)
+
+        //     if(data.message === "Forbidden") {
+        //         errorsArr.push("You can't submit a booking for a Lair that you own.")
+        //     }
+        //     if(data.errors.endDate) {
+        //         console.log(data.errors.endDate)
+        //         errorsArr.push(data.errors.endDate)
+        //         console.log(errorsArr)
+        //     }
+
+        //     if(data.errors.startDate) {
+        //         console.log(data.errors.startDate)
+        //         errorsArr.push(data.errors.startDate)
+        //         console.log(errorsArr)
+        //     }
+        //     setErrors(processErrors(errorsArr))
+        //     // setSubmitError(data.message)
+        //     return
+        // }
 
 
 
@@ -683,7 +702,7 @@ function BookingPage() {
                 <img id='booking-page-left-arrow' src="https://i.ibb.co/p1WmzF2/left-arrow-icon.png" alt="left-arrow-icon" border="0" />
                 <h1 id='bp-confirm-and-pay-header'>Confirm booking</h1>
             </div>
-            <div id='booking-page-main-content'>
+            <form id='booking-page-main-content'>
                 <div id='booking-page-left-side'>
                     <div id='bp-left-your-trip'>
                         <div>
@@ -759,12 +778,11 @@ function BookingPage() {
                         </div>
                     </div>
                     <div id='booking-errors-container'>
-                        {hasSubmitted && (
-                            <p>{processErrors(errorsArr)}</p>
-                        )}
+                        {spot.ownerId === sessionUser.id ? (<p style={{"color": "red"}}>You can't schedule a booking for a Lair that you own!</p>) : ''}
+                        {dateCompare(startDate, endDate) === false ? (<p style={{"color": "red"}}>Check out date cannot be before the check in date.</p>) : ''}
                     </div>
                     <div id='bp-submit-button-container'>
-                        <button id='bp-submit-button' onClick={handleBookingSubmit}>Confirm Booking</button>
+                        <button id='bp-submit-button' disabled={(spot.ownerId === sessionUser.id || dateCompare(startDate, endDate) === false) ? true : false} onClick={handleBookingSubmit}>Confirm Booking</button>
                     </div>
                 </div>
                 <div id='bp-right-wrapper'>
@@ -818,7 +836,7 @@ function BookingPage() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }
