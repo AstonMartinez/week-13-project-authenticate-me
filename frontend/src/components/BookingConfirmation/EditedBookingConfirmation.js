@@ -48,8 +48,6 @@ function EditedBookingConfirmation() {
         if(booking) {
             let startDateSplit
             let endDateSplit
-            console.log("START DATE: ", booking?.startDate)
-            console.log("END DATE: ", booking?.endDate)
             if(typeof startDate === "object") {
                 startDateSplit = startDate.toDateString().split(" ")
             } else if(typeof startDate === "string"){

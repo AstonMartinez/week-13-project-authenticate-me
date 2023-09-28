@@ -428,7 +428,6 @@ function EditBookingPage() {
             }
         }).catch(async err => {
             if(err) {
-                console.log(err)
                 setSubmitError(err)
                 return
             }

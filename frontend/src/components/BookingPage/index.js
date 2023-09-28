@@ -406,7 +406,6 @@ function BookingPage() {
     const handleDatesChangeSubmit = () => {
         let startDateArr
         let endDateArr
-        console.log("START DATE: ", startDate)
         if(typeof startDate === "object") {
             startDateArr = startDate.toDateString().split(" ")
         } else {
@@ -456,60 +455,6 @@ function BookingPage() {
             }
         })
 
-
-        // try {
-        //     const response = await csrfFetch(`/api/spots/${spot.id}/bookings`, {
-        //         method: "POST",
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(newBooking)
-        //     })
-
-        //     if(response.ok && booking.id !== undefined) {
-        //         return history.push(`/booking/${booking.id}/confirmation`)
-        //     }
-        // } catch (err) {
-        //     const data = await err.json()
-        //     console.log("DATA: ", data)
-
-        //     if(data.message === "Forbidden") {
-        //         errorsArr.push("You can't submit a booking for a Lair that you own.")
-        //     }
-        //     if(data.errors.endDate) {
-        //         console.log(data.errors.endDate)
-        //         errorsArr.push(data.errors.endDate)
-        //         console.log(errorsArr)
-        //     }
-
-        //     if(data.errors.startDate) {
-        //         console.log(data.errors.startDate)
-        //         errorsArr.push(data.errors.startDate)
-        //         console.log(errorsArr)
-        //     }
-        //     setErrors(processErrors(errorsArr))
-        //     // setSubmitError(data.message)
-        //     return
-        // }
-
-
-
-        // dispatch(createNewBooking(id, newBooking)).then( () => {
-        //     setHasSubmitted(true)
-        //     const bookingId = booking.id
-        //     if(booking) {
-        //         console.log("hitting this")
-        //         return history.push(`/booking/${bookingId}/confirmation`)
-        //     }
-        // }).catch(async err => {
-        //     if(err) {
-        //         const error = await err.json()
-        //         console.log(error)
-        //         setSubmitError(error.message)
-        //         return
-        //     }
-        // })
-
     }
 
     const processErrors = (errorsArr) => {
@@ -522,7 +467,6 @@ function BookingPage() {
                 result += `• ${error} `
             }
         }
-        console.log("RESULT: ", result)
         return result
     }
 

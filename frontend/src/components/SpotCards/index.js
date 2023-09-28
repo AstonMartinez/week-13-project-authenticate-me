@@ -3,9 +3,15 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import OpenModalButton from '../OpenModalButton'
 import DeleteConfirmModal from '../DeleteConfirmModal'
+import DeleteLairModal from '../ManageSpots/DeleteSpotModal'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserSpots } from '../../store/spots'
 
 function SpotCard({ spot, user }) {
+    const dispatch = useDispatch()
+    const sessionUser = useSelector(state => state.session.user)
     const [tooltipVisibility, setTooltipVisibility] = useState('hidden')
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
 
     let rating;
 
@@ -15,7 +21,6 @@ function SpotCard({ spot, user }) {
         rating = spot.avgRating
     }
 
-    // console.log("PREVIEW IMAGE: ", spot.previewImage)
     let manageButtons;
 
     if(user) {
@@ -24,19 +29,14 @@ function SpotCard({ spot, user }) {
             <NavLink exact to={`/spots/${spot.id}/edit`}>
                 <button id='manage-spots-update-button'>Update</button>
             </NavLink>
-            <OpenModalButton
-            id='delete-modal-button'
-            buttonText='Delete'
-            modalComponent={<DeleteConfirmModal spot={spot} />}
-            />
+                <button id='manage-spots-delete-button' onClick={() => setShowDeleteModal(true)}>
+                    Delete
+                </button>
             </div>
         )
     } else {
         manageButtons = ''
     }
-
-    console.log("SPOT FROM SPOT CARD", spot)
-
 
     return (
         <div id='spot-card-manage-div-for-delete-modal'>
@@ -64,6 +64,20 @@ function SpotCard({ spot, user }) {
         </div>
         </NavLink>
         {manageButtons}
+        {showDeleteModal && (
+            <DeleteLairModal
+                spot={spot}
+                spotId={spot.id}
+                onClose={() => {
+                    setShowDeleteModal(false)
+                    dispatch(fetchUserSpots())
+                }}
+                onSubmit={() => {
+                    setShowDeleteModal(false)
+                    dispatch(fetchUserSpots())
+                }}
+            />
+        )}
         </div>
     )
 }

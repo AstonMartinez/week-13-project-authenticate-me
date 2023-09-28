@@ -107,8 +107,6 @@ router.get('/current', async (req, res) => {
 
 // <---------------------------- EDIT A BOOKING ---------------------------->
 router.put('/:id', async (req, res) => {
-    console.log(req.user.id)
-    console.log(req.params.id)
     if(req.user) {
         const booking = await Booking.findOne({
             where: {

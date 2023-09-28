@@ -72,7 +72,7 @@ function SpotDetails() {
             if(sessionUser && sessionUser?.id !== ownerId) {
                 reviewButton = (
                     <div id='review-button-parent-div'>
-                        <button onClick={() => {
+                        <button id='spot-details-post-review-button' onClick={() => {
                             setShowModal(true)
                             setModalType("create")
                         }}>Post Your Review</button>
@@ -85,7 +85,7 @@ function SpotDetails() {
             if((sessionUser && sessionUser.id !== ownerId) && !spotReviews?.find(review => review.userId === sessionUser.id)) {
                 reviewButton = (
                     <div id='review-button-parent-div'>
-                        <button onClick={() => {
+                        <button id='spot-details-post-review-button' onClick={() => {
                             setShowModal(true)
                             setModalType("create")
                         }}>Post Your Review</button>
@@ -195,12 +195,12 @@ function SpotDetails() {
                             <p className='review-inner-text'>{review.review}</p>
                             {(sessionUser && review.userId === sessionUser.id) ? (
                                 <div id='delete-review-button-div'>
-                                    <button onClick={() => {
+                                    <button id='spot-details-update-review-button' onClick={() => {
                                         setShowModal(true)
                                         setModalType('update')
                                         setSelectedReview(review)
                                     }}>Update</button>
-                                    <button onClick={() => {
+                                    <button id='spot-details-delete-review-button' onClick={() => {
                                         setShowModal(true)
                                         setModalType('delete')
                                         setSelectedReview(review)
@@ -220,10 +220,18 @@ function SpotDetails() {
                         onClose={() => {
                             setShowModal(false)
                             setModalType(null)
+                            dispatch(spotActions.fetchSingleSpot(spotId))
+                            dispatch(reviewActions.getReviewsBySpotId(spotId))
+                            dispatch(spotImageActions.fetchSpotImages(spotId))
+                            dispatch(spotActions.fetchSpots())
                         }}
                         onSubmit={() => {
                             setShowModal(false)
                             setModalType(null)
+                            dispatch(spotActions.fetchSingleSpot(spotId))
+                            dispatch(reviewActions.getReviewsBySpotId(spotId))
+                            dispatch(spotImageActions.fetchSpotImages(spotId))
+                            dispatch(spotActions.fetchSpots())
                         }}
                     />
                 )}
@@ -236,11 +244,19 @@ function SpotDetails() {
                             setShowModal(false)
                             setModalType(null)
                             setSelectedReview(null)
+                            dispatch(spotActions.fetchSingleSpot(spotId))
+                            dispatch(reviewActions.getReviewsBySpotId(spotId))
+                            dispatch(spotImageActions.fetchSpotImages(spotId))
+                            dispatch(spotActions.fetchSpots())
                         }}
                         onSubmit={() => {
                             setShowModal(false)
                             setModalType(null)
                             setSelectedReview(null)
+                            dispatch(spotActions.fetchSingleSpot(spotId))
+                            dispatch(reviewActions.getReviewsBySpotId(spotId))
+                            dispatch(spotImageActions.fetchSpotImages(spotId))
+                            dispatch(spotActions.fetchSpots())
                         }}
                     />)}
 
@@ -252,11 +268,19 @@ function SpotDetails() {
                             setShowModal(false)
                             setModalType(null)
                             setSelectedReview(null)
+                            dispatch(spotActions.fetchSingleSpot(spotId))
+                            dispatch(reviewActions.getReviewsBySpotId(spotId))
+                            dispatch(spotImageActions.fetchSpotImages(spotId))
+                            dispatch(spotActions.fetchSpots())
                         }}
                         onSubmit={() => {
                             setShowModal(false)
                             setModalType(null)
                             setSelectedReview(null)
+                            dispatch(spotActions.fetchSingleSpot(spotId))
+                            dispatch(reviewActions.getReviewsBySpotId(spotId))
+                            dispatch(spotImageActions.fetchSpotImages(spotId))
+                            dispatch(spotActions.fetchSpots())
                         }}
                     />)}
                 </>

@@ -19,7 +19,6 @@ const DeleteBookingModal = ({ bookingData, bookingId, onSubmit, onClose }) => {
         }).catch(async(res) => {
             const response = await res.json()
             if (response.message) {
-                console.log("RESPONSE MESSAGE: ", response.message)
                 setErrors(response.message)
                 return
             }

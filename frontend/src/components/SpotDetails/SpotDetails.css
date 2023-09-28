@@ -419,3 +419,21 @@ span {
     flex-direction: column;
     margin-bottom: 40px;
 }
+
+#spot-details-post-review-button {
+    background-color: #666666;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    /* margin-left: 10px; */
+    margin-bottom: 30px;
+}
+
+#spot-details-update-review-button, #spot-details-delete-review-button {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background-color: #666666;
+    width: 105px;
+    height: 30px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
