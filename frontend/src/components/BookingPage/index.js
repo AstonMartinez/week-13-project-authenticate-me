@@ -5,6 +5,7 @@ import Calendar from 'react-calendar'
 import { useDispatch, useSelector } from 'react-redux'
 import { createNewBooking } from '../../store/bookings'
 import { fetchSingleSpot } from '../../store/spots'
+import { csrfFetch } from '../../store/csrf'
 // import { getLengthOfStay } from './stayLength'
 
 function BookingPage() {
@@ -15,6 +16,8 @@ function BookingPage() {
     const spot = useSelector(state => state.spots.singleSpot)
     const booking = useSelector(state => state.bookings.singleBooking)
     const [hasSubmitted, setHasSubmitted] = useState(false)
+    const [errors, setErrors] = useState('')
+    let errorsArr = []
 
     const spotImages = spot.SpotImages
 
@@ -40,6 +43,22 @@ function BookingPage() {
     useEffect(() => {
         dispatch(fetchSingleSpot(id))
     }, [dispatch, id])
+
+    let travInsButtons
+
+    if(!isTravelInsurance) {
+        travInsButtons = (
+            <img className='travel-insurance-icon' src="https://i.ibb.co/xY7Zhcf/square.png" alt="square" border="0" onClick={() => {
+                setIsTravelInsurance(true)
+            }} />
+        )
+    } else {
+        travInsButtons = (
+            <img className='travel-insurance-icon' src="https://i.ibb.co/60F3sW9/black-check-box-with-white-check.png" alt="black-check-box-with-white-check" border="0" onClick={() => {
+                setIsTravelInsurance(false)
+            }} />
+        )
+    }
 
     const determineMonthLength = (month) => {
         if(month === 'Jan') {
@@ -382,6 +401,7 @@ function BookingPage() {
     const handleDatesChangeSubmit = () => {
         let startDateArr
         let endDateArr
+        console.log("START DATE: ", startDate)
         if(typeof startDate === "object") {
             startDateArr = startDate.toDateString().split(" ")
         } else {
@@ -403,8 +423,9 @@ function BookingPage() {
         return
     }
 
-    const handleBookingSubmit = () => {
+    const handleBookingSubmit = async () => {
         let hasIns
+        setHasSubmitted(true)
         if(isTravelInsurance) {
             hasIns = "true"
         } else {
@@ -418,20 +439,72 @@ function BookingPage() {
             stayLength: lengthOfStay
         }
 
-        dispatch(createNewBooking(id, newBooking)).then(async () => {
-            setHasSubmitted(true)
-            const bookingId = booking.id
-            if(booking && booking.id) {
-                return history.push(`/booking/${bookingId}/confirmation`)
-            }
-        }).catch(async err => {
-            if(err) {
-                console.log(err)
-                setSubmitError(err)
-                return
-            }
-        })
+        try {
+            const response = await csrfFetch(`/api/spots/${spot.id}/bookings`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newBooking)
+            })
 
+            if(response.ok && booking.id !== undefined) {
+                return history.push(`/booking/${booking.id}/confirmation`)
+            }
+        } catch (err) {
+            const data = await err.json()
+
+            if(data.message === "Forbidden") {
+                errorsArr.push("You can't submit a booking for a Lair that you own.")
+            }
+            if(data.errors.endDate) {
+                console.log(data.errors.endDate)
+                errorsArr.push(data.errors.endDate)
+                console.log(errorsArr)
+            }
+
+            if(data.errors.startDate) {
+                console.log(data.errors.startDate)
+                errorsArr.push(data.errors.startDate)
+                console.log(errorsArr)
+            }
+            setErrors(processErrors(errorsArr))
+            // setSubmitError(data.message)
+            return
+        }
+
+
+
+        // dispatch(createNewBooking(id, newBooking)).then( () => {
+        //     setHasSubmitted(true)
+        //     const bookingId = booking.id
+        //     if(booking) {
+        //         console.log("hitting this")
+        //         return history.push(`/booking/${bookingId}/confirmation`)
+        //     }
+        // }).catch(async err => {
+        //     if(err) {
+        //         const error = await err.json()
+        //         console.log(error)
+        //         setSubmitError(error.message)
+        //         return
+        //     }
+        // })
+
+    }
+
+    const processErrors = (errorsArr) => {
+        let result = ''
+        if(errorsArr.length === 0) {
+            return ''
+        } else {
+            for(let i = 0; i < errorsArr.length; i++) {
+                const error = errorsArr[i]
+                result += `• ${error} `
+            }
+        }
+        console.log("RESULT: ", result)
+        return result
     }
 
     useEffect(() => {
@@ -468,18 +541,10 @@ function BookingPage() {
                     </div>
                     <div id='calendar-menu-dropdown-div' ref={ulRef}>
                         <div id='calendar-menu-dropdown-one'>
-                            {<Calendar onChange={(date) => {
-                                setLengthOfStay(getLengthOfStay(date, endDate))
-                                setStartDate(date)
-                                return
-                            }} value={startDate} />}
+                            {<Calendar onChange={setStartDate} value={startDate} />}
                         </div>
                         <div id='calendar-menu-dropdown-two'>
-                            {<Calendar onChange={(date) => {
-                                setLengthOfStay(getLengthOfStay(startDate, date))
-                                setEndDate(date)
-                                return
-                            }} value={endDate}/>}
+                            {<Calendar onChange={setEndDate} value={endDate}/>}
                         </div>
                     </div>
                     <div id='confirm-or-cancel-booking'>
@@ -616,7 +681,7 @@ function BookingPage() {
         <div id='booking-page-wrapper'>
             <div id='booking-icon-and-header'>
                 <img id='booking-page-left-arrow' src="https://i.ibb.co/p1WmzF2/left-arrow-icon.png" alt="left-arrow-icon" border="0" />
-                <h1 id='bp-confirm-and-pay-header'>Confirm and pay</h1>
+                <h1 id='bp-confirm-and-pay-header'>Confirm booking</h1>
             </div>
             <div id='booking-page-main-content'>
                 <div id='booking-page-left-side'>
@@ -642,7 +707,7 @@ function BookingPage() {
                             <div id='booking-guests-section'>
                                 <div>
                                     <p id='bp-guests-text' className='booking-page-section-p'>Guests</p>
-                                    <p id='bp-guests-num' className='booking-page-section-p'>{beginningGuestsNum} {beginningGuestsNum === 1 ? "guest" : "guests"}</p>
+                                    <p id='bp-guests-num' className='booking-page-section-p'>{totalGuestsNum} {totalGuestsNum === 1 ? "guest" : "guests"}</p>
                                 </div>
                                 <div>
                                     <p id='bp-edit-guests' className='booking-page-section-p' onClick={() => setShowGuestsModal(true)}>Edit</p>
@@ -662,10 +727,10 @@ function BookingPage() {
                         <div id='trav-ins-top-container'>
                             <div>
                                 <p id='peace-of-mind-text' className='booking-page-section-p'>Add peace of mind for $138</p>
-                                <p id='only-avail-while-text' className='booking-page-section-p'>Only available while booking.</p>
+                                <p id='only-avail-while-text' className='booking-page-section-p'>Only available during initial booking.</p>
                             </div>
                             <div>
-                                {isTravelInsurance ? (<img className='travel-insurance-icon' onClick={() => setIsTravelInsurance(false)} src="https://i.ibb.co/60F3sW9/black-check-box-with-white-check.png" alt="black-check-box-with-white-check" border="0" />) : (<img className='travel-insurance-icon' onClick={() => setIsTravelInsurance(true)} src="https://i.ibb.co/xY7Zhcf/square.png" alt="square" border="0" />)}
+                                {travInsButtons}
                             </div>
                         </div>
                         <div id='trav-ins-bot-container'>
@@ -678,7 +743,7 @@ function BookingPage() {
                             <h2 className='bp-h2-tag'>Cancellation policy</h2>
                         </div>
                         <div>
-                            <p id='cancel-before-text' className='booking-page-section-p'>Cancel before check-in on {startDate} for a partial refund. After that, your refund depends on when you cancel.</p>
+                            <p id='cancel-before-text' className='booking-page-section-p'>Cancel before check-in on {typeof startDate === "object" ? startDate.toDateString() : startDate} for a partial refund. After that, your refund depends on when you cancel.</p>
                         </div>
                     </div>
                     <div id='bp-ground-rules-section'>
@@ -693,8 +758,12 @@ function BookingPage() {
                             </ul>
                         </div>
                     </div>
+                    <div id='booking-errors-container'>
+                        {hasSubmitted && (
+                            <p>{processErrors(errorsArr)}</p>
+                        )}
+                    </div>
                     <div id='bp-submit-button-container'>
-                        {submitError && (<p>{submitError}</p>)}
                         <button id='bp-submit-button' onClick={handleBookingSubmit}>Confirm Booking</button>
                     </div>
                 </div>
@@ -711,7 +780,7 @@ function BookingPage() {
                                     </div>
                                     <div className='bp-spot-reviews'>
                                         <i id='bp-star-favicon' className="fa-solid fa-star" style={{color: "#000000"}} />
-                                        <p>{spot?.avgRating} <span id='bp-spot-reviews-span'>({spot.numReviews} reviews)</span></p>
+                                        <p>{spot?.avgRating !== 'NaN' ? spot?.avgRating : "New"} <span id='bp-spot-reviews-span'>({spot.numReviews} reviews)</span></p>
                                     </div>
                                 </div>
                             </div>

@@ -96,10 +96,14 @@ export const createNewBooking = (spotId, booking) => async (dispatch) => {
 }
 
 export const getById = (id) => async (dispatch) => {
-    const response = await fetch(`/api/bookings/${Number(id)}/details`)
+    const response = await fetch(`/api/bookings/${(id)}/details`)
+    console.log("ID FROM THUNK: ", id, "", typeof id)
     if(response.ok) {
         const data = await response.json()
         dispatch(getBookingById(data))
+    } else {
+        const result = await response.json()
+        console.log("ERROR RESULT: ", result)
     }
     return response;
 }

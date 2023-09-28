@@ -72,7 +72,8 @@ router.get('/current', async (req, res) => {
         const userBookings = await Booking.findAll({
             where: {
                 userId: req.user.id
-            }
+            },
+            order: [['startDate', 'ASC'], ['endDate', 'ASC']]
         })
 
         for(let booking of userBookings) {
@@ -114,8 +115,6 @@ router.put('/:id', async (req, res) => {
                 id: req.params.id
             }
         })
-        console.log("BOOKING.USERID: ", booking.userId)
-        console.log("REQ.USER.ID: ", req.user.id)
 
         if(!booking) {
             res.status(404)
@@ -273,10 +272,10 @@ router.delete('/:id', async (req, res) => {
             }
         })
 
-        if(booking && booking.userId !== req.user.id && spot.ownerId !== req.user.id) {
-            res.status(403)
-            return res.json({ message: "Forbidden" })
-        }
+        // if(booking && booking.userId !== req.user.id && spot.ownerId !== req.user.id) {
+        //     res.status(403)
+        //     return res.json({ message: "Forbidden" })
+        // }
 
         if(booking && (booking.userId === req.user.id || spot.ownerId === req.user.id)) {
             // const startDate = booking.startDate

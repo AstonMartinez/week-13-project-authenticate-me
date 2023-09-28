@@ -1,5 +1,9 @@
 #confirm-delete-modal-parent {
     width: 400px;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 10px;
+    text-align: center;
 }
 
 #confirm-delete-modal-text {

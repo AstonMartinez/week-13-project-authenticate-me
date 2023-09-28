@@ -186,14 +186,16 @@ function EditBookingPage() {
         if(typeof dateInfo === "object") {
             dateArr = dateInfo.toDateString()
             month = getMonthNum(dateArr[1])
-        } else {
+        } else if(typeof dateInfo === "string") {
             dateArr = dateInfo.split('-')
             month = getMonthString(dateArr[1])
         }
-        const year = dateArr[0]
-        const day = dateArr[2]
-        const newDateObj = new Date(`${year}-${month}-${day}`)
-        return newDateObj.toDateString()
+        if(dateArr) {
+            const year = dateArr[0]
+            const day = dateArr[2]
+            const newDateObj = new Date(`${year}-${month}-${day}`)
+            return newDateObj.toDateString()
+        }
     }
 
     const changeGuests = (type, plusOrMinus) => {

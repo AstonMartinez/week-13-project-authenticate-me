@@ -1,15 +1,20 @@
 import './BookingConfirmation.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getById } from '../../store/bookings'
 import { useParams, useHistory } from 'react-router-dom'
 
 function EditedBookingConfirmation() {
     const dispatch = useDispatch()
-    const { id } = useParams()
+    const { bookingId } = useParams()
     const booking = useSelector(state => state.bookings.singleBooking)
 
     const history = useHistory()
+    const [startDate, setStartDate] = useState(booking?.startDate)
+    const [endDate, setEndDate] = useState(booking?.endDate)
+    const [stayLength, setStayLength] = useState(booking?.stayLength)
+    const [haveBooking, setHaveBooking] = useState(false)
+    const [currBooking, setCurrBooking] = useState(booking)
 
     const getMonthString = (month) => {
         if(month === "01") {
@@ -43,16 +48,44 @@ function EditedBookingConfirmation() {
         if(booking) {
             let startDateSplit
             let endDateSplit
-            if(typeof booking?.startDate === "object") {
-                startDateSplit = booking?.startDate?.toDateString().split(" ")
+            console.log("START DATE: ", booking?.startDate)
+            console.log("END DATE: ", booking?.endDate)
+            if(typeof startDate === "object") {
+                startDateSplit = startDate.toDateString().split(" ")
+            } else if(typeof startDate === "string"){
+                startDateSplit = startDate.split("-")
             } else {
-                startDateSplit = booking?.startDate?.split("-")
+                startDateSplit = "Loading"
             }
 
-            if(typeof booking.endDate === "object") {
-                endDateSplit = booking?.endDate?.toDateString().split(" ")
+            if(typeof endDate === "object") {
+                endDateSplit = endDate.toDateString().split(" ")
+            } else if(typeof endDate === "string"){
+                endDateSplit = endDate.split("-")
             } else {
-                endDateSplit = booking?.endDate?.split("-")
+                endDateSplit = "Loading"
+            }
+
+            if(startDateSplit === "Loading") {
+                if(endDateSplit === "Loading") {
+                    return "Loading info..."
+                } else {
+                    const endMonth = endDateSplit[1]
+                    const endMonthString = getMonthString(endMonth)
+                    const endDay = endDateSplit[2]
+                    return `Loading... - ${endMonthString} ${endDay}`
+                }
+            }
+
+            if(endDateSplit === "Loading") {
+                if(startDateSplit === "Loading") {
+                    return "Loading info..."
+                } else {
+                    const startMonth = startDateSplit[1]
+                    const startMonthString = getMonthString(startMonth)
+                    const startDay = startDateSplit[2]
+                    return `${startMonthString} ${startDay} - Loading...`
+                }
             }
 
             if(startDateSplit[1] === endDateSplit[1]) {
@@ -74,9 +107,15 @@ function EditedBookingConfirmation() {
 
     }
 
+    const currDayRange = convertDates(booking?.startDate, booking?.endDate)
+    const [dateRange, setDateRange] = useState(convertDates(startDate, endDate))
+
     useEffect(() => {
-        dispatch(getById(id))
-    }, [dispatch, id])
+        dispatch(getById(bookingId)).then(() => {
+            setHaveBooking(true)
+            setCurrBooking(booking)
+        })
+    }, [dispatch, bookingId])
 
     return (
         <div id='booking-confirmation-wrapper'>
@@ -96,7 +135,7 @@ function EditedBookingConfirmation() {
                             <h4 className='bc-h4'>Dates</h4>
                         </div>
                         <div>
-                            <p className='bc-p'>{convertDates(booking?.startDate, booking?.endDate)}</p>
+                            <p className='bc-p'>{dateRange}</p>
                         </div>
                     </div>
                     <div id='bc-los-container'>

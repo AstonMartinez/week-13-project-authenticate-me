@@ -1,10 +1,38 @@
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import DeleteBookingModal from './DeleteBookingModal'
 import './Trips.css'
 
 function TripCard({ tripData }) {
     const [showManageDrop, setShowManageDrop] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [selectedBooking, setSelectedBooking] = useState(null)
+
+    const history = useHistory()
     const spot = tripData.Spot
+    let nightsInfo
+    let guestsInfo
+
+    if(Number(tripData?.stayLength) === 1) {
+        nightsInfo = (
+            <p>{tripData?.stayLength} night</p>
+        )
+    } else {
+        nightsInfo = (
+            <p>{tripData?.stayLength} nights</p>
+        )
+    }
+
+    if(Number(tripData.numGuests) === 1) {
+        guestsInfo = (
+            <p>{tripData.numGuests} guest</p>
+        )
+    } else {
+        guestsInfo = (
+            <p>{tripData.numGuests} guests</p>
+        )
+    }
 
     const getMonthString = (month) => {
         if(month === "01") {
@@ -53,44 +81,77 @@ function TripCard({ tripData }) {
 
     const manageButtonDropdown = (
         <div id={`manage-booking-dropdown-${showManageDrop}`}>
-            <NavLink exact to={`/spots/${tripData?.Spot?.id}/bookings/${tripData.id}`}>Update</NavLink>
-            <button>Delete</button>
+            <div className='trip-card-manage-button' id='trip-card-manage-update' onClick={() => {
+                history.push(`/spots/${tripData?.Spot?.id}/bookings/${tripData.id}`)
+            }}>
+                <p>Update</p>
+                {/* <NavLink exact to={`/spots/${tripData?.Spot?.id}/bookings/${tripData.id}`}>Update</NavLink> */}
+            </div>
+            <div className='trip-card-manage-button' id='trip-card-manage-update' onClick={() => {
+                setShowDeleteModal(true)
+                setSelectedBooking(tripData)
+            }}>
+                <p>Delete</p>
+            </div>
         </div>
     )
 
     return (
-        <div>
-            <div>
-                <div id='trip-manage-button'>
-                    <span>•</span>
-                    <span>•</span>
-                    <span>•</span>
-                </div>
-                {manageButtonDropdown}
-            </div>
-            <div>
+        <>
+            <div id='single-trip-card-wrapper'>
                 <div>
-                    <img id='trip-card-prev-img' src={spot?.previewImage} alt='destination preview' />
+                    <div id='trip-manage-button' onClick={() => setShowManageDrop(!showManageDrop)}>
+                        <span className='manage-button-dot'>•</span>
+                        <span className='manage-button-dot'>•</span>
+                        <span className='manage-button-dot'>•</span>
+                    </div>
+                    {manageButtonDropdown}
                 </div>
-                <div>
-                    <p>{spot?.name}</p>
-                    <div>
-                        <i id='bp-star-favicon' className="fa-solid fa-star" style={{color: "#000000"}} />
-                        <p>{spot?.avgRating !== 'NaN' ? spot?.avgRating : "New"} <span id='bp-spot-reviews-span'>({spot?.numReviews} reviews)</span></p>
+                <div id='trip-card-spot-details'>
+                    <div id='trip-spot-details-top'>
+                        <div id='trip-spot-prev-img-cont'>
+                            <img id='trip-card-prev-img' src={spot?.previewImage} alt='destination preview' />
+                        </div>
+                        <div id='trip-spot-name-avgrating'>
+                            <div id='trip-spot-name-cont'>
+                                <p>{spot?.name}</p>
+                            </div>
+                            <div id='trip-spot-avgrating-numreviews'>
+                                <i id='trip-card-star-favicon' className="fa-solid fa-star" style={{color: "#000000"}} />
+                                <p>{spot?.avgRating !== 'NaN' ? spot?.avgRating : "New"} <span id='trip-card-spot-reviews-span'>({spot?.numReviews ? spot.numReviews : 0} reviews)</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id='trip-spot-details-bot'>
+                        {/* <div> */}
+                        <p className='trip-spot-address-text'>{spot?.address}</p>
+                        <p className='trip-spot-address-text'>{spot?.city}, {spot?.state}</p>
+                        <p className='trip-spot-address-text'>{spot?.country}</p>
+                        {/* </div> */}
                     </div>
                 </div>
-                <div>
-                    <span>{spot?.address}</span>
-                    <span>{spot?.city}, {spot?.state}</span>
-                    <span>{spot?.country}</span>
+                <div id='trip-card-summary'>
+                    <p>{formatDateRange()}</p><p> • </p>{nightsInfo}<p> • </p>{guestsInfo}
+                    {/* <span>{formatDateRange()} • </span><span>{tripData?.stayLength} nights • </span><span>{tripData?.numGuests} guests</span> */}
                 </div>
             </div>
-            <div>
-                <span>{formatDateRange()}</span>
-                <span>{tripData?.stayLength} nights</span>
-                <span>{tripData?.numGuests} guests</span>
-            </div>
-        </div>
+            {showDeleteModal && (
+                <div>
+                    <DeleteBookingModal
+                        bookingData={selectedBooking}
+                        bookingId={selectedBooking.id}
+                        onClose={() => {
+                            setShowDeleteModal(false)
+                            setSelectedBooking(null)
+                        }}
+                        onSubmit={() => {
+                            setShowDeleteModal(false)
+                            setSelectedBooking(null)
+                        }}
+                    />
+                </div>
+            )}
+        </>
     )
 }
 

@@ -2,6 +2,7 @@ import './Trips.css'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getByUserId } from '../../store/bookings'
+import DeleteBookingModal from './DeleteBookingModal'
 import TripCard from './TripCards'
 
 function UserTrips() {
@@ -23,11 +24,11 @@ function UserTrips() {
     }, [dispatch, sessionUser.id])
 
     return (
-        <>
-            <div>
+        <div id='manage-trips-page-wrapper'>
+            <div id='my-trips-header'>
                 <h2>My Trips</h2>
             </div>
-            <div>
+            <div id='trip-cards-display-cont'>
                 {noTripsText}
                 {userTrips && userTrips.length && userTrips.map((trip) => (
                     <div>
@@ -35,7 +36,7 @@ function UserTrips() {
                     </div>
                 ) )}
             </div>
-        </>
+        </div>
     )
 }
 

@@ -5,19 +5,15 @@ import * as spotImageActions from '../../store/spotimages'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './SpotDetails.css'
-import OpenModalButton from '../OpenModalButton'
 import ReviewModal from '../ReviewModal/index.js'
 import DeleteReviewModal from '../DeleteReviewModal/index.js'
 import UpdateReviewModal from '../DeleteReviewModal/UpdateReviewModal.js'
-import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min.js'
-import Footer from '../Footer/index.js'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js'
 
 function SpotDetails() {
     const history = useHistory()
     const { spotId } = useParams()
     const dispatch = useDispatch()
-    const [haveSpot, setHaveSpot] = useState(false)
-    const [havePics, setHavePics] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [modalType, setModalType] = useState(null)
     const [selectedReview, setSelectedReview] = useState(null)
@@ -27,7 +23,6 @@ function SpotDetails() {
     const spot = useSelector(state => state.spots.singleSpot)
     const reviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user)
-    const allSpots = useSelector(state => state.spots.allSpots)
     spotReviews = reviews.reviews.Reviews
 
 
@@ -56,7 +51,7 @@ function SpotDetails() {
         dispatch(reviewActions.getReviewsBySpotId(spotId))
         dispatch(spotImageActions.fetchSpotImages(spotId))
         dispatch(spotActions.fetchSpots())
-    }, [dispatch])
+    }, [dispatch, spotId])
 
     let rating;
     let spotImgs;

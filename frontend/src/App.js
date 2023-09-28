@@ -52,7 +52,7 @@ function App() {
           {/* <Footer /> */}
         </Route>
         <Route exact path='/spots/:spotId/edit'>
-          <FilterBar />
+          {/* <FilterBar /> */}
           <EditForm />
           {/* <Footer /> */}
         </Route>
@@ -65,15 +65,15 @@ function App() {
           <EditBookingPage />
         </Route>
         <Route path='/spots/:spotId'>
-          <FilterBar />
+          {/* <FilterBar /> */}
           <SpotDetails />
           {/* <Footer /> */}
         </Route>
-        <Route exact path ='/booking/:id/confirmation'>
+        <Route exact path ='/booking/:bookingId/confirmation'>
           <BookingConfirmation />
           {/* <Footer /> */}
         </Route>
-        <Route exact path='/booking/:id/edited/confirmation'>
+        <Route exact path='/booking/:bookingId/edited/confirmation'>
           <EditedBookingConfirmation />
         </Route>
 

@@ -73,27 +73,31 @@ function ProfileButton({ user }) {
                     <div className='dropdown-menu-list'>
                         <div className='dropdown-inner-wrap' id='manage-trips-wrapper'>
                             {/* <div id='manage-trips-div'> */}
-                                <NavLink exact to='/trips/current'>
-                                    <button className='manage-spots-button'>
+                                {/* <NavLink exact to='/trips/current'> */}
+                                    <div className='manage-spots-button' onClick={() => {
+                                        history.push('/trips/current')
+                                    }}>
                                         Trips
-                                    </button>
-                                </NavLink>
+                                    </div>
+                                {/* </NavLink> */}
                             {/* </div> */}
                         </div>
                         <div className='dropdown-inner-wrap' id='manage-spots-wrapper'>
                             {/* <div id='manage-spots-div'> */}
-                                <NavLink to='/spots/current'>
-                                    <button className='manage-spots-button'>
+                                {/* <NavLink to='/spots/current'> */}
+                                    <div className='manage-spots-button' onClick={() => {
+                                        history.push('/spots/current')
+                                    }}>
                                         Manage Lairs
-                                    </button>
-                                </NavLink>
+                                    </div>
+                                {/* </NavLink> */}
                             {/* </div> */}
                         </div>
                         <div className='dropdown-inner-wrap' id='logout-wrapper'>
                             {/* <div id='logout-div'> */}
-                                <NavLink exact to='/spots/current'>
-                                    <button className='manage-spots-button' onClick={logout}>Log Out</button>
-                                </NavLink>
+                                {/* <NavLink exact to='/spots/current'> */}
+                                    <div className='manage-spots-button' onClick={logout}>Log Out</div>
+                                {/* </NavLink> */}
                             {/* </div> */}
                         </div>
                         {/* <li className='user-profile-info' id='user-name-info'>Hello, {user.firstName}</li>
